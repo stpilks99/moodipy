@@ -1,4 +1,27 @@
+class Moodipy
 
+    constructor(uri)
+        uri_type = ''
+
+        check for uri type 
+
+        if          string begins with playlist uri_type = 'playlist'
+        else if     string begins with song uri_type = 'song'
+        else        raise exception: Must be a song or playlist uri
+
+
+        if song uri selected:
+            protected song_uri = uri 
+            protected audio_analysis = API function call
+            protected audio_features = API function call
+            
+        else if playlist uri selected:
+            protected playlist_uri = uri
+            protected playlist_tracks = API call            # Gets raw playlist data
+
+        else raise exception: not playlist or song uri
+
+        
             
         
         
