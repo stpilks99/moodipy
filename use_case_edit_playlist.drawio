@@ -1,1 +1,70 @@
-<mxfile host="app.diagrams.net" modified="2020-06-22T18:17:33.169Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36" version="13.3.0" etag="9U7G1hQ5qcM9MqbmViQx" type="github"><diagram id="RX8MKxGeRJnMLhculDgC">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2020-06-22T18:29:31.944Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36" etag="JuIZh5nlWtdAgL27JM7r" version="13.3.0" type="github">
+  <diagram id="RX8MKxGeRJnMLhculDgC" name="Page-1">
+    <mxGraphModel dx="865" dy="483" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-77" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="aJsOf31wqLQeytQC_Wr7-49" target="aJsOf31wqLQeytQC_Wr7-66">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-49" value="User" style="shape=umlActor;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="230" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-79" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="aJsOf31wqLQeytQC_Wr7-66" target="aJsOf31wqLQeytQC_Wr7-68">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-80" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="aJsOf31wqLQeytQC_Wr7-66" target="aJsOf31wqLQeytQC_Wr7-69">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-81" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="aJsOf31wqLQeytQC_Wr7-66" target="aJsOf31wqLQeytQC_Wr7-70">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-82" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="aJsOf31wqLQeytQC_Wr7-66" target="aJsOf31wqLQeytQC_Wr7-67">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-66" value="Edit current playlist" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="230" width="90" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-87" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.3333333333333333;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="aJsOf31wqLQeytQC_Wr7-67" target="aJsOf31wqLQeytQC_Wr7-73">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-67" value="Song rating" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="110" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-84" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.3333333333333333;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="aJsOf31wqLQeytQC_Wr7-68" target="aJsOf31wqLQeytQC_Wr7-73">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-68" value="Add song" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="190" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-85" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.3333333333333333;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="aJsOf31wqLQeytQC_Wr7-69" target="aJsOf31wqLQeytQC_Wr7-73">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-69" value="Remove song" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="270" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-86" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.3333333333333333;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="aJsOf31wqLQeytQC_Wr7-70" target="aJsOf31wqLQeytQC_Wr7-73">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-70" value="Change playlist title" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="350" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-93" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="aJsOf31wqLQeytQC_Wr7-71" target="aJsOf31wqLQeytQC_Wr7-72">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-71" value="Update playlist on Spotify" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="240" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-72" value="Spotify database (online)" style="shape=umlActor;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="750" y="240" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-90" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="aJsOf31wqLQeytQC_Wr7-73" target="aJsOf31wqLQeytQC_Wr7-71">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aJsOf31wqLQeytQC_Wr7-73" value="Local database (.db)" style="shape=umlActor;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="530" y="240" width="30" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
