@@ -2,6 +2,11 @@ class Moodipy
 
     constructor(uri)
         uri_type = ''
+        protected playlist_uri 
+        protected playlist_tracks           # Gets raw playlist data
+        protected song_uri = uri 
+        protected audio_analysis
+        protected audio_features
 
         check for uri type 
 
@@ -11,19 +16,19 @@ class Moodipy
 
 
         if song uri selected:
-            protected song_uri = uri 
-            protected audio_analysis = API function call
-            protected audio_features = API function call
+            song_uri = uri 
+            audio_analysis = API function call
+            audio_features = API function call
             
         else if playlist uri selected:
-            protected playlist_uri = uri
-            protected playlist_tracks = API call            # Gets raw playlist data
+            playlist_uri = uri
+            playlist_tracks = API call            # Gets raw playlist data
 
         else raise exception: not playlist or song uri
 
 
-    Get raw data (uri, uri_type)
-        
+    
+            
         
         
 
