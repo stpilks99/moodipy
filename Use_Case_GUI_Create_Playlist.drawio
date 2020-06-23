@@ -1,1 +1,25 @@
-<mxfile host="app.diagrams.net" modified="2020-06-23T19:33:06.341Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36" version="13.3.1" etag="_9-04WG3U4Ic7lMfonnU" type="github"><diagram id="sAM0p9Lg512kCJ4b5dAt">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2020-06-23T19:38:39.371Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36" etag="0Dbpy5AMwpN-EIN8LdUC" version="13.3.1" type="github">
+  <diagram id="sAM0p9Lg512kCJ4b5dAt" name="Page-1">
+    <mxGraphModel dx="415" dy="232" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="wgMFOk2bKdnOVXemmaQc-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="wgMFOk2bKdnOVXemmaQc-1" target="wgMFOk2bKdnOVXemmaQc-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wgMFOk2bKdnOVXemmaQc-1" value="Moodipy user" style="shape=umlActor;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="110" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wgMFOk2bKdnOVXemmaQc-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="wgMFOk2bKdnOVXemmaQc-2" target="wgMFOk2bKdnOVXemmaQc-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wgMFOk2bKdnOVXemmaQc-2" value="Clicks create playlist button" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="170" y="100" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="wgMFOk2bKdnOVXemmaQc-3" value="GUI" style="shape=umlActor;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="350" y="110" width="30" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
