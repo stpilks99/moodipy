@@ -1,16 +1,16 @@
-<mxfile host="app.diagrams.net" modified="2020-06-23T19:30:29.302Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36" etag="JwKqqR_YqMlbF-s4Anzs" version="13.3.1" type="github">
+<mxfile host="app.diagrams.net" modified="2020-06-23T19:36:10.608Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36" etag="qlcA9MifAYQEaId7fzgq" version="13.3.1" type="github">
   <diagram id="5T8SZ0hBMlyQp7froBx9" name="Page-1">
-    <mxGraphModel dx="1038" dy="580" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="865" dy="483" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="aISHOV55olKk9tCTUimz-1" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+        <mxCell id="aISHOV55olKk9tCTUimz-1" value="GUI" style="shape=umlActor;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
           <mxGeometry x="460" y="150" width="30" height="60" as="geometry" />
         </mxCell>
         <mxCell id="aISHOV55olKk9tCTUimz-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="aISHOV55olKk9tCTUimz-2" target="aISHOV55olKk9tCTUimz-3">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="aISHOV55olKk9tCTUimz-2" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+        <mxCell id="aISHOV55olKk9tCTUimz-2" value="Moodipy User" style="shape=umlActor;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
           <mxGeometry x="140" y="150" width="30" height="60" as="geometry" />
         </mxCell>
         <mxCell id="aISHOV55olKk9tCTUimz-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="aISHOV55olKk9tCTUimz-3" target="aISHOV55olKk9tCTUimz-1">
