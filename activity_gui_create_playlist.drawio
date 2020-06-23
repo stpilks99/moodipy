@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2020-06-23T17:50:35.551Z" agent="5.0 (Windows)" etag="74k4KeW2BzaBpTP7QpFi" version="13.3.0" type="github">
+<mxfile host="app.diagrams.net" modified="2020-06-23T18:25:52.201Z" agent="5.0 (Windows)" etag="FZrE7LSHUzuzwBjMrnr4" version="13.3.0" type="github">
   <diagram id="1zE0CY0DRsBAxS0jNYkQ" name="Page-1">
-    <mxGraphModel dx="824" dy="941" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="824" dy="899" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -31,7 +31,7 @@
         <mxCell id="owZdXx2rTR2LN0gb4Scp-13" value="Select preferred genre(s) (with sliding scale)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="395" y="410" width="80" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="owZdXx2rTR2LN0gb4Scp-14" value="Preferred artists" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="owZdXx2rTR2LN0gb4Scp-14" value="Preferred artists using search bar" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="510" y="420" width="80" height="50" as="geometry" />
         </mxCell>
         <mxCell id="owZdXx2rTR2LN0gb4Scp-17" value="Explicit or not" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
