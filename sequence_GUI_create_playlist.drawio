@@ -1,1 +1,98 @@
-<mxfile host="app.diagrams.net" modified="2020-07-01T13:43:59.369Z" agent="5.0 (Windows)" version="13.3.5" etag="ZtnFwhbcU_Rq-IY17KjT" type="github"><diagram id="p9OqipdOjOgBhAJTNdYm">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2020-07-01T14:12:34.365Z" agent="5.0 (Windows)" etag="q3hWilkflo2jMrOgoiAG" version="13.3.5" type="github">
+  <diagram id="p9OqipdOjOgBhAJTNdYm" name="Page-1">
+    <mxGraphModel dx="981" dy="528" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="7yqRzDsiDY5IozWpXJht-1" value="User" style="shape=umlActor;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="60" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-2" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="1">
+          <mxGeometry x="100" y="150" width="10" height="410" as="geometry" />
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-3" value="Create playlist button" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="70" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-4" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="1">
+          <mxGeometry x="275" y="150" width="10" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-5" value="" style="endArrow=open;endFill=1;endSize=12;html=1;" edge="1" parent="1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="110" y="160" as="sourcePoint" />
+            <mxPoint x="270" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-6" value="Click Button" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="7yqRzDsiDY5IozWpXJht-5">
+          <mxGeometry x="0.1768" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-8" value="Create playlist window" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="385" y="70" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-9" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="1">
+          <mxGeometry x="445" y="280" width="10" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-11" value="" style="endArrow=none;dashed=1;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.543;exitY=-0.018;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="7yqRzDsiDY5IozWpXJht-9" target="7yqRzDsiDY5IozWpXJht-8">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="450" y="231" as="sourcePoint" />
+            <mxPoint x="520" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-12" value="" style="endArrow=none;dashed=1;html=1;exitX=0.514;exitY=-0.014;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="7yqRzDsiDY5IozWpXJht-4" target="7yqRzDsiDY5IozWpXJht-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="200" as="sourcePoint" />
+            <mxPoint x="390" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-13" value="GUI" style="shape=umlActor;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="60" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-15" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="1">
+          <mxGeometry x="610" y="150" width="10" height="410" as="geometry" />
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-17" value="Fetch Playlist Window" style="html=1;verticalAlign=bottom;endArrow=block;entryX=-0.186;entryY=0.194;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="7yqRzDsiDY5IozWpXJht-15">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="285" y="229.43" as="sourcePoint" />
+            <mxPoint x="440" y="229" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-18" value="Shows Playlist Window" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;entryX=0.943;entryY=0.004;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="7yqRzDsiDY5IozWpXJht-9">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="610" y="280" as="sourcePoint" />
+            <mxPoint x="530" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-19" value="Shows Playlist Window" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;exitX=0.029;exitY=0.042;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="7yqRzDsiDY5IozWpXJht-9" target="7yqRzDsiDY5IozWpXJht-2">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="440" y="360" as="sourcePoint" />
+            <mxPoint x="360" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-20" value="" style="endArrow=classic;html=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="113" y="321" as="sourcePoint" />
+            <mxPoint x="446" y="321" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-21" value="Type In Parameters and Clicks Done" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="7yqRzDsiDY5IozWpXJht-20">
+          <mxGeometry x="-0.1394" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-26" value="" style="endArrow=classic;html=1;entryX=1.141;entryY=0.484;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;" edge="1" parent="1" target="7yqRzDsiDY5IozWpXJht-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="440" y="350" as="sourcePoint" />
+            <mxPoint x="310" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7yqRzDsiDY5IozWpXJht-29" value="New Playlist Shown" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="7yqRzDsiDY5IozWpXJht-26">
+          <mxGeometry x="0.0514" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
