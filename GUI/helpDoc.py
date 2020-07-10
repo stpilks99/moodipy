@@ -12,7 +12,7 @@ helpDoc.resizable(width = False, height = False)
 helpDoc.geometry("900x680")
 
 #creates done button that brings to playlist window
-Home = Button(helpDoc, text = "Home", bg ="green", width = 20, height = 6)
+Home = Button(helpDoc, text = "Home", bg ="green", bd = 6, relief = "raised", width = 20, height = 6)
 Home.place(x = 710,y = 530)
 
 #creates label with message 
@@ -20,6 +20,8 @@ lm = tk.Label(helpDoc,
     text="Frequently Asked Questions...", 
     fg = "black", 
     bg = "green", 
+    bd = 6, 
+    relief = "raised",
     font = "Helvetica 30 bold italic")
 
 lm.place(x = 150, y = 50)

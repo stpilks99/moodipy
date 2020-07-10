@@ -12,7 +12,7 @@ login.configure(bg = "black")
 login.resizable(width = False, height = False)
 login.geometry("1400x780")
 
-B = Button(login, text = "Login with Spotify", bg ="green", width = 100, height = 10)
+B = Button(login, text = "Login with Spotify", bg ="green", bd = 6, relief = "raised", width = 100, height = 10)
 B.place(x = 350,y = 550)
 
 canvas = Canvas(login, width = 850, height = 460)
