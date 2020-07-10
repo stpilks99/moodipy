@@ -17,7 +17,7 @@ B.place(x = 350,y = 550)
 
 canvas = Canvas(login, width = 850, height = 460)
 canvas.pack()
-img = ImageTk.PhotoImage(Image.open("snake.png"))
+img = ImageTk.PhotoImage(Image.open("./GUI/snake.png"))
 canvas.create_image(20, 20, anchor=NW, image=img) 
 
 login.mainloop()

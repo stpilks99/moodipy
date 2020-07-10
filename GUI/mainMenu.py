@@ -37,7 +37,7 @@ lo.place(x = 750, y = 000)
 # Snake png
 snake = Canvas(mainMenu, width = 232, height = 206)
 snake.pack()
-img = ImageTk.PhotoImage(Image.open("mainSnake.png"))
+img = ImageTk.PhotoImage(Image.open("./GUI/mainSnake.png"))
 snake.create_image(5, 5, anchor=NW, image=img)
 
 # Description
