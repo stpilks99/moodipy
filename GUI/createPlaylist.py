@@ -1,6 +1,6 @@
 import sys
-#import spotipy
-#import spotipy.util as util
+import spotipy
+import spotipy.util as util
 import tkinter as tk 
 from tkinter import ttk
 from tkinter import *
