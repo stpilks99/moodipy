@@ -1,7 +1,7 @@
 import spotipy
-from spotify_authorize import auth
+import moodipy
 
-class Artist:
+class Artist(Moodipy):
     '''Holds functions to get and set data on a particular artist'''
 
     # Variables
@@ -24,7 +24,12 @@ class Artist:
 
         self.__genres = artist_info['genres']
         self.__popularity = artist_info['popularity']
-        
+    
+       
+    def get_uri(self):
+        '''Gets URI of artist'''
+        return self.__uri()
+
 
     def get_related_artists(self, spotify_class):
         '''Gets a list of URI's of related artists'''
@@ -53,7 +58,7 @@ class Artist:
         return self.__popularity
 
 
-    def artist_top_tracks(self, spotify_class):
+    def get_top_tracks(self, spotify_class):
         '''Returns a list of track URI's of the artist's most popular songs'''
 
         sp = spotify_class
