@@ -5,8 +5,8 @@ class Track:
     # Spotify for different tracks.
 
     # Current coverage:
-    # Get audio analysis (constructor) and set variables 
-    #   
+    # Get audio analysis and track information (constructor) and set variables 
+    # Get all audio analysis variables
 
     # Need to do: 
 
@@ -65,7 +65,6 @@ class Track:
         if len(track_data) == 0: # Initialized with general song data
             track_data = sp.track(self.__uri)
 
-
         # Add data to class from track() 
         for artist in track_data['artists']:
             self.__artists.append(artist['uri'])
@@ -123,7 +122,7 @@ class Track:
     
     def get_artists(self):
         '''Returns a list of artist(s) for this track'''
-        pass
+        return self.__artists
 
 
     def get_recommendations(self, authorized_class, query_limit=20):
