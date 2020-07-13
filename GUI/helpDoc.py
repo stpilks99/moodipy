@@ -26,4 +26,44 @@ lm = tk.Label(helpDoc,
 
 lm.place(x = 150, y = 50)
 
+# Q1
+q1 = tk.Label(helpDoc, 
+    text = "How does this program work?",
+    fg = "black", 
+    bg = "green", 
+    bd = 6, 
+    relief = "sunken",
+    font = "Helvetica 18 bold italic")
+q1.place(x = 10, y = 120)
+
+a1 = tk.Label(helpDoc,
+    text = "Moodipy interfaces with the Spotify API to retrieve data on songs and playlists.\nIt organizes and sorts data to make playlist based on certain genres or moods.",
+    fg = "black", 
+    bg = "gray", 
+    bd = 6, 
+    relief = "sunken",
+    font = "Helvetica 12 bold italic")
+a1.place(x = 30, y = 170)
+
+q2 = tk.Label(helpDoc,
+    text = "How many songs can I add to a playlist?",
+    fg = "black", 
+    bg = "green", 
+    bd = 6, 
+    relief = "sunken",
+    font = "Helvetica 18 bold italic")
+q2.place(x = 10, y = 230)
+
+a2 = tk.Label(helpDoc,
+    text = "Using Moodipy, each playlist has a max of 30 songs. Moodipy only adds songs \nit thinks you'll really like (based on moods, ranking, time periods and more) so \nyou'll never find yourself skipping through a bunch of songs you hate.",
+    fg = "black", 
+    bg = "gray", 
+    bd = 6, 
+    relief = "sunken",
+    font = "Helvetica 12 bold italic")
+a2.place(x = 30, y = 280)
+
+#another q: what does ranking a song do?
+
+
 helpDoc.mainloop()
