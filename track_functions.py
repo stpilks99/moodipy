@@ -5,8 +5,8 @@ class Track:
     # Spotify for different tracks.
 
     # Current coverage:
-    # Get audio analysis (constructor) and set variables 
-    #   
+    # Get audio analysis and track information (constructor) and set variables 
+    # Get all audio analysis variables
 
     # Need to do: 
 
@@ -33,20 +33,24 @@ class Track:
     __tempo = -1                # Estimated BPM of track
     
 
-    def __init__(self, track_uri, spotify_class, track_data={}):
+    def __init__(self, track_uri, spotify_class, track_data={}, track_audio_features={}):
         # Constructor
-        # When Track called, audio analysis will be performed, and data will be saved. 
-        # If the user entered general information about the track, it will take that data and save it. 
-        # Otherwise, it will fetch it with the track() function.
+        # track_uri:                    Full URI of track
+        # spotify_class:                Pre-authorized spotipy.Spotify() class
+        # track_data:                   Optional, if the track() function has already been called the information can be passed here
+        # track_audio_features:         Optional, if the audio_features() function has already been called for this track the information can be passed here
 
-        __uri = track_uri
+        self.__uri = track_uri
         sp = spotify_class          # authorized spotipy.Spotify() class passed in 
         
-        # Get audio features of track
-        audio_features_raw = sp.audio_features(track_uri)
-        track_values = {} # dictionaty
-        track_values = audio_features_raw[0]
-
+        # Get audio features of track if not already input
+        if len(track_audio_features) == 0:
+            audio_features_raw = sp.audio_features(track_uri)
+            # Get information in dictionary
+            track_values = {} # dictionaty
+            track_values = audio_features_raw[0]
+        else:
+            track_values = track_audio_features[0]
 
         # Assign private variables to stats from song
         self.__danceability = track_values['danceability']
@@ -60,7 +64,6 @@ class Track:
         # Check optional variable (basic song info)
         if len(track_data) == 0: # Initialized with general song data
             track_data = sp.track(self.__uri)
-
 
         # Add data to class from track() 
         for artist in track_data['artists']:
@@ -119,16 +122,21 @@ class Track:
     
     def get_artists(self):
         '''Returns a list of artist(s) for this track'''
-        pass
+        return self.__artists
 
 
-    def get_recommendations(self, authorized_class, tracks=[__uri], artists=__artists):
+    def get_recommendations(self, authorized_class, query_limit=20):
         '''Get 5 songs similar to this one'''
+        # limit: amount of URI's that are requested to be returned
         sp = authorized_class           # Type spotipy.Spotify()
-        data = sp.recommendations( seed_tracks=tracks, seed_artists=artists)
-
+        data = sp.recommendations(seed_tracks=[self.__uri], limit=query_limit)
+        track_data = data['tracks']
+        
         # Get the URI of each track 
-
+        uri_lst = [] # Holds all URI's of the recommendation data
+        for i in track_data:
+            uri_lst.append(i['uri'])
         # Return list of URI's of recommended tracks
+        return uri_lst
 
         
