@@ -1,6 +1,6 @@
 import sys
-import spotipy
-import spotipy.util as util
+#import spotipy
+#import spotipy.util as util
 import tkinter as tk 
 from tkinter import ttk
 from tkinter import *
@@ -50,4 +50,7 @@ s3.place(x = 347, y = 260) #added 150 to x
 sc3 = tk.Scale(rankSongs, from_= 1, to = 5) 
 sc3.place(x = 375, y = 145) #added 150 to x
 
+
+yscrollbar = Scrollbar(rankSongs) 
+yscrollbar.pack(side = RIGHT, fill = Y) 
 rankSongs.mainloop()

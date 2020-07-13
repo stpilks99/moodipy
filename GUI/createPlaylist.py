@@ -1,6 +1,6 @@
 import sys
-import spotipy
-import spotipy.util as util
+#import spotipy
+#import spotipy.util as util
 import tkinter as tk 
 from tkinter import ttk
 from tkinter import *
@@ -28,7 +28,7 @@ lm = tk.Label(createPlaylist,
     relief = "raised",
     font = "Helvetica 26 bold italic")
 
-lm.place(x= 47, y = 50)
+lm.place(x= 47, y = 50) 
 
 #creates entry so user can enter playlist title
 lt = tk.Label(createPlaylist, text ='Playlist title:', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
@@ -37,13 +37,16 @@ lt.place(x = 150, y = 150)
 e1.place(x = 330, y = 150) 
 
 #creates a drop down list where the user can select a mood with a label next to it
-Lmd = tk.Label(createPlaylist, text = "Select one mood:", fg = "black", bg = "green", font = "Helvetica 20 bold italic")
+Lmd = tk.Label(createPlaylist, text = "Select one mood:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
 Lmd.place(x = 150, y = 210)
 
 moods = ["Happy", 
         "Sad", 
-        "Calm", 
-        "Mad"]
+        "Motivated", 
+        "Calm",
+        "Frantic",
+        "Party",
+        "Gaming"]
 
 dropl = ttk.Combobox(createPlaylist, values = moods, font = "Helvetica 20 bold italic")
 dropl.place(x = 400, y = 210)
@@ -52,9 +55,11 @@ dropl.place(x = 400, y = 210)
 Lp = tk.Label(createPlaylist, text = "Select time period:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 21 bold italic")
 Lp.place(x = 150, y = 270)
 
-times = ["2000's", 
+times = ["2010's +",
+        "2000's", 
         "90's", 
         "80's", 
+        "70's",
         "None"]
 
 dropl = ttk.Combobox(createPlaylist, values = times, font = "Helvetica 21 bold italic")
@@ -69,6 +74,18 @@ e2.place(x = 452, y = 330)
 #creates a checkbox where the user can select preferred genres
 La = tk.Label(createPlaylist, text = "Enter preferred genres:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
 La.place(x = 150, y = 390)
+
+menubutton = tk.Menubutton(createPlaylist, text="Check all preferred genres", indicatoron=True, borderwidth=1, relief="raised", font = "Helvetica 20 bold italic")
+
+menu = tk.Menu(menubutton, tearoff=False)
+menubutton.configure(menu=menu) 
+menubutton.place(x = 475, y = 390)
+
+genres = {}
+for genre in ("Acoustic", "Alternative", "Classical", "Club", "Country", "Dubstep", "EDM", "Funk", "Rock", "Hard Rock", "Heavy Metal", "Hip Hop", "Indie", "Holidays", "Latin", "Pop", "RnB", "Reggae", "Soul", "Jazz", "Afrobeat"):
+        genres[genre] = tk.IntVar(value=0)
+        menu.add_checkbutton(label=genre, variable=genres[genre], onvalue=1)
+
 
 #creates a drop down list where the user can select yes for explict or no for non explicit
 La = tk.Label(createPlaylist, text = "Would you like explict songs:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
