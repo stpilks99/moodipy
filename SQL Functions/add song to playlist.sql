@@ -1,0 +1,1 @@
+INSERT INTO playlist5 (songuri, songname, songrating) VALUES ('spotify:track:3yrSvpt2l1xhsV9Em88Pul','Brown Eyed Girl','10');
