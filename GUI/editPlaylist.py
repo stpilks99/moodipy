@@ -19,10 +19,6 @@ ep.geometry("900x680")
 def logout():
     sys.exit()
 
-# Scrollbar
-yscrollbar = Scrollbar(ep)
-yscrollbar.pack(side = RIGHT, fill = Y)
-
 # Playlist title label
 t = Label(ep, text = '        Playlist Title        ',  fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 40 bold italic")
 t.place(x = 250, y = 50)
@@ -92,8 +88,15 @@ de.place(x = 90, y =320 )
 fields = Label(ep, text = '       Song               Artist           Album                 ', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 18 bold italic")
 fields.place(x = 250, y = 150)
 
-s1 = Label(ep, text = 'Song', fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 18 bold italic")
-s1.place(x = 250, y = 200)
+listbox = Listbox(ep, bg = "gray", height = 10, width = 49, bd = 6, relief = "sunken", font = "Helvetica 15 bold italic") 
+listbox.pack(side = RIGHT, fill = BOTH) 
+listbox.place(x = 250, y = 300)
+scrollbar = Scrollbar(ep) 
+
+for values in range(100): 
+    listbox.insert(END, values) 
+
+listbox.config(yscrollcommand = scrollbar.set) 
+scrollbar.config(command = listbox.yview) 
+
 ep.mainloop()
-
-
