@@ -15,9 +15,10 @@ login.geometry("900x600")
 B = Button(login,
     text = "Login with Spotify",
     bg ="green",
+    font = "Helvetica 15 bold italic",
     bd = 6, relief = "raised",
-    width = 80,
-    height = 6)
+    width = 50,
+    height = 3)
 B.place(x = 155,y = 480)
 
 canvas = Canvas(login, width = 850, height = 460)

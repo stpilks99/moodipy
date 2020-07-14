@@ -28,7 +28,10 @@ mainMenu.configure(bg = "black")
 mainMenu.resizable(width = False, height = False)
 mainMenu.geometry("900x680")
 
-
+Rectangle shape
+p = Canvas(mainMenu, width = 1000, height = 1000)
+p.place(x = 40, y = 100)
+p.create_rectangle(50, 50, 0, 0, fill = 'red')
 
 # New playlist button
 np = Button(mainMenu, text = "New Playlist", bg ="green", bd = 6, relief = "raised", width = 20, height = 5)
@@ -53,13 +56,10 @@ yp = tk.Label(mainMenu, text ='Your Playlists:', fg = "black", bg = "green", bd 
 yp.place(x = 47, y = 375)
 
 # Playlist labels
-p1 = Button(mainMenu, text = '                                               Playlist 1                                               ', fg = "black", bg = "green", bd = 6, relief = "raised", font = "Helvetica 18 bold italic")
+p1 = Button(p, text = '                                               Playlist 1                                               ', fg = "black", bg = "green", bd = 6, relief = "raised", font = "Helvetica 18 bold italic")
 p1.place(x = 47, y = 450)
 
-# Rectangle shape
-#p = Canvas(mainMenu, width = 900, height = 400)
-#p.pack()
-#p.create_rectangle(50, 0, 50, 0, fill = 'red')
+
 
 # Scrollbar
 #sw = ScrolledWindow(mainMenu, width = 900, height = 600)
