@@ -1,16 +1,12 @@
 # Moodipy SQL Team SQL Database creation, and functions
-# remove existing database file if it exists.
-import os
 
-if os.path.exists("moodipy.db"):
+import os
+import sqlite3
+if os.path.exists("moodipy.db"): # remove existing database file if it exists.
     os.remove("moodipy.db")
     print("resetting db")
 else:
     print("DB File does not exist")
-
-import array as arr  # havent used this yet
-
-import sqlite3
 
 database = sqlite3.connect("moodipy.db")
 cursor = database.cursor()
@@ -25,8 +21,6 @@ setup_master = """CREATE TABLE "playlistmaster" (
 	"explicit"	BOOL,
 	PRIMARY KEY("playlisturi")
 );"""
-# playlisturi is 39 characters long
-# songuri's are 36 characters long
 cursor.execute(setup_master)
 #example data
 playlisturi = "hello"
