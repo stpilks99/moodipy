@@ -48,11 +48,11 @@ moods = ["Happy",
         "Party",
         "Gaming"]
 
-dropl = ttk.Combobox(createPlaylist, values = moods, font = "Helvetica 20 bold italic")
+dropl = ttk.Combobox(createPlaylist, values = moods, font = "Helvetica 22 italic")
 dropl.place(x = 400, y = 210)
 
 #creates a drop down list where the user can select a time period
-Lp = tk.Label(createPlaylist, text = "Select time period:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 21 bold italic")
+Lp = tk.Label(createPlaylist, text = "Select time period:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
 Lp.place(x = 150, y = 270)
 
 times = ["2010's +",
@@ -62,7 +62,7 @@ times = ["2010's +",
         "70's",
         "None"]
 
-dropl = ttk.Combobox(createPlaylist, values = times, font = "Helvetica 21 bold italic")
+dropl = ttk.Combobox(createPlaylist, values = times, font = "Helvetica 22 italic")
 dropl.place(x = 425, y = 270)
 
 #creates a entry where user can enter prefered artist
@@ -75,7 +75,7 @@ e2.place(x = 452, y = 330)
 La = tk.Label(createPlaylist, text = "Enter preferred genres:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
 La.place(x = 150, y = 390)
 
-menubutton = tk.Menubutton(createPlaylist, text="Check all preferred genres", indicatoron=True, borderwidth=1, relief="raised", font = "Helvetica 20 bold italic")
+menubutton = tk.Menubutton(createPlaylist, text="Check all preferred genres", indicatoron=True, borderwidth=1, relief="raised", font = "Helvetica 22 italic")
 
 menu = tk.Menu(menubutton, tearoff=False)
 menubutton.configure(menu=menu) 
@@ -86,7 +86,6 @@ for genre in ("Acoustic", "Alternative", "Classical", "Club", "Country", "Dubste
         genres[genre] = tk.IntVar(value=0)
         menu.add_checkbutton(label=genre, variable=genres[genre], onvalue=1)
 
-
 #creates a drop down list where the user can select yes for explict or no for non explicit
 La = tk.Label(createPlaylist, text = "Would you like explict songs:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
 La.place(x = 150, y = 450)
@@ -94,7 +93,7 @@ La.place(x = 150, y = 450)
 options = ["Yes", 
         "No", ]
 
-dropl = ttk.Combobox(createPlaylist, values = options, font = "Helvetica 21 bold italic")
+dropl = ttk.Combobox(createPlaylist, values = options, font = "Helvetica 22 italic")
 dropl.place(x = 540, y = 450)
 
 createPlaylist.mainloop()
