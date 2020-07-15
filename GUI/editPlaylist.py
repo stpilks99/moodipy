@@ -29,8 +29,9 @@ h = Button(ep,
     text = "Home",
     bg ="green", bd = 6,
     relief = "raised",
-    width = 24,
-    height = 4)
+    font = "Helvetica 20 bold italic",
+    width = 10,
+    height = 2)
 h.place(x = 0, y = 0)
 
 # Logout
@@ -38,59 +39,67 @@ lo = Button(ep,
     text = "Logout",
     command = logout,
     bg ="green", bd = 6,
-    relief = "raised", width = 24,
-    height = 4)
-lo.place(x = 0, y = 80)
+    relief = "raised",
+    font = "Helvetica 20 bold italic",
+    width = 10,
+    height = 2)
+lo.place(x = 0, y = 95)
 
 # Help/Doc
 hd = Button(ep,
     text = "Help/Doc",
     bg ="green", bd = 6,
     relief = "raised",
-    width = 24,
-    height = 4)
-hd.place(x = 0, y = 160)
+    font = "Helvetica 20 bold italic",
+    width = 10,
+    height = 2)
+hd.place(x = 0, y = 190)
 
 # Edit/Options
 add = Button(ep,
     text = "Add\nSong",
     bg ="green", bd = 6,
     relief = "raised",
-    width = 11,
-    height = 4)
-add.place(x = 0, y = 240)
+    font = "Helvetica 20 bold italic",
+    width = 10,
+    height = 2)
+add.place(x = 0, y = 285)
 
 rem = Button(ep,
     text = "Remove\nSong",
     bg ="green", bd = 6,
-    relief = "raised", width = 11,
-    height = 4)
-rem.place(x = 90, y = 240)
+    relief = "raised", 
+    font = "Helvetica 20 bold italic",
+    width = 10,
+    height = 2)
+rem.place(x = 0, y = 380)
 
 rank = Button(ep,
     text = "Rank\nSong",
     bg ="green", bd = 6, 
     relief = "raised",
-    width = 11,
-    height = 4)
-rank.place(x=0, y = 320)
+    font = "Helvetica 20 bold italic",
+    width = 10,
+    height = 2)
+rank.place(x=0, y = 475)
 
 de = Button(ep,
     text = "Delete\nPlaylist",
     bg ="green",
     bd = 6,
     relief = "raised",
-    width = 11,
-    height = 4)
-de.place(x = 90, y =320 )
+    font = "Helvetica 20 bold italic",
+    width = 10,
+    height = 2)
+de.place(x = 0, y =570)
 
 # Songs
 fields = Label(ep, text = '       Song               Artist           Album                 ', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 18 bold italic")
 fields.place(x = 250, y = 150)
 
-listbox = Listbox(ep, bg = "gray", height = 10, width = 49, bd = 6, relief = "sunken", font = "Helvetica 15 bold italic") 
+listbox = Listbox(ep, bg = "gray", height = 16, width = 49, bd = 6, relief = "sunken", font = "Helvetica 15 bold italic") 
 listbox.pack(side = RIGHT, fill = BOTH) 
-listbox.place(x = 250, y = 300)
+listbox.place(x = 250, y = 220)
 scrollbar = Scrollbar(ep) 
 
 for values in range(100): 

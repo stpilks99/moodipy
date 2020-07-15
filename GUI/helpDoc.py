@@ -12,8 +12,8 @@ helpDoc.resizable(width = False, height = False)
 helpDoc.geometry("900x680")
 
 #creates done button that brings to playlist window
-Home = Button(helpDoc, text = "Home", bg ="green", bd = 6, relief = "raised", width = 20, height = 6)
-Home.place(x = 710,y = 550)
+Home = Button(helpDoc, text = "Home", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3)
+Home.place(x = 700,y = 540)
 
 #creates label with message 
 lm = tk.Label(helpDoc, 
@@ -63,10 +63,6 @@ a2 = tk.Label(helpDoc,
     font = "Helvetica 12 bold italic")
 a2.place(x = 60, y = 280)
 
-#another q: what does ranking a song do?
-
-myScrollbar = Scrollbar(helpDoc)
-myScrollbar.pack(side = RIGHT, fill = Y)
-
+#another q: what does ranking a song do
 
 helpDoc.mainloop()

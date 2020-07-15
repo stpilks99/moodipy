@@ -28,22 +28,22 @@ mainMenu.configure(bg = "black")
 mainMenu.resizable(width = False, height = False)
 mainMenu.geometry("900x680")
 
-Rectangle shape
-p = Canvas(mainMenu, width = 1000, height = 1000)
-p.place(x = 40, y = 100)
-p.create_rectangle(50, 50, 0, 0, fill = 'red')
+#Rectangle shape
+p = Canvas(mainMenu, width = 800, height = 200, bg = "gray")
+p.place(x = 46, y = 440)
+#p.create_rectangle(50, 50, 0, 0, fill = 'red')
 
 # New playlist button
-np = Button(mainMenu, text = "New Playlist", bg ="green", bd = 6, relief = "raised", width = 20, height = 5)
-np.place(x = 275, y = 250)
+np = Button(mainMenu, text = "New Playlist", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 2)
+np.place(x = 200, y = 250)
 
 # Help button
-hd = Button(mainMenu, text = "Help/Documentation", bg ="green", bd = 6, relief = "raised", width = 20, height = 5)
-hd.place(x = 500, y = 250)
+hd = Button(mainMenu, text = "Help/Documentation", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 16, height = 2)
+hd.place(x = 425, y = 250)
 
 # Logout button
-lo = Button(mainMenu, command = logout, text = "Logout", bg ="green", bd = 6, relief = "raised", width = 20, height = 5)
-lo.place(x = 750, y = 000)
+lo = Button(mainMenu, command = logout, text = "Logout", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 2)
+lo.place(x = 715, y = 000)
 
 # Snake png
 snake = Canvas(mainMenu, width = 232, height = 206)
@@ -56,8 +56,8 @@ yp = tk.Label(mainMenu, text ='Your Playlists:', fg = "black", bg = "green", bd 
 yp.place(x = 47, y = 375)
 
 # Playlist labels
-p1 = Button(p, text = '                                               Playlist 1                                               ', fg = "black", bg = "green", bd = 6, relief = "raised", font = "Helvetica 18 bold italic")
-p1.place(x = 47, y = 450)
+p1 = Button(p, text = '                                           Playlist 1                                           ', fg = "black", bg = "green", bd = 6, relief = "raised", font = "Helvetica 18 bold italic")
+p1.place(x = 34, y = 100)
 
 
 

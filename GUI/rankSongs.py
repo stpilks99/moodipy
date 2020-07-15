@@ -12,8 +12,8 @@ rankSongs.resizable(width = False, height = False)
 rankSongs.geometry("900x680")
 
 #creates done button that brings to playlist window
-Done = Button(rankSongs, text = "Done", bg ="green", bd = 6, relief = "raised", width = 20, height = 6)
-Done.place(x = 710,y = 530)
+Done = Button(rankSongs, text = "Done", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3)
+Done.place(x = 685,y = 525)
 
 #creates label with message 
 lm = tk.Label(rankSongs, 
@@ -50,7 +50,4 @@ s3.place(x = 347, y = 260) #added 150 to x
 sc3 = tk.Scale(rankSongs, from_= 1, to = 5) 
 sc3.place(x = 375, y = 145) #added 150 to x
 
-
-yscrollbar = Scrollbar(rankSongs) 
-yscrollbar.pack(side = RIGHT, fill = Y) 
 rankSongs.mainloop()
