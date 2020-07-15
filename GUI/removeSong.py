@@ -11,17 +11,17 @@ removeSong.configure(bg = "black")
 removeSong.resizable(width = False, height = False)
 removeSong.geometry("900x680")
 
-lt = tk.Label(removeSong, text ='Please enter the song title\nyou would like to remove:', 
+lt = tk.Label(removeSong, text ='Please enter the title of the song\ntitle you would like to remove:', 
                 fg = "black", 
                 bg = "green", 
                 bd = 8, 
                 relief = "sunken", 
                 height = 3,
-                width = 25,
-                font = "Helvetica 37 bold italic")
+                width = 26,
+                font = "Helvetica 36 bold italic")
 
-e1 = Entry(removeSong, font = "Helvetica 40 italic", width = 26) 
-lt.place(x = 65, y = 70)
+e1 = Entry(removeSong, font = "Helvetica 40 italic", width = 27) 
+lt.place(x = 56, y = 70)
 e1.place(x = 65, y = 320) 
 
 #creates Remove button that brings to playlist window

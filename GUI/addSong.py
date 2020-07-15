@@ -11,7 +11,7 @@ addSong.configure(bg = "black")
 addSong.resizable(width = False, height = False)
 addSong.geometry("900x680")
 
-lt = tk.Label(addSong, text ='Please enter the song title\nyou would like to add:', 
+lt = tk.Label(addSong, text ='Please enter the title of the\nsong you would like to add:', 
                 fg = "black", 
                 bg = "green", 
                 bd = 8, 

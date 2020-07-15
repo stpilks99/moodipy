@@ -29,9 +29,9 @@ mainMenu.resizable(width = False, height = False)
 mainMenu.geometry("900x680")
 
 #Rectangle shape
-p = Canvas(mainMenu, width = 800, height = 200, bg = "gray")
-p.place(x = 46, y = 440)
-#p.create_rectangle(50, 50, 0, 0, fill = 'red')
+#p = Canvas(mainMenu, width = 800, height = 200, bg = "gray")
+#p.place(x = 46, y = 440)
+
 
 # New playlist button
 np = Button(mainMenu, text = "New Playlist", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 2)
@@ -52,12 +52,12 @@ img = ImageTk.PhotoImage(Image.open("./GUI/mainSnake.png"))
 snake.create_image(5, 5, anchor=NW, image=img)
 
 # Description
-yp = tk.Label(mainMenu, text ='Your Playlists:', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
+yp = tk.Label(mainMenu, text ='Your Playlists:', fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
 yp.place(x = 47, y = 375)
 
 # Playlist labels
-p1 = Button(p, text = '                                           Playlist 1                                           ', fg = "black", bg = "green", bd = 6, relief = "raised", font = "Helvetica 18 bold italic")
-p1.place(x = 34, y = 100)
+#p1 = Button(p, text = '                                           Playlist 1                                           ', fg = "black", bg = "green", bd = 6, relief = "raised", font = "Helvetica 18 bold italic")
+#p1.place(x = 34, y = 100)
 
 
 
@@ -66,5 +66,38 @@ p1.place(x = 34, y = 100)
 #sw.pack()
 #win = sw.window
 
+#creating multiple buttons in a frame that is placed row after row using .grid
+def playlists():
+    for i in range(10):
+        p1 = Button(frame, text = '                                      Playlist 1                                           ', fg = "black", bg = "green", bd = 6, relief = "raised", font = "Helvetica 18 bold italic").grid(row=i,column=0)
+
+
+def myfunction(event):
+    #used to limit scrolling operations 
+    canvas.configure(scrollregion=canvas.bbox("all"),width=700,height=200)
+
+
+#creating a frame in main window 
+myframe=Frame(mainMenu,relief=GROOVE,width=50,height=100,bd=1)
+myframe.place(x=80,y=450)
+
+
+canvas=Canvas(myframe,)
+frame=Frame(canvas)
+
+#adding a scrollbar
+myscrollbar=Scrollbar(myframe,orient="vertical",command=canvas.yview)
+canvas.configure(yscrollcommand=myscrollbar.set)
+myscrollbar.pack(side="right",fill="y")
+
+#determines where canvas is 
+canvas.pack(side="left")
+
+#this allows for the frame with the widgets that are buttons
+canvas.create_window((0,0),window=frame,anchor='nw')
+
+#binding the myfunction to the frame to allow for scrolling 
+frame.bind("<Configure>",myfunction)
+playlists()
 
 mainMenu.mainloop()
