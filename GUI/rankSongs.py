@@ -1,6 +1,6 @@
 import sys
-import spotipy
-import spotipy.util as util
+#import spotipy
+#import spotipy.util as util
 import tkinter as tk 
 from tkinter import ttk
 from tkinter import *
@@ -12,8 +12,8 @@ rankSongs.resizable(width = False, height = False)
 rankSongs.geometry("900x680")
 
 #creates done button that brings to playlist window
-Done = Button(rankSongs, text = "Done", bg ="green", bd = 6, relief = "raised", width = 20, height = 6)
-Done.place(x = 710,y = 530)
+Done = Button(rankSongs, text = "Done", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3)
+Done.place(x = 685,y = 525)
 
 #creates label with message 
 lm = tk.Label(rankSongs, 
@@ -31,23 +31,56 @@ lm.place(x= 30, y = 50)
 #do another query to pull song title
 
 #creates a label with song 1 
-s1 = tk.Label(rankSongs, text ='song 1', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic")
-s1.place(x = 47, y = 260)
 
 
-sc1 = tk.Scale(rankSongs, from_= 1, to = 5) 
-sc1.place(x = 75, y = 145)
+#creating multiple scales and labels in a frame that is placed row after row using .grid
+def songs():
+    j=0
+    k=1
+    for i in range(10):
+        
+        sc1 = tk.Scale(frame, from_= 1, to = 5).grid(row=j, column=0)
 
-s2 = tk.Label(rankSongs, text ='song 2', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic")
-s2.place(x = 197, y = 260) #added 150 to x
+        s1 = tk.Label(frame, text ='         song 1        ', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic").grid(row=k,column=0)
 
-sc2 = tk.Scale(rankSongs, from_= 1, to = 5) 
-sc2.place(x = 225, y = 145) #added 150 to x
+        sc2 = tk.Scale(frame, from_= 1, to = 5).grid(row=j, column=1)
 
-s3 = tk.Label(rankSongs, text ='song 3', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic")
-s3.place(x = 347, y = 260) #added 150 to x
+        s2 = tk.Label(frame, text ='         song 2        ', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic").grid(row=k,column=1)
 
-sc3 = tk.Scale(rankSongs, from_= 1, to = 5) 
-sc3.place(x = 375, y = 145) #added 150 to x
+        sc3 = tk.Scale(frame, from_= 1, to = 5).grid(row=j, column=2)
+
+        s3 = tk.Label(frame, text ='         song 3        ', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic").grid(row=k,column=2)
+
+        j+=2
+        k+=2
+
+
+def myfunction(event):
+    #used to limit scrolling operations 
+    canvas.configure(scrollregion=canvas.bbox("all"),width=698,height=350)
+
+
+#creating a frame in main window that will hold a canvas 
+myframe=Frame(rankSongs,relief=GROOVE,width=50,height=100,bd=1)
+myframe.place(x=80,y=130)
+
+#canvas created on the myframe and then frame on the canvas where widgets will be placed
+canvas=Canvas(myframe)
+frame=Frame(canvas)
+
+#adding a scrollbar
+myscrollbar=Scrollbar(myframe,orient="vertical",command=canvas.yview)
+canvas.configure(yscrollcommand=myscrollbar.set)
+myscrollbar.pack(side="right",fill="y")
+
+#determines where canvas is 
+canvas.pack(side="left")
+
+#this allows for the frame with the widgets that are buttons
+canvas.create_window((0,0),window=frame,anchor='nw')
+
+#binding the myfunction to the frame to allow for scrolling 
+frame.bind("<Configure>",myfunction)
+songs()
 
 rankSongs.mainloop()

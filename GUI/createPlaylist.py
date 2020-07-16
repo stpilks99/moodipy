@@ -12,11 +12,11 @@ createPlaylist.resizable(width = False, height = False)
 createPlaylist.geometry("900x680")
 
 #creates done button that brings to playlist window
-Done = Button(createPlaylist, text = "Done", bg ="green", bd = 6, relief = "raised", width = 20, height = 6)
-Done.place(x = 710,y = 530)
+Done = Button(createPlaylist, text = "Done", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3)
+Done.place(x = 685, y = 530)
 
 #creates cancel button that brings back to homepage
-Cancel = Button(createPlaylist, text = "Cancel", bg ="green", bd = 6, relief = "raised", width = 20, height = 6)
+Cancel = Button(createPlaylist, text = "Cancel", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3)
 Cancel.place(x = 42, y = 530)
 
 #creates label with message 
@@ -28,56 +28,72 @@ lm = tk.Label(createPlaylist,
     relief = "raised",
     font = "Helvetica 26 bold italic")
 
-lm.place(x= 47, y = 50)
+lm.place(x= 47, y = 50) 
 
 #creates entry so user can enter playlist title
 lt = tk.Label(createPlaylist, text ='Playlist title:', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
 e1 = Entry(createPlaylist, font = "Helvetica 22 italic") 
-lt.place(x = 150, y = 150)
-e1.place(x = 330, y = 150) 
+lt.place(x = 47, y = 150)
+e1.place(x = 230, y = 155) 
 
 #creates a drop down list where the user can select a mood with a label next to it
-Lmd = tk.Label(createPlaylist, text = "Select one mood:", fg = "black", bg = "green", font = "Helvetica 20 bold italic")
-Lmd.place(x = 150, y = 210)
+Lmd = tk.Label(createPlaylist, text = "Select one mood:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
+Lmd.place(x = 47, y = 210)
 
 moods = ["Happy", 
         "Sad", 
-        "Calm", 
-        "Mad"]
+        "Motivated", 
+        "Calm",
+        "Frantic",
+        "Party",
+        "Gaming"]
 
-dropl = ttk.Combobox(createPlaylist, values = moods, font = "Helvetica 20 bold italic")
-dropl.place(x = 400, y = 210)
+dropl = ttk.Combobox(createPlaylist, values = moods, font = "Helvetica 22 italic")
+dropl.place(x = 300, y = 215)
 
 #creates a drop down list where the user can select a time period
-Lp = tk.Label(createPlaylist, text = "Select time period:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 21 bold italic")
-Lp.place(x = 150, y = 270)
+Lp = tk.Label(createPlaylist, text = "Select time period:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
+Lp.place(x = 47, y = 270)
 
-times = ["2000's", 
+times = ["2010's +",
+        "2000's", 
         "90's", 
         "80's", 
+        "70's",
         "None"]
 
-dropl = ttk.Combobox(createPlaylist, values = times, font = "Helvetica 21 bold italic")
-dropl.place(x = 425, y = 270)
+dropl = ttk.Combobox(createPlaylist, values = times, font = "Helvetica 22 italic")
+dropl.place(x = 317, y = 275)
 
 #creates a entry where user can enter prefered artist
-Lp = tk.Label(createPlaylist, text = "Enter preferred artist:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-Lp.place(x = 150, y = 330)
+Lp = tk.Label(createPlaylist, text = "Enter preferred artist:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
+Lp.place(x = 47, y = 330)
 e2 = Entry(createPlaylist, font = "Helvetica 22 italic") 
-e2.place(x = 452, y = 330) 
+e2.place(x = 355, y = 335) 
 
 #creates a checkbox where the user can select preferred genres
 La = tk.Label(createPlaylist, text = "Enter preferred genres:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-La.place(x = 150, y = 390)
+La.place(x = 47, y = 390)
+
+menubutton = tk.Menubutton(createPlaylist, text="Check all preferred genres", indicatoron=True, borderwidth=1, relief="raised", font = "Helvetica 22 italic")
+
+menu = tk.Menu(menubutton, tearoff=False)
+menubutton.configure(menu=menu) 
+menubutton.place(x = 370, y = 395)
+
+genres = {}
+for genre in ("Acoustic", "Alternative", "Classical", "Club", "Country", "Dubstep", "EDM", "Funk", "Rock", "Hard Rock", "Heavy Metal", "Hip Hop", "Indie", "Holidays", "Latin", "Pop", "RnB", "Reggae", "Soul", "Jazz", "Afrobeat"):
+        genres[genre] = tk.IntVar(value=0)
+        menu.add_checkbutton(label=genre, variable=genres[genre], onvalue=1)
 
 #creates a drop down list where the user can select yes for explict or no for non explicit
-La = tk.Label(createPlaylist, text = "Would you like explict songs:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-La.place(x = 150, y = 450)
+La = tk.Label(createPlaylist, text = "Would you like explict songs:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
+La.place(x = 47, y = 450)
 
 options = ["Yes", 
         "No", ]
 
-dropl = ttk.Combobox(createPlaylist, values = options, font = "Helvetica 21 bold italic")
-dropl.place(x = 540, y = 450)
+dropl = ttk.Combobox(createPlaylist, values = options, font = "Helvetica 22 italic")
+dropl.place(x = 450, y = 455)
 
 createPlaylist.mainloop()
