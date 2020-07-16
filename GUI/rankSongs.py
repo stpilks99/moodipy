@@ -54,6 +54,7 @@ def songs():
         j+=2
         k+=2
 
+
 def myfunction(event):
     #used to limit scrolling operations 
     canvas.configure(scrollregion=canvas.bbox("all"),width=698,height=350)
