@@ -33,8 +33,8 @@ lm.place(x= 30, y = 50)
 #creates a label with song 1 
 
 
-#creating multiple buttons in a frame that is placed row after row using .grid
-def playlists():
+#creating multiple scales and labels in a frame that is placed row after row using .grid
+def songs():
     j=0
     k=1
     for i in range(10):
@@ -59,11 +59,11 @@ def myfunction(event):
     canvas.configure(scrollregion=canvas.bbox("all"),width=698,height=350)
 
 
-#creating a frame in main window 
+#creating a frame in main window that will hold a canvas 
 myframe=Frame(rankSongs,relief=GROOVE,width=50,height=100,bd=1)
 myframe.place(x=80,y=130)
 
-
+#canvas created on the myframe and then frame on the canvas where widgets will be placed
 canvas=Canvas(myframe)
 frame=Frame(canvas)
 
@@ -80,6 +80,6 @@ canvas.create_window((0,0),window=frame,anchor='nw')
 
 #binding the myfunction to the frame to allow for scrolling 
 frame.bind("<Configure>",myfunction)
-playlists()
+songs()
 
 rankSongs.mainloop()
