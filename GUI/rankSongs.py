@@ -11,10 +11,6 @@ rankSongs.configure(bg = "black")
 rankSongs.resizable(width = False, height = False)
 rankSongs.geometry("900x680")
 
-#creates done button that brings to playlist window
-Done = Button(rankSongs, text = "Done", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3)
-Done.place(x = 685,y = 525)
-
 #creates label with message 
 lm = tk.Label(rankSongs, 
     text="  Here are your songs now rank them from 1-5  ", 
@@ -82,5 +78,26 @@ canvas.create_window((0,0),window=frame,anchor='nw')
 #binding the myfunction to the frame to allow for scrolling 
 frame.bind("<Configure>",myfunction)
 songs()
+
+#creates done button that brings to playlist window
+Done = Button(rankSongs, 
+            text = "Done", 
+            bg ="green", 
+            bd = 6, 
+            relief = "raised", 
+            font = "Helvetica 20 bold italic", 
+            width = 10, 
+            height = 3)
+Done.place(x = 685,y = 525)
+
+#creates cancel button that brings back to homepage
+Cancelr = Button(rankSongs, text = "Cancel", 
+                bg ="green", 
+                bd = 6, 
+                relief = "raised", 
+                font = "Helvetica 20 bold italic", 
+                width = 10, 
+                height = 3)
+Cancelr.place(x = 42 , y = 525)
 
 rankSongs.mainloop()
