@@ -1,6 +1,7 @@
 import spotipy
+import moodipy
 
-class Track:
+class Track(Moodipy):
     # This class holds functions that are used to get data from 
     # Spotify for different tracks.
 
@@ -123,6 +124,11 @@ class Track:
     def get_artists(self):
         '''Returns a list of artist(s) for this track'''
         return self.__artists
+
+
+    def get_uri(self):
+        '''Returns URI'''
+        return self.__uri
 
 
     def get_recommendations(self, authorized_class, query_limit=20):
