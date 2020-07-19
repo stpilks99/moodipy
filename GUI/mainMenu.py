@@ -9,10 +9,16 @@ from tkinter import *
 from tkinter.tix import *
 from tkinter import ttk
 from PIL import ImageTk,Image
+from tkinter import messagebox 
 
 # Function called when logout button pressed
 def logout():
-    sys.exit()
+    log = messagebox.askquestion("logout", "Are you sure you want to logout?") 
+
+    if log == 'yes':
+        sys.exit()
+    elif log == 'no':
+        tk.messagebox.showinfo('Return','You will now return to the your playlist.')
 
 #def newPlaylistWindow():
     #("createPlaylist.py 1")
