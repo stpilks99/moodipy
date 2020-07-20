@@ -10,6 +10,6 @@ if __name__ == '__main__':
 
     # print(sp.artist('spotify:artist:4xRYI6VqpkE3UwrDrAZL8L'))
     artist1 = Artist('spotify:artist:4xRYI6VqpkE3UwrDrAZL8L', sp)
-    related_artists = artist1.artist_top_tracks(sp)
+    related_artists = artist1.get_top_tracks(sp)
     
     print(related_artists)
