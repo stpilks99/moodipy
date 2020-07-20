@@ -5,6 +5,8 @@ import tkinter as tk
 import os
 
 from tkinter import *
+# for some reason, messagebox doesn't get imported automatically...
+from tkinter import messagebox
 from tkinter.tix import *
 from tkinter import ttk
 from PIL import ImageTk,Image
@@ -22,10 +24,6 @@ class mainMenu:
                 self.master.configure(bg = "black")
                 self.master.resizable(width = False, height = False)
                 self.master.geometry("900x680")
-
-                #Rectangle shape
-                self.p = Canvas(self.master, width = 800, height = 200, bg = "gray")
-                self.p.place(x = 46, y = 440)
 
                 # New playlist button
                 self.np = Button(self.master, text = "New Playlist", command = self.new_playlist, bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 2)
@@ -46,12 +44,38 @@ class mainMenu:
                 self.snake.create_image(5, 5, anchor=NW, image=self.img)
 
                 # Description
-                self.yp = tk.Label(self.master, text ='Your Playlists:', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
+                self.yp = tk.Label(self.master, text ='Your Playlists:', fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
                 self.yp.place(x = 47, y = 375)
 
-                # Playlist labels
-                self.p1 = Button(self.p, text = '                                           Playlist 1                                           ', command = self.edit_playlist, fg = "black", bg = "green", bd = 6, relief = "raised", font = "Helvetica 18 bold italic")
-                self.p1.place(x = 34, y = 100)
+                #creating a frame in main window 
+                self.myframe=Frame(self.master,relief=GROOVE,width=50,height=100,bd=1)
+                self.myframe.place(x=80,y=450)
+
+                self.canvas=Canvas(self.myframe)
+                self.frame=Frame(self.canvas)
+
+                #adding a scrollbar
+                self.myscrollbar=Scrollbar(self.myframe,orient="vertical",command=self.canvas.yview)
+                self.canvas.configure(yscrollcommand=self.myscrollbar.set)
+                self.myscrollbar.pack(side="right",fill="y")
+
+                #determines where canvas is 
+                self.canvas.pack(side="left")
+
+                #this allows for the frame with the widgets that are buttons
+                self.canvas.create_window((0,0),window=self.frame,anchor='nw')
+
+                #binding the myfunction to the frame to allow for scrolling 
+                self.frame.bind("<Configure>",self.myfunction)
+                self.playlists()
+
+        def playlists(self):
+                for i in range(10):
+                        self.p1 = Button(self.frame, command = self.edit_playlist, text = '                                      Playlist 1                                           ', fg = "black", bg = "green", bd = 6, relief = "raised", font = "Helvetica 18 bold italic").grid(row=i,column=0)
+
+        def myfunction(self, event):
+                #used to limit scrolling operations 
+                self.canvas.configure(scrollregion=self.canvas.bbox("all"),width=700,height=200)
         
         # Function called when new playlist button clicked
         def new_playlist(self):
@@ -61,6 +85,7 @@ class mainMenu:
                 self.moodipy = createPlaylist(self.newCreatePlaylist)
 
         # Function to open helpDoc window
+        # new Toplevel window is created 
         def help_doc(self):
                self.newHelpDoc = tk.Toplevel(self.master)
                self.moodipy = helpDoc(self.newHelpDoc)
@@ -223,7 +248,7 @@ class helpDoc:
                 self.q2.place(x = 40, y = 230)
 
                 self.a2 = tk.Label(self.master,
-                text = "Using Moodipy, each playlist has a max of 30 songs. Moodipy only adds songs \nit thinks you'll really like (based on moods, ranking, time periods and more) so \nyou'll never find yourself skipping through a bunch of songs you hate.",
+                text = "Using Moodipy, each playlist has a max of 60 songs. Moodipy only adds songs \nit thinks you'll really like (based on moods, ranking, time periods and more) so \nyou'll never find yourself skipping through a bunch of songs you hate.",
                 fg = "black", 
                 bg = "gray", 
                 bd = 6, 
@@ -241,7 +266,7 @@ class helpDoc:
                 self.q3.place(x = 40, y = 360)
 
                 self.a3 = tk.Label(self.master,
-                text = "stuff",
+                text = "Ranking a song tells Moodipy which song attributes you like and dislike. After \nranking a song, you have the option to not hear it again in a playlist. ",
                 fg = "black", 
                 bg = "gray", 
                 bd = 6, 
@@ -285,6 +310,7 @@ class editPlaylist:
                 # Logout
                 self.lo = Button(self.master,
                 text = "Logout",
+                # logout is a global function
                 command = logout,
                 bg ="green", bd = 6,
                 relief = "raised",
@@ -307,6 +333,7 @@ class editPlaylist:
                 # Edit/Options
                 self.add = Button(self.master,
                 text = "Add\nSong",
+                command = self.add_song,
                 bg ="green", bd = 6,
                 relief = "raised",
                 font = "Helvetica 20 bold italic",
@@ -320,11 +347,13 @@ class editPlaylist:
                 relief = "raised", 
                 font = "Helvetica 20 bold italic",
                 width = 10,
-                height = 2)
+                height = 2,
+                command = self.remove_song)
                 self.rem.place(x = 0, y = 380)
 
                 self.rank = Button(self.master,
                 text = "Rank\nSong",
+                command = self.rank_songs,
                 bg ="green", bd = 6, 
                 relief = "raised",
                 font = "Helvetica 20 bold italic",
@@ -364,9 +393,292 @@ class editPlaylist:
                 self.master.destroy()
         
         def help_doc(self):
-               self.newHelpDoc = tk.Toplevel(self.master)
-               self.moodipy = helpDoc(self.newHelpDoc)
+                self.newHelpDoc = tk.Toplevel(self.master)
+                self.moodipy = helpDoc(self.newHelpDoc)
 
+        def rank_songs(self):
+                self.newRankSongs = tk.Toplevel(self.master)
+                self.moodipy = rankSongs(self.newRankSongs)
+
+        def add_song(self):
+                self.newAddSong = tk.Toplevel(self.master)
+                self.moodipy = addSong(self.newAddSong)
+
+        def remove_song(self):
+                self.newRemoveSong = tk.Toplevel(self.master)
+                self.moodipy = removeSong(self.newRemoveSong)
+
+class rankSongs:
+        def __init__(self, master):
+                self.master = master
+                self.master.title("Time to rank songs!")
+                self.master.configure(bg = "black")
+                self.master.resizable(width = False, height = False)
+                self.master.geometry("900x680")
+
+                #creates done button that brings to playlist window
+                self.Done = Button(self.master, command = self.closeWindow, text = "Done", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3)
+                self.Done.place(x = 685,y = 525)
+
+                #creates label with message 
+                self.lm = tk.Label(self.master, 
+                text="  Here are your songs now rank them from 1-5  ", 
+                fg = "black", 
+                bg = "green", 
+                bd = 6,
+                relief = "raised",
+                font = "Helvetica 28 bold italic")
+
+                self.lm.place(x= 30, y = 50) 
+
+                #add query to find number of songs in playlist 
+
+                #do another query to pull song title
+
+                #creates a label with song 1 
+
+                #creating a frame in main window that will hold a canvas 
+                self.myframe=Frame(self.master,relief=GROOVE,width=50,height=100,bd=1)
+                self.myframe.place(x=80,y=130)
+
+                #canvas created on the myframe and then frame on the canvas where widgets will be placed
+                self.canvas=Canvas(self.myframe)
+                self.frame=Frame(self.canvas)
+
+                #adding a scrollbar
+                self.myscrollbar=Scrollbar(self.myframe,orient="vertical",command=self.canvas.yview)
+                self.canvas.configure(yscrollcommand=self.myscrollbar.set)
+                self.myscrollbar.pack(side="right",fill="y")
+
+                #determines where canvas is 
+                self.canvas.pack(side="left")
+
+                #this allows for the frame with the widgets that are buttons
+                self.canvas.create_window((0,0),window=self.frame,anchor='nw')
+
+                #binding the myfunction to the frame to allow for scrolling 
+                self.frame.bind("<Configure>",self.myfunction)
+                self.songs()
+                self.master.grab_set()
+
+        #creating multiple scales and labels in a frame that is placed row after row using .grid
+        def songs(self):
+                self.j=0
+                self.k=1
+                for i in range(10):
+                        
+                        self.sc1 = tk.Scale(self.frame, from_= 1, to = 5).grid(row=self.j, column=0)
+
+                        self.s1 = tk.Label(self.frame, text ='         song 1        ', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic").grid(row=self.k,column=0)
+
+                        self.sc2 = tk.Scale(self.frame, from_= 1, to = 5).grid(row=self.j, column=1)
+
+                        self.s2 = tk.Label(self.frame, text ='         song 2        ', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic").grid(row=self.k,column=1)
+
+                        self.sc3 = tk.Scale(self.frame, from_= 1, to = 5).grid(row=self.j, column=2)
+
+                        self.s3 = tk.Label(self.frame, text ='         song 3        ', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic").grid(row=self.k,column=2)
+
+                        self.j+=2
+                        self.k+=2
+
+        def myfunction(self, event):
+                #used to limit scrolling operations 
+                self.canvas.configure(scrollregion=self.canvas.bbox("all"),width=698,height=350)
+
+        def closeWindow(self):
+                self.master.destroy()
+
+class addSong:
+        def __init__(self, master):
+                self.master = master
+                self.master.title("Time to add a song to the playlist!")
+                self.master.configure(bg = "black")
+                self.master.resizable(width = False, height = False)
+                self.master.geometry("900x680")
+                self.lt = tk.Label(self.master, text ='Please enter the title and artist\n of the song you would like to add:', 
+                        fg = "black", 
+                        bg = "green", 
+                        bd = 8, 
+                        relief = "sunken", 
+                        height = 3,
+                        width = 28,
+                        font = "Helvetica 32 bold italic")
+                self.lt.place(x = 65, y = 70)
+
+        #Creating label and entry to get the title of song
+                self.t = tk.Label(self.master, text ='Title:', 
+                                fg = "black", 
+                                bg = "green", 
+                                bd = 8, 
+                                relief = "sunken", 
+                                height = 1,
+                                width = 5,
+                                font = "Helvetica 32 bold italic")
+                self.t.place(x = 65, y = 300)
+
+                self.et = Entry(self.master, font = "Helvetica 40 italic", width = 20) 
+                self.et.place(x = 230, y = 300) 
+
+                #Creating label and entry to get the artist of song
+                self.a = tk.Label(self.master, text ='Artist:', 
+                                fg = "black", 
+                                bg = "green", 
+                                bd = 8, 
+                                relief = "sunken", 
+                                height = 1,
+                                width = 5,
+                                font = "Helvetica 32 bold italic")
+                self.a.place(x = 65, y = 400)
+
+                self.ea = Entry(self.master, font = "Helvetica 40 italic", width = 20) 
+                self.ea.place(x = 230, y = 400) 
+
+
+                #creates Add button that brings to playlist window
+                self.Add = Button(self.master, text = "Add", 
+                                bg ="green", 
+                                command = self.addSongToPlaylist,
+                                bd = 6, 
+                                relief = "raised", 
+                                font = "Helvetica 30 bold italic", 
+                                width = 9, 
+                                height = 2)
+
+                self.Add.place(x = 630, y = 520)
+
+                #creates cancel button that brings back to homepage
+                self.Cancela = Button(self.master, text = "Cancel", 
+                                bg ="green", 
+                                command = self.closeWindow,
+                                bd = 6, 
+                                relief = "raised", 
+                                font = "Helvetica 30 bold italic", 
+                                width = 9, 
+                                height = 2)
+                self.Cancela.place(x = 42 , y = 520)
+
+                self.master.grab_set()
+        
+        #function that gets the title and artist to add to playlist
+        #in this function need to add the function from functions group since command only accepts one function
+        def addSongToPlaylist(self):
+                self.titleAdd = self.et.get()
+                self.artistAdd = self.ea.get()
+                print(self.titleAdd)
+                print(self.artistAdd)
+
+                #if there are less than 60 songs then allow to add song
+                self.confirmAdd = tk.messagebox.askquestion("confirm song to be added", "Are you sure you want to add this song?")
+
+                if self.confirmAdd == 'yes':
+                        print("yes")
+                        #add query to see number of row, if 60 max reached then:
+                        tk.messagebox.showerror('Error','The max amount of songs (60) has been reached. Please click cancel when returned to the add song window and delete a song to add more.')
+                        #else:
+                        #add add song function
+                        #if song is added, get a return from function that indicates its added
+                        tk.messagebox.showinfo("song added!", "Your song has been added! Click cancel to go back to your playlist or add another song.") 
+                        #else if not added, display try again
+                        tk.messagebox.showerror("Error", "A problem has occurred adding this song. Please try again.") 
+                        
+                elif self.confirmAdd == 'no':
+                        tk.messagebox.showinfo('Return','You will now return to the add song window. Here you can either enter another song to add or click cancel to go back to your playlist.')
+
+        def closeWindow(self):
+                self.master.destroy()
+
+class removeSong:
+        def __init__(self, master):
+                self.master = master
+                self.master.title("Time to remove a song from the playlist!")
+                self.master.configure(bg = "black")
+                self.master.resizable(width = False, height = False)
+                self.master.geometry("900x680")
+
+                self.lt = tk.Label(self.master, text ='Please enter the title and artist of\n the song title you would like to remove:', 
+                                fg = "black", 
+                                bg = "green", 
+                                bd = 8, 
+                                relief = "sunken", 
+                                height = 3,
+                                width = 32,
+                                font = "Helvetica 30 bold italic")
+                self.lt.place(x = 56, y = 70)
+                        #getting entry for title of song
+                self.et1 = Entry(self.master, font = "Helvetica 40 italic", width = 21) 
+                self.et1.place(x = 230, y = 290) 
+
+                self.t1 = tk.Label(self.master, text ='Title:', 
+                                fg = "black", 
+                                bg = "green", 
+                                bd = 8, 
+                                relief = "sunken", 
+                                height = 1,
+                                width = 5,
+                                font = "Helvetica 32 bold italic")
+                self.t1.place(x = 65, y = 290)
+
+                #getting entry for artist of song
+                self.a1 = tk.Label(self.master, text ='Artist:', 
+                                fg = "black", 
+                                bg = "green", 
+                                bd = 8, 
+                                relief = "sunken", 
+                                height = 1,
+                                width = 5,
+                                font = "Helvetica 32 bold italic")
+                self.a1.place(x = 65, y = 400)
+
+                self.ea1 = Entry(self.master, font = "Helvetica 40 italic", width = 21) 
+                self.ea1.place(x = 230, y = 400) 
+
+                #creates Remove button that brings to playlist window
+                self.Remove = Button(self.master, text = "Remove", 
+                                bg ="green", 
+                                bd = 6, 
+                                relief = "raised", 
+                                font = "Helvetica 30 bold italic", 
+                                width = 9, 
+                                height = 2,
+                                command = self.remove)
+
+                self.Remove.place(x = 630, y = 520)
+
+                #creates cancel button that brings back to playlist window
+                self.Cancelr = Button(self.master, text = "Close", 
+                                bg ="green", 
+                                bd = 6, 
+                                relief = "raised", 
+                                font = "Helvetica 30 bold italic", 
+                                width = 9, 
+                                height = 2,
+                                command = self.closeWindow)
+                self.Cancelr.place(x = 42 , y = 520)
+
+                self.master.grab_set()
+
+        #function that gets the title and artist to remove from playlist
+        #in this function need to add the function from functions group since command only accepts one function  
+        def remove(self):
+                self.titleRemove = self.et1.get()
+                self.artistRemove = self.ea1.get()
+                print(self.titleRemove)
+                print(self.artistRemove)
+
+                self.rm = tk.messagebox.askquestion("confirm song removal", "Are you sure you want to remove this song?")
+
+                if self.rm == 'yes':
+                        print("yes") #add remove function
+                        #if song is removed, get a return from function that indicates its removed
+                        tk.messagebox.showinfo("song removed!", "Your song has been removed! Click cancel to go back to your playlist or remove another song.") 
+                        #else if not removed, display try again
+                        tk.messagebox.showerror("Error", "A problem has occurred removing this song. Please check your playlist to ensure this song is in it by clicking cancel. If it is on your playlist, then please try again.") 
+                elif self.rm == 'no':
+                        tk.messagebox.showinfo('Return','You will now return to the remove song window. Here you can either enter another song to remove or click cancel to go back to your playlist.')
+
+        def closeWindow(self):
+                self.master.destroy()
 
 class login:
         def __init__(self, master):

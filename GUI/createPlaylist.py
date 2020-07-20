@@ -28,8 +28,12 @@ def criteria():
     tSelected = timePeriod.get()
     artist = artistEntered.get()
     e = explicitOrNot.get()
+    for i in range(0,20):
+        #if genre is checked
+                gSelected = menu.entrycget(i, "label")
+
     #need to figure out how to get genres
-    print(pName + "\n" + mSelected + "\n" + tSelected + "\n" + artist + "\n" + e) #+ "\n" + gSelected)
+    print(pName + "\n" + mSelected + "\n" + tSelected + "\n" + artist + "\n" + e + "\n" + gSelected)
 
 #creates label for entry and entry so user can enter playlist title
 lt = tk.Label(createPlaylist, text ='Playlist title:', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
@@ -89,6 +93,7 @@ genres = {}
 for genre in ("Acoustic", "Alternative", "Classical", "Club", "Country", "Dubstep", "EDM", "Funk", "Rock", "Hard Rock", "Heavy Metal", "Hip Hop", "Indie", "Holidays", "Latin", "Pop", "RnB", "Reggae", "Soul", "Jazz", "Afrobeat"):
         genres[genre] = tk.IntVar(value=0)
         menu.add_checkbutton(label=genre, variable=genres[genre], onvalue=1)
+
 
 #creates a drop down list where the user can select yes for explict or no for non explicit
 Le = tk.Label(createPlaylist, text = "Would you like explict songs:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")

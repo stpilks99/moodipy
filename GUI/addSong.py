@@ -34,18 +34,18 @@ def addSongs():
     confirmAdd = messagebox.askquestion("confirm song to be added", "Are you sure you want to add this song?")
 
     if confirmAdd == 'yes':
-        print("yes") #add remove function
+        print("yes")
+        #add query to see number of row, if 60 max reached then:
+        tk.messagebox.showerror('Error','The max amount of songs (60) has been reached. Please click cancel when returned to the add song window and delete a song to add more.')
+        #else:
+        #add add song function
         #if song is added, get a return from function that indicates its added
         messagebox.showinfo("song added!", "Your song has been added! Click cancel to go back to your playlist or add another song.") 
         #else if not added, display try again
         messagebox.showerror("Error", "A problem has occurred adding this song. Please try again.") 
-        #else if song max is reached display error
-        tk.messagebox.showerror('Return','The max amount of songs (60) has been reached. Please click cancel when returned to the add song window.')
         
     elif confirmAdd == 'no':
         tk.messagebox.showinfo('Return','You will now return to the add song window. Here you can either enter another song to add or click cancel to go back to your playlist.')
-
-    
 
 
 #Creating label and entry to get the title of song

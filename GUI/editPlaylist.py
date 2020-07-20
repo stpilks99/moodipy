@@ -94,6 +94,7 @@ def deleteP():
 
     if dp == 'yes':
         print("yes") #add delete playlist query
+        #ep.destroy() and bring back to homepage
     elif dp == 'no':
         tk.messagebox.showinfo('Return','You will now return to your playlist.')
 
@@ -137,10 +138,10 @@ analysis = Button(ep,
 analysis.place(x = 0, y =582)
 
 # Songs
-fields = Label(ep, text = '       Song               Artist           Album                 ', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 18 bold italic")
+fields = Label(ep, text = '                               Song Title                               ', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 18 bold italic")
 fields.place(x = 275, y = 150)
 
-listbox = Listbox(ep, bg = "gray", height = 16, width = 49, bd = 6, relief = "sunken", font = "Helvetica 15 bold italic") 
+listbox = Listbox(ep, bg = "gray", height = 16, width = 50, bd = 6, relief = "sunken", font = "Helvetica 15 bold italic") 
 listbox.pack(side = RIGHT, fill = BOTH) 
 listbox.place(x = 275, y = 220)
 scrollbar = Scrollbar(ep) 

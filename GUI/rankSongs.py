@@ -13,14 +13,14 @@ rankSongs.geometry("900x680")
 
 #creates label with message 
 lm = tk.Label(rankSongs, 
-    text="  Here are your songs now rank them from 1-5  ", 
+    text="  Here are your songs now rank them from 1-3  \n1 = bad, 2 = average, 3 = above average", 
     fg = "black", 
     bg = "green", 
     bd = 6,
     relief = "raised",
     font = "Helvetica 28 bold italic")
 
-lm.place(x= 30, y = 50) 
+lm.place(x= 30, y = 20) 
 
 #add query to find number of songs in playlist 
 
@@ -35,15 +35,15 @@ def songs():
     k=1
     for i in range(10):
         
-        sc1 = tk.Scale(frame, from_= 1, to = 5).grid(row=j, column=0)
+        sc1 = tk.Scale(frame, from_= 1, to = 3).grid(row=j, column=0)
 
         s1 = tk.Label(frame, text ='         song 1        ', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic").grid(row=k,column=0)
 
-        sc2 = tk.Scale(frame, from_= 1, to = 5).grid(row=j, column=1)
+        sc2 = tk.Scale(frame, from_= 1, to = 3).grid(row=j, column=1)
 
         s2 = tk.Label(frame, text ='         song 2        ', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic").grid(row=k,column=1)
 
-        sc3 = tk.Scale(frame, from_= 1, to = 5).grid(row=j, column=2)
+        sc3 = tk.Scale(frame, from_= 1, to = 3).grid(row=j, column=2)
 
         s3 = tk.Label(frame, text ='         song 3        ', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic").grid(row=k,column=2)
 
