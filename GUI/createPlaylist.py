@@ -28,12 +28,13 @@ def criteria():
     tSelected = timePeriod.get()
     artist = artistEntered.get()
     e = explicitOrNot.get()
-    for i in range(0,20):
-        #if genre is checked
-                gSelected = menu.entrycget(i, "label")
 
-    #need to figure out how to get genres
-    print(pName + "\n" + mSelected + "\n" + tSelected + "\n" + artist + "\n" + e + "\n" + gSelected)
+    print(pName + "\n" + mSelected + "\n" + tSelected + "\n" + artist + "\n" + e )
+    selection = listbox.curselection()
+    for i in selection:
+        gselected = listbox.get(i)
+        print(gselected)
+
 
 #creates label for entry and entry so user can enter playlist title
 lt = tk.Label(createPlaylist, text ='Playlist title:', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
@@ -81,19 +82,21 @@ artistEntered.place(x = 355, y = 335)
 Lg = tk.Label(createPlaylist, text = "Enter preferred genres:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
 Lg.place(x = 47, y = 390)
 
-menuButton = tk.Menubutton(createPlaylist, text="Check all preferred genres", indicatoron=True, borderwidth=1, relief="raised", font = "Helvetica 22 italic")
+msg = tk.Label(createPlaylist, text = " Please select the\ngenres you want last. \nIf not highlighted blue\n then they are not selected. ", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 12 bold italic" )
+msg.place(x =645, y = 115)
 
-menu = tk.Menu(menuButton, tearoff=False)
-menuButton.configure(menu=menu) 
-menuButton.place(x = 370, y = 395)
+genres = ["Acoustic", "Alternative", "Classical", "Club", "Country", "Dubstep", "EDM", "Funk", "Rock", "Hard Rock", "Heavy Metal", "Hip Hop", "Indie", "Holidays", "Latin", "Pop", "RnB", "Reggae", "Soul", "Jazz", "Afrobeat"]
 
-genres = {}
+listbox = Listbox(createPlaylist, bg = "white", height = 2, width = 42, bd = 6, relief = "sunken", font = "Helvetica 12 bold italic", selectmode = MULTIPLE) 
+listbox.pack(side = RIGHT, fill = BOTH) 
+listbox.place(x = 370, y = 388)
+scrollbar = Scrollbar(createPlaylist) 
 
-#adding genres to the menu button so the user can select
-for genre in ("Acoustic", "Alternative", "Classical", "Club", "Country", "Dubstep", "EDM", "Funk", "Rock", "Hard Rock", "Heavy Metal", "Hip Hop", "Indie", "Holidays", "Latin", "Pop", "RnB", "Reggae", "Soul", "Jazz", "Afrobeat"):
-        genres[genre] = tk.IntVar(value=0)
-        menu.add_checkbutton(label=genre, variable=genres[genre], onvalue=1)
+for values in genres: 
+    listbox.insert(END, values) 
 
+listbox.config(yscrollcommand = scrollbar.set) 
+scrollbar.config(command = listbox.yview) 
 
 #creates a drop down list where the user can select yes for explict or no for non explicit
 Le = tk.Label(createPlaylist, text = "Would you like explict songs:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
