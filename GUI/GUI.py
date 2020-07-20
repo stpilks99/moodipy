@@ -13,7 +13,12 @@ from PIL import ImageTk,Image
 
 # global logout function to multiple windows can see it
 def logout():
-        sys.exit()
+        log = messagebox.askquestion("logout", "Are you sure you want to logout?") 
+        if log == 'yes':
+                sys.exit()
+        elif log == 'no':
+                tk.messagebox.showinfo('Return','You will now return to your window.')
+
 
 # main menu window class
 class mainMenu:
@@ -97,6 +102,19 @@ class mainMenu:
 
 #create playlist window
 class createPlaylist:
+        def criteria(self):
+                self.pName = self.playlistName.get()
+                self.mSelected = self.moodsSelected.get()
+                self.tSelected = self.timePeriod.get()
+                self.artist = self.artistEntered.get()
+                self.e = self.explicitOrNot.get()
+
+                print(self.pName + "\n" + self.mSelected + "\n" + self.tSelected + "\n" + self.artist + "\n" + self.e)
+                self.selection = self.listbox.curselection()
+                for i in self.selection:
+                        self.gselected = self.listbox.get(i)
+                        print(self.gselected)
+                        
         def __init__(self, master):
                 self.master = master
                 self.master.title("Time to create a new playlist!")
@@ -105,7 +123,7 @@ class createPlaylist:
                 self.master.geometry("900x680")
 
                 #creates done button that brings to playlist window
-                self.Done = Button(self.master, text = "Done", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3)
+                self.Done = Button(self.master, text = "Done", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3, command = self.criteria)
                 self.Done.place(x = 685, y = 530)
 
                 #creates cancel button that brings back to homepage
@@ -125,9 +143,9 @@ class createPlaylist:
 
                 #creates entry so user can enter playlist title
                 self.lt = tk.Label(self.master, text ='Playlist title:', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-                self.e1 = Entry(self.master, font = "Helvetica 22 italic") 
+                self.playlistName = Entry(self.master, font = "Helvetica 22 italic") 
                 self.lt.place(x = 47, y = 150)
-                self.e1.place(x = 230, y = 155) 
+                self.playlistName.place(x = 230, y = 155) 
 
                 #creates a drop down list where the user can select a mood with a label next to it
                 self.Lmd = tk.Label(self.master, text = "Select one mood:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
@@ -142,8 +160,8 @@ class createPlaylist:
                         "Party",
                         "Gaming"]
 
-                self.dropl = ttk.Combobox(self.master, values = self.moods, font = "Helvetica 22 italic")
-                self.dropl.place(x = 300, y = 215)
+                self.moodsSelected = ttk.Combobox(self.master, values = self.moods, font = "Helvetica 22 italic")
+                self.moodsSelected.place(x = 300, y = 215)
 
                 #creates a drop down list where the user can select a time period
                 self.Lp = tk.Label(self.master, text = "Select time period:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
@@ -156,39 +174,44 @@ class createPlaylist:
                         "70's",
                         "None"]
 
-                self.dropl = ttk.Combobox(self.master, values = self.times, font = "Helvetica 22 italic")
-                self.dropl.place(x = 317, y = 275)
+                self.timePeriod = ttk.Combobox(self.master, values = self.times, font = "Helvetica 22 italic")
+                self.timePeriod.place(x = 317, y = 275)
 
                 #creates a entry where user can enter prefered artist
                 self.Lp = tk.Label(self.master, text = "Enter preferred artist:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
                 self.Lp.place(x = 47, y = 330)
-                self.e2 = Entry(self.master, font = "Helvetica 22 italic") 
-                self.e2.place(x = 355, y = 335) 
+                self.artistEntered = Entry(self.master, font = "Helvetica 22 italic") 
+                self.artistEntered.place(x = 355, y = 335) 
 
                 #creates a checkbox where the user can select preferred genres
                 self.La = tk.Label(self.master, text = "Enter preferred genres:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
                 self.La.place(x = 47, y = 390)
 
-                self.menubutton = tk.Menubutton(self.master, text="Check all preferred genres", indicatoron=True, borderwidth=1, relief="raised", font = "Helvetica 22 italic")
+                self.genres = ["Acoustic", "Alternative", "Classical", "Club", "Country", "Dubstep", "EDM", "Funk", "Rock", "Hard Rock", "Heavy Metal", "Hip Hop", "Indie", "Holidays", "Latin", "Pop", "RnB", "Reggae", "Soul", "Jazz", "Afrobeat"]
 
-                self.menu = tk.Menu(self.menubutton, tearoff=False)
-                self.menubutton.configure(menu=self.menu) 
-                self.menubutton.place(x = 370, y = 395)
+                self.listbox = tk.Listbox(self.master, bg = "white", height = 2, width = 42, bd = 6, relief = "sunken", font = "Helvetica 12 bold italic", selectmode = MULTIPLE) 
+                self.listbox.pack(side = RIGHT, fill = BOTH) 
+                self.listbox.place(x = 370, y = 388)
+                self.scrollbar = tk.Scrollbar(self.master) 
 
-                self.genres = {}
-                for genre in ("Acoustic", "Alternative", "Classical", "Club", "Country", "Dubstep", "EDM", "Funk", "Rock", "Hard Rock", "Heavy Metal", "Hip Hop", "Indie", "Holidays", "Latin", "Pop", "RnB", "Reggae", "Soul", "Jazz", "Afrobeat"):
-                        self.genres[genre] = tk.IntVar(value=0)
-                        self.menu.add_checkbutton(label=genre, variable=self.genres[genre], onvalue=1)
+                for self.values in self.genres: 
+                        self.listbox.insert(END, self.values) 
+
+                self.listbox.config(yscrollcommand = self.scrollbar.set) 
+                self.scrollbar.config(command = self.listbox.yview)
 
                 #creates a drop down list where the user can select yes for explict or no for non explicit
-                self.La = tk.Label(self.master, text = "Would you like explict songs:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
+                self.La = tk.Label(self.master, text = "Would you like explicit songs:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
                 self.La.place(x = 47, y = 450)
 
                 self.options = ["Yes", 
                         "No", ]
 
-                self.dropl = ttk.Combobox(self.master, values = self.options, font = "Helvetica 22 italic")
-                self.dropl.place(x = 450, y = 455)
+                self.explicitOrNot = ttk.Combobox(self.master, values = self.options, font = "Helvetica 22 italic")
+                self.explicitOrNot.place(x = 450, y = 455)
+
+                self.msg = tk.Label(self.master, text = " Please select the\ngenres you want last. \nIf not highlighted blue\n then they are not selected. ", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 12 bold italic" )
+                self.msg.place(x =645, y = 115)
 
                 # forces user to click on new playlist window so they can't use 2 windows at once
                 self.master.grab_set()
@@ -293,7 +316,7 @@ class editPlaylist:
 
                 # Playlist title label
                 self.t = Label(self.master, text = '        Playlist Title        ',  fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 40 bold italic")
-                self.t.place(x = 250, y = 50)
+                self.t.place(x = 275, y = 50)
 
                 # Sidebar buttons
                 # Home
@@ -302,9 +325,9 @@ class editPlaylist:
                 command = self.closeWindow,
                 bg ="green", bd = 6,
                 relief = "raised",
-                font = "Helvetica 20 bold italic",
-                width = 10,
-                height = 2)
+                font = "Helvetica 19 bold italic",
+                width = 14,
+                height = 1)
                 self.h.place(x = 0, y = 0)
 
                 # Logout
@@ -314,10 +337,10 @@ class editPlaylist:
                 command = logout,
                 bg ="green", bd = 6,
                 relief = "raised",
-                font = "Helvetica 20 bold italic",
-                width = 10,
-                height = 2)
-                self.lo.place(x = 0, y = 95)
+                font = "Helvetica 19 bold italic",
+                width = 14,
+                height = 1)
+                self.lo.place(x = 0, y = 55)
 
                 # Help/Doc
                 self.hd = Button(self.master,
@@ -325,10 +348,10 @@ class editPlaylist:
                 command = self.help_doc,
                 bg ="green", bd = 6,
                 relief = "raised",
-                font = "Helvetica 20 bold italic",
-                width = 10,
-                height = 2)
-                self.hd.place(x = 0, y = 190)
+                font = "Helvetica 19 bold italic",
+                width = 14,
+                height = 1)
+                self.hd.place(x = 0, y = 110)
 
                 # Edit/Options
                 self.add = Button(self.master,
@@ -336,62 +359,105 @@ class editPlaylist:
                 command = self.add_song,
                 bg ="green", bd = 6,
                 relief = "raised",
-                font = "Helvetica 20 bold italic",
-                width = 10,
+                font = "Helvetica 19 bold italic",
+                width = 14,
                 height = 2)
-                self.add.place(x = 0, y = 285)
+                self.add.place(x = 0, y = 165)
 
                 self.rem = Button(self.master,
                 text = "Remove\nSong",
                 bg ="green", bd = 6,
                 relief = "raised", 
-                font = "Helvetica 20 bold italic",
-                width = 10,
+                font = "Helvetica 19 bold italic",
+                width = 14,
                 height = 2,
                 command = self.remove_song)
-                self.rem.place(x = 0, y = 380)
+                self.rem.place(x = 0, y = 248)
 
                 self.rank = Button(self.master,
                 text = "Rank\nSong",
                 command = self.rank_songs,
                 bg ="green", bd = 6, 
                 relief = "raised",
-                font = "Helvetica 20 bold italic",
-                width = 10,
+                font = "Helvetica 19 bold italic",
+                width = 14,
                 height = 2)
-                self.rank.place(x=0, y = 475)
+                self.rank.place(x=0, y = 331)
 
                 self.de = Button(self.master,
                 text = "Delete\nPlaylist",
                 bg ="green",
                 bd = 6,
                 relief = "raised",
-                font = "Helvetica 20 bold italic",
-                width = 10,
-                height = 2)
-                self.de.place(x = 0, y =570)
+                font = "Helvetica 19 bold italic",
+                width = 14,
+                height = 2,
+                command = self.deleteP)
+                self.de.place(x = 0, y = 415)
+
+                self.rec = Button(self.master,
+                        text = "Add\nRecommendations",
+                        bg ="green",
+                        bd = 6,
+                        relief = "raised",
+                        font = "Helvetica 19 bold italic",
+                        width = 14,
+                        height = 2,
+                        command = self.addRec)
+                self.rec.place(x = 0, y = 498)
+
+                self.analysis = Button(self.master,
+                        text = "Analysis",
+                        bg ="green",
+                        bd = 6,
+                        relief = "raised",
+                        font = "Helvetica 19 bold italic",
+                        width = 14,
+                        height = 1,
+                        command = self.analysis_window)
+                self.analysis.place(x = 0, y =582)
 
                 # Songs
-                self.fields = Label(self.master, text = '       Song               Artist           Album                 ', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 18 bold italic")
-                self.fields.place(x = 250, y = 150)
+                self.fields = Label(self.master, text = '                               Song Title                               ', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 18 bold italic")
+                self.fields.place(x = 275, y = 150)
 
-                self.listbox = Listbox(self.master, bg = "gray", height = 16, width = 49, bd = 6, relief = "sunken", font = "Helvetica 15 bold italic") 
+                self.listbox = Listbox(self.master, bg = "gray", height = 16, width = 50, bd = 6, relief = "sunken", font = "Helvetica 15 bold italic") 
                 self.listbox.pack(side = RIGHT, fill = BOTH) 
-                self.listbox.place(x = 250, y = 220)
+                self.listbox.place(x = 275, y = 220)
                 self.scrollbar = Scrollbar(self.master) 
 
-                for values in range(100): 
-                        self.listbox.insert(END, values) 
+                for self.values in range(100): 
+                        self.listbox.insert(END, self.values) 
 
                 self.listbox.config(yscrollcommand = self.scrollbar.set) 
                 self.scrollbar.config(command = self.listbox.yview)
 
                 # forces user to click on certain window
-                self.master.grab_set()       
+                self.master.grab_set()
+
+        def addRec(self):
+                #add recommendations function goes here
+                #if successfully added
+                tk.messagebox.showinfo('Recommendations added!','Recommendations have been added to your playlist reaching the max number of songs (60).')
+                #if max songs reached
+                tk.messagebox.showerror('Error!','The max amount of songs (60) has been reached.')
+
+        def deleteP(self):
+                self.dp = tk.messagebox.askquestion("confirm song removal", "Are you sure you want to delete this playlist?")
+
+                if self.dp == 'yes':
+                        print("yes") #add delete playlist query
+                #ep.destroy() and bring back to homepage
+                elif self.dp == 'no':
+                        tk.messagebox.showinfo('Return','You will now return to your playlist.')       
 
         def closeWindow(self):
                 self.master.destroy()
         
+        def analysis_window(self):
+                self.newAnalysisWindow = tk.Toplevel(self.master)
+                self.moodipy = analysis(self.newAnalysisWindow)
+
         def help_doc(self):
                 self.newHelpDoc = tk.Toplevel(self.master)
                 self.moodipy = helpDoc(self.newHelpDoc)
@@ -676,6 +742,40 @@ class removeSong:
                         tk.messagebox.showerror("Error", "A problem has occurred removing this song. Please check your playlist to ensure this song is in it by clicking cancel. If it is on your playlist, then please try again.") 
                 elif self.rm == 'no':
                         tk.messagebox.showinfo('Return','You will now return to the remove song window. Here you can either enter another song to remove or click cancel to go back to your playlist.')
+
+        def closeWindow(self):
+                self.master.destroy()
+
+class analysis:
+        def __init__(self, master):
+                self.master = master
+                self.master.title("Analysis")
+                self.master.configure(bg = "black")
+                self.master.resizable(width = False, height = False)
+                self.master.geometry("900x680")
+
+                self.title = tk.Label(self.master, text ="Here's an analysis of your playlist:", 
+                                fg = "black", 
+                                bg = "green", 
+                                bd = 8, 
+                                relief = "sunken", 
+                                height = 2,
+                                width = 28,
+                                font = "Helvetica 28 bold italic")
+                self.title.place(x = 95, y = 30)
+
+                self.stuff = tk.Label(self.master, text ="stuff : ", 
+                                fg = "black", 
+                                bg = "gray", 
+                                bd = 8, 
+                                relief = "sunken", 
+                                height = 10,
+                                width = 50,
+                                font = "Helvetica 16 bold italic")
+                self.stuff.place(x = 65, y = 250)
+
+                self.Done = Button(self.master, text = "Done", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3, command = self.closeWindow)
+                self.Done.place(x = 685, y = 530)
 
         def closeWindow(self):
                 self.master.destroy()
