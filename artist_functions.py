@@ -1,7 +1,6 @@
 import spotipy
-import moodipy
 
-class Artist(Moodipy):
+class Artist():
     '''Holds functions to get and set data on a particular artist'''
 
     # Variables
