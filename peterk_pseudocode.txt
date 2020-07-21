@@ -1,0 +1,35 @@
+Pseudocode for creating playlist from user inputs
+
+Inputs: 
+    Playlist title: string
+
+    Mood: string   
+        Mood = string
+            Happy
+            Sad
+            Motivated
+            Calm
+            Frantic
+            Party
+            Gaming
+
+    Time period: string
+        Possible: older, 70s, 80s, 90s, 00s, 10s
+
+    Related artist: string
+
+    Preferred genres: list of strings
+        Possible: from list in onenote
+
+    Explicit value: bool
+
+    List of disliked songs
+
+    Number of songs needed to generate
+
+
+Output:
+    list of track URI's that fit criteria
+
+    
+
