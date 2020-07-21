@@ -75,7 +75,7 @@ def FQAs():
                 font = "Helvetica 20 bold italic").grid(row = 4, column = 0)
 
     a3 = tk.Label(frame,
-                text = "stuff",
+                text = "Ranking a song tells Moodipy which song attributes you like and dislike. After \nranking a song, you have the option to not hear it again in a playlist. ",
                 fg = "black", 
                 bg = "gray", 
                 bd = 6, 
