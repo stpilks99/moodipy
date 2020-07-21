@@ -1,7 +1,6 @@
 import spotipy
-import moodipy
 
-class Track(Moodipy):
+class Track():
     # This class holds functions that are used to get data from 
     # Spotify for different tracks.
 
@@ -21,6 +20,7 @@ class Track(Moodipy):
     __album = ''                # Corresponding album
     __explicit = True           # Explicit flag, true if explicit, false if not explicit or unknown.
     __popularity = -1            # Popularity of song between 0-100, higher number is more popular
+    __track_data = {}
 
     # From audio analysis
     __year_released = ''        # Year track was released
@@ -64,13 +64,13 @@ class Track(Moodipy):
 
         # Check optional variable (basic song info)
         if len(track_data) == 0: # Initialized with general song data
-            track_data = sp.track(self.__uri)
+            self.__track_data = sp.track(self.__uri)
 
         # Add data to class from track() 
-        for artist in track_data['artists']:
+        for artist in self.__track_data['artists']:
             self.__artists.append(artist['uri'])
-        self.__explicit = bool(track_data['explicit'])
-        self.__popularity = track_data['popularity']      
+        self.__explicit = bool(self.__track_data['explicit'])
+        self.__popularity = self.__track_data['popularity']  
         
 
     def get_dance_val(self):
@@ -129,6 +129,28 @@ class Track(Moodipy):
     def get_uri(self):
         '''Returns URI'''
         return self.__uri
+
+
+    def get_release_year(self):
+        '''Returns the decade that this song was released in.
+        
+            Format: last 2 digits of decade followed by an s (10s, 70s, etc). 
+            Earlier dates will return 'older'
+        '''
+        track_album = self.__track_data['album']
+        release_date = track_album['release_date']
+        year = int(release_date[:4])
+        # Choose decade
+        if year >= 1970 and year < 1980:
+            return '70s'
+        elif year >= 1980 and year < 1990:
+            return '80s'
+        elif year >= 1990 and year < 2000:
+            return '00s'
+        elif year >= 2000:
+            return '10s'
+        else:
+            return 'older'
 
 
     def get_recommendations(self, authorized_class, query_limit=20):
