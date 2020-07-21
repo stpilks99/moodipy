@@ -19,15 +19,16 @@ class Playlist:
         for track in tracks:
             self.__uri_tracks[track] = tracks[track]
         #Set track name, can be ''
-        self.name = name
+        self.__name = name
 
 
     def add_song(self, uri):
-        #Add track to palylist locally
+        #Add track to URI list
         self.__uri_tracks.append(uri)
 
+
     def remove_song(self, uri):
-        #Remove song from local playlist
+        #Remove song from URI list
         self.__uri_tracks.remove((uri))
 
     '''def remove_playlist(self):
@@ -38,9 +39,10 @@ class Playlist:
         sp.__del__()'''
 
 
-    def set_playlist_name(self):
+    def set_playlist_name(self, new_name):
         #Alter the name of the playist
-        self.__name = input("What is the name of the playlist?\n")
+        self.__name = new_name
+
 
     def move_to_spotify(self):
         #Commit playlist to spotify
