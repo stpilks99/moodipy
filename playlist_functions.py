@@ -12,67 +12,83 @@ class Playlist:
     #Current rendition: Initial Phase
 
     #Variables
-    __uri_tracks = []
-    __uri_playlist = []
-    __name = ''
-    moved_to_spotify = False
-    # Maybe we need more variables
+    __uri_tracks = [] # Current tracks on the user's playlist
+    __uri_playlist = '' # Playlist URI
+    __temp_add = [] # If playlist has been created, list of queued songs to add
+    __temp_remove = [] # If playlist has been created, list of queued songs to remove
+    __name = '' # Playlist name
+    __user = '' # Spotify username of current user
+    __moved_to_spotify = False
 
     #User to access to playlists -- this may be improper
 
 
-    def __init__(self, name, tracks, user):
+    def __init__(self, name, user, spotify_class, user_playlist_info, tracks=[], uri=''):
+        '''
+        user_playlist_uris: tuple with 2 lists, first one contains playlist URI's and second one 
+                            contains playlist names. 
+        '''
+        sp = spotify_class
+        self.__user = user
+        if len(uri) == 0:
+            # This playlist doesn't exist yet
+            self.__moved_to_spotify = False
+            # Check for duplicate playlist name
+            playlist_uris = user_playlist_info[0]
+            playlist_names = user_playlist_into[1]
+            for i in range(len(playlist_uris)):
+                if playlist_names[i] == name:
+                    raise Exception("The user has a playlist with this name.")
+            #If name is not found in duplicates
+            self.__name = name
 
-        authorize = auth()
-        sp = authorize.authorize_util()
-        #Populate local trak list
-        for track in tracks:
-            self.__uri_tracks[track] = tracks[track]
-        #Set track name, can be ''
-        self.__name = name
-        user = User()
-        sp.user_playlist_create(user, self.__name)
+            if len(tracks) != 0: # If instantiated with tracks
+                self.__uri_tracks = tracks
 
-    def choose_playlist(self, sp, ):
+        else: # The playlist already exists
+            self.__uri_playlist = uri
+            self.__name = name
+            self.__moved_to_spotify = True
 
-        authorize = auth()
-        sp = authorize.authorize_util()
-        user = User()
-        options = []
-        options = user.get_playlists()
-        for i in options['items']:
-            if self.__name == i['name']:
-                return i['uri']
 
-    def add_song_sp(self, uri, playlist_id):
-
-        authorize = auth()
-        sp = authorize.authorize_util()
-        user = User()
-        sp.user_playlist_add_tracks(sp, )
-
-    def add_song(self, uri):
+    def add_songs_local(self, uri):
         #Add track to palylist locally
-        self.__uri_tracks.append(uri)
+        self.__temp_add.append(uri)
 
-    def remove_song(self, uri):
+
+    def remove_songs_local(self, uri):
         #Remove song from local playlist
-        self.__uri_tracks.remove((uri))
-
-    '''def remove_playlist(self):
-
-        authorize = auth()
-        sp = authorize.authorize_util()
-
-        sp.__del__()'''
+        self.__temp_remove.append(uri)
 
 
-    def move_to_spotify(self):
+    def add_songs_sp(self, spotify_class):
+        '''Adds a song or list of songs to the playlist'''
+        if self.__moved_to_spotify == False: # Check if playlist has been created in Spotify yet
+            raise Exception("The playlist has not been exported to Spotify yet.")
+        sp = spotify_class
+        sp.user_playlist_add_tracks(self.__user, self.__uri_playlist, self.__temp_add) # Add to playlist
+        self.__temp_add = []
+        
+
+
+    def remove_songs_sp(self, spotify_class):
+        '''Removes selected songs from playlist''' 
+        if self.__moved_to_spotify == False: # Check if playlist exists in Spotify
+            raise Exception('This playlist has not been exported to Spotify yet.')
+        sp = spotify_class
+        sp.user_playlist_remove_all_occurrences_of_tracks(self.__user, self.__uri_playlist, self.__temp_remove) # Remove from Spotify
+        self.__temp_remove = [] # Reset list
+
+
+    def create_spotify_playlist(self, spotify_class):
         #Commit playlist to spotify
-        authorize = auth()
-        sp = authorize.authorize_util()
-        sp.user_playlist_create(sp, self.__name)
-        for track in self.__uri_tracks:
-            sp.user_playlist_add_tracks(sp,)
-            #Function requires playlist id, so this incomplete
-        #Need to incorporate the functionality of the Moved_to_Spotify flag
+        if self.__moved_to_spotify == True:
+            raise Exception("This playlist has already been created.")
+        sp = spotify_class
+        sp.user_playlist_create(self.__user, self.__name)
+
+
+    def get_playlist_tracks(self):
+        '''Get all track URI's in a playlist'''
+        pass
+
