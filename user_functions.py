@@ -12,17 +12,14 @@ class User():
         if len(user_info) == 0:
             user_info = sp.user(uri)
     
-    def get_followed_artists(self, spotify_class): #error - TypeError: string indices must be integers
+    def get_followed_artists(self, spotify_class): #done
         sp = spotify_class
         result = sp.current_user_followed_artists(limit=5)
         uri_list = []
-        print(result['artists'])        
-        for i in result['artists']:
+        list = result['artists']
+        for i in list['items']:
             uri_list.append(i['uri'])
         return uri_list
-        #print(type(result))
-        #print(result.keys())
-        #print(result)
 
     def get_user_top_artists(self, spotify_class): #done
         sp = spotify_class
@@ -44,11 +41,13 @@ class User():
         sp = spotify_class
         result = sp.current_user_saved_tracks(limit=5)
         uri_list = []
+        print(result['items'])
         for i in result['items']:
             uri_list.append(i['uri'])
         return uri_list
         #print(type(result))
         #print(result.keys())
+        #print(list)
         #print(result['items'])
         #return result
 
