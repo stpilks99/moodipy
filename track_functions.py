@@ -32,6 +32,7 @@ class Track():
     __speechiness = -0.1         # Closer to 1 means the track is mostly words
     __valence = -0.1             # Cheerfulness/happiness to track, 1 is most happy
     __tempo = -1                # Estimated BPM of track
+    __loudness = 0              # Average loudness of track in dB
     
 
     def __init__(self, track_uri, spotify_class, track_data={}, track_audio_features={}):
@@ -61,6 +62,7 @@ class Track():
         self.__instrumentalness = track_values['instrumentalness']
         self.__valence = track_values['valence']
         self.__tempo = track_values['tempo']
+        self.__loudness = track_values['loudness']
 
         # Check optional variable (basic song info)
         if len(track_data) == 0: # Initialized with general song data
@@ -167,4 +169,84 @@ class Track():
         # Return list of URI's of recommended tracks
         return uri_lst
 
+        
+    def get_mood(self):
+        '''Determines the mood of the song. Criteria on OneNote.'''
+        fitting_moods = [] # Holds the moods that this song fits into. 
+        # Initialize variables for limits
+        # Total range is 0-1 as a float value, if otherwise the variable unit of measurement is labeled
+        acousticness_low_lim = 0.175 
+        acousticness_high_lim = 0.25
+        danceability_low_lim = 0.55
+        danceability_high_lim = 0.7
+        energy_low_lim = 0.675
+        energy_high_lim = 0.825
+        instrumentalness_cutoff = 0.05
+        loudness_low_lim = -12 # dB
+        loudness_high_lim = -8 # db
+        speechiness_low_lim = 0.05
+        speechiness_high_lim = 0.2
+        valence_low_lim = 0.3
+        valence_high_lim = 0/6
+        tempo_low_lim = 110 # bpm
+        tempo_high_lim = 135 # bpm
+        popularity_low_lim = 50 # 0-100
+        popularity_high_lim = 75 # 0-100
+
+        # Check if happy
+        if self.__valence >= valence_high_lim and self.__danceability >= danceability_high_lim and self.__energy >= energy_high_lim:
+            # High valence, danceability, energy
+            if tempo >= tempo_low_lim:
+                # Average to fast tempo
+                fitting_moods.append('happy')
+
+        # Check if sad
+        if self.__valence <= valence_low_lim and self.__danceability <= danceability_low_lim and self.__energy <= energy_low_lim:
+            # Low valence, danceability, energy
+            if tempo <= tempo_high_lim:
+                # Average to slow tempo
+                fitting_moods.append('sad')
+
+        # Check for motivated
+        if self.__energy >= energy_high_lim and self.__valence >= valence_high_lim:
+            # High valence and energy
+            if self.__tempo >= tempo_low_lim and self.__danceability >= danceability_low_lim:
+                # Average to high tempo and danceability
+                fitting_moods.append('motivated')
+
+        # Check if calm
+        if self.__acousticness >= acousticness_high_lim:
+            # High acousticness
+            if self.__loudness <= loudness_low_lim and self.__energy <= energy_low_lim and self.__speechiness <= speechiness_low_lim:
+                # Low loudness, energy, speechiness
+                fitting_moods.append('calm')
+
+        # Check if frantic
+        if self.__tempo >= tempo_high_lim and self.__loudness >= loudness_high_lim and self.__energy >= energy_high_lim and self.__danceability >= danceability_high_lim:
+            # High tempo, loudness, danceability, energy
+            if self.__acousticness <= acousticness_low_lim:
+                # Low acousticness
+                fitting_moods.append('frantic')
+
+        # Check if party
+        if self.__danceability >= danceability_high_lim and self.__energy >= energy_high_lim:
+            if self.__valence >= valence_high_lim and self.__popularity >= popularity_high_lim:
+                # High danceability, energy, valence, loudness, popularity
+                if self.__acousticness <= acousticness_low_lim:
+                    # Low acousticness
+                    fitting_moods.append('party')
+
+        # Check if gaming
+        if self.__instrumentalness >= instrumentalness_cutoff:
+            # High instrumentalness
+            if self.__tempo >= tempo_low_lim and self.__tempo <= tempo_high_lim:
+                if self.__valence >= valence_low_lim and self.__valence <= valence_high_lim:
+                    if self.__energy >= energy_low_lim and self.__energy <= energy_high_lim:
+                        # Average tempo, valence, and energy
+                        if self.__speechiness <= speechiness_low_lim:
+                            # Low speechiness
+                            fitting_moods.append('gaming')
+
+        # return list
+        return fitting_moods
         
