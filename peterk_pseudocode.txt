@@ -47,7 +47,7 @@ Pseudococde:
         If song limit has been reached  
             return song URI's
         
-    Else if user did not input an artist:
+    If there are not yet enough songs (could still be zero if artist was not input):
         Get user liked artists, top artists
         Compare artists' genres to user input genres
         If genres match up:
