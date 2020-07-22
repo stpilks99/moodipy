@@ -27,7 +27,7 @@ class Artist():
        
     def get_uri(self):
         '''Gets URI of artist'''
-        return self.__uri()
+        return self.__uri
 
 
     def get_related_artists(self, spotify_class):
