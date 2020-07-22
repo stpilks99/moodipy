@@ -20,7 +20,7 @@ class Track():
     __album = ''                # Corresponding album
     __explicit = True           # Explicit flag, true if explicit, false if not explicit or unknown.
     __popularity = -1            # Popularity of song between 0-100, higher number is more popular
-    __track_data = {}
+    __track_data = {}           # Raw data containing basic info about track
 
     # From audio analysis
     __year_released = ''        # Year track was released
@@ -33,6 +33,7 @@ class Track():
     __valence = -0.1             # Cheerfulness/happiness to track, 1 is most happy
     __tempo = -1                # Estimated BPM of track
     __loudness = 0              # Average loudness of track in dB
+    __track_audio_features = {} # Audio features of track
     
 
     def __init__(self, track_uri, spotify_class, track_data={}, track_audio_features={}):
@@ -52,7 +53,8 @@ class Track():
             track_values = {} # dictionaty
             track_values = audio_features_raw[0]
         else:
-            track_values = track_audio_features[0]
+            track_values = track_audio_features
+            self.__track_audio_features = track_audio_features
 
         # Assign private variables to stats from song
         self.__danceability = track_values['danceability']
@@ -66,7 +68,10 @@ class Track():
 
         # Check optional variable (basic song info)
         if len(track_data) == 0: # Initialized with general song data
-            self.__track_data = sp.track(self.__uri)
+            track_data = sp.track(self.__uri)
+            self.__track_data = track_data['artists']
+        else:
+            self.__track_data = track_data  
 
         # Add data to class from track() 
         for artist in self.__track_data['artists']:
@@ -207,7 +212,7 @@ class Track():
             if self.__danceability <= danceability_low_lim:
                 if self.__energy <= energy_low_lim:
                     # Low valence, danceability, energy
-                    if tempo <= tempo_high_lim:
+                    if self.__tempo <= tempo_high_lim:
                         # Average to slow tempo
                         fitting_moods.append('sad')
 
