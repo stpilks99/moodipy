@@ -98,5 +98,5 @@ class Playlist:
             raise Exception("The playlist has not been created in Spotify.")
 
         sp = spotify_class
-        sp.
+        
 
