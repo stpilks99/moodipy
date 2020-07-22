@@ -2,15 +2,22 @@ import spotipy
 
 class User():
 
-    __uri = '' #song URI's
+    __uri = '' #User URI
+    __username = ''
     __songs = [] #using this to return an array of song URI's
+    __user_info = {} # All data on user
 
-    def __init__(self, uri, spotify_class, user_info={}):
+    def __init__(self, spotify_class, user_info={}):
         sp = spotify_class
-        self.__uri = uri
 
-        if len(user_info) == 0:
-            user_info = sp.user(uri)
+        if len(user_info) != 0: # All info already accessible
+            self.__user_info = user_info
+            self.__uri = user_info['uri']
+            self.__username = user_info['id']
+        else: # Info needed
+            self.__user_info = sp.me()
+            self.__uri = self.__user_info['uri']
+            self.__username = self.__user_info['id']
     
     def get_followed_artists(self, spotify_class): #done
         sp = spotify_class
@@ -62,3 +69,6 @@ class User():
         tup = (uri_playlist, name_playlist)
 
         return tup
+
+    def get_username(self):
+        return self.__username
