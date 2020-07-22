@@ -21,7 +21,8 @@ def get_songs_with_criteria(mood, # User entered mood
     # Instantiate user class
     sp = spotify_class
     current_user = User(spotify_class)
-    # user_top_artists = current_user.get_user_top_artists()
+    
+    valid_tracks = []    # Return value, list of URI's of songs that match criteria
 
     # Check if user inputted an artist or not
     if len(related_artist) != 0: # Artist inputted
@@ -41,7 +42,7 @@ def get_songs_with_criteria(mood, # User entered mood
                 genre_list.append(genre)
 
         # Get info on all songs
-        recommendations_raw = sp.recommendations(seed_artists=[result_artist_uri], seed_genres=genre_list)
+        recommendations_raw = sp.recommendations(seed_artists=[result_artist_uri], seed_genres=genre_list, limit=50)
         all_track_info = recommendations_raw['tracks']
         recommended_uris = [] # Holds URI's found from recommendations query
         for track in all_track_info:
@@ -49,10 +50,42 @@ def get_songs_with_criteria(mood, # User entered mood
         
         # Get audio features of each recommended track
         tracks_features = sp.audio_features(recommended_uris)
-        print(tracks_features[0])
+        full_info = zip(recommended_uris, all_track_info, tracks_features)
 
-
+        # Check criteria of each song
+        for track in full_info:
+            track_obj = Track(track[0], sp, track_data=track[1], track_audio_features=track[2])
+            track_moods = track_obj.get_mood()
             
+            if mood in track_moods: # Criteria matches
+                valid_tracks.append(track[0]) # Add URI to valid tracks 
 
-        
-        
+
+    # Get song recommendations based on genre
+    while len(valid_tracks) <= num_songs_needed: # Loop until all songs found 
+        combined_track_list = songs_on_list + valid_tracks
+        recommendations_raw = sp.recommendations(seed_genres=genre_list, seed_tracks=combined_track_list,limit=50)
+        all_track_info = recommendations_raw['tracks']
+        recommended_uris = [] # Holds URI's found from recommendations query
+        for track in all_track_info:
+            recommended_uris.append(track['uri'])
+
+        # Get audio features of each recommended track
+        tracks_features = sp.audio_features(recommended_uris)
+        full_info = zip(recommended_uris, all_track_info, tracks_features)
+
+        # Check criteria of each song
+        for track in full_info:
+            track_obj = Track(track[0], sp, track_data=track[1], track_audio_features=track[2])
+            track_moods = track_obj.get_mood()
+            
+            if mood in track_moods: # Criteria matches
+                valid_tracks.append(track[0]) # Add URI to valid tracks
+
+    # Remove songs that the user has said they don't want
+    for unwanted_track in disliked_songs:
+        if unwanted_track in valid_tracks:
+            valid_tracks.remove(unwanted_track)
+
+
+    return(valid_tracks) # Only will return URI's of new tracks      
