@@ -4,7 +4,10 @@ from spotify_authorize import auth
 
 
 class Playlist:
+    # This class holds functions meant to
+    # manipulate and alter playlists.
 
+    # Current rendition: Initial Phase
 
     #This class holds functions meant to
     #manipulate and alter playlists.
@@ -20,8 +23,9 @@ class Playlist:
     __user = '' # Spotify username of current user
     __moved_to_spotify = False
 
-    #User to access to playlists -- this may be improper
+    # Maybe we need more variables
 
+    # User to access to playlists -- this may be improper
 
     def __init__(self, name, user, spotify_class, user_playlist_info, tracks=[], uri=''):
         '''
@@ -88,7 +92,11 @@ class Playlist:
         sp.user_playlist_create(self.__user, self.__name)
 
 
-    def get_playlist_tracks(self):
+    def get_playlist_tracks(self, spotify_class):
         '''Get all track URI's in a playlist'''
-        pass
+        if self.__moved_to_spotify == False:
+            raise Exception("The playlist has not been created in Spotify.")
+
+        sp = spotify_class
+        sp.
 
