@@ -33,7 +33,12 @@ lm.place(x= 30, y = 20)
 def songs():
     j=0
     k=1
+    #songranks = []
     for i in range(10):
+
+        #r1 = sc1.get()
+        #r2 = sc2.get()
+        #r3 = sc3.get()
         
         sc1 = tk.Scale(frame, from_= 1, to = 3).grid(row=j, column=0)
 
@@ -49,6 +54,12 @@ def songs():
 
         j+=2
         k+=2
+
+        #songranks.append(r1)
+        #songranks.append(r2)
+        #songranks.append(r3)
+
+        #print(songranks)
 
 
 def myfunction(event):
