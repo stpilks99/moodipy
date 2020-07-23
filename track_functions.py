@@ -195,7 +195,7 @@ class Track():
             if self.__danceability >= danceability_lim:
                 if self.__energy >= energy_lim:
                 # High valence, danceability, energy
-                    if tempo >= tempo_lim:
+                    if self.__tempo >= tempo_lim:
                         # Average to fast tempo
                         fitting_moods.append('happy')
 
@@ -225,7 +225,7 @@ class Track():
                     fitting_moods.append('calm')
 
         # Check if frantic
-        if self.__tempo >= temp:
+        if self.__tempo >= tempo_lim:
             if self.__loudness >= loudness_lim:
                 if self.__energy >= energy_lim:
                     if self.__danceability >= danceability_lim:

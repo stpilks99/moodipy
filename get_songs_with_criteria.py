@@ -14,13 +14,12 @@ def get_songs_with_criteria(mood, # User entered mood
                             disliked_songs, # list of songs that have been previously removed from the playlist
                             songs_on_list, # The current list of songs in the playlist
                             num_songs_needed, # How many songs should this return?
-                            user_uri, # User's uri
                             spotify_class):  # authorized class 
 
     ''' This will take a lot of inputs and return a list of songs that fit the user criteria'''                        
     # Instantiate user class
     sp = spotify_class
-    current_user = User(spotify_class)
+    current_user = User(sp)
     
     valid_tracks = []    # Return value, list of URI's of songs that match criteria
 
@@ -112,8 +111,10 @@ def get_songs_with_criteria(mood, # User entered mood
                 valid_tracks.append(track[0]) # Add URI to valid tracks 
 
 
+    # Instantiate for use later in loop
+    length_prev_loop = 0 
+    fail_loop_count = 0
     # Get song recommendations based on genre
-    length_prev_loop = 0 # Instantiate for use later
     while len(valid_tracks) <= num_songs_needed: # Loop until all songs found 
         combined_track_list = songs_on_list + valid_tracks
         recommendations_raw = sp.recommendations(seed_genres=genre_list, seed_tracks=combined_track_list,limit=50)
