@@ -24,6 +24,57 @@ def get_songs_with_criteria(mood, # User entered mood
     
     valid_tracks = []    # Return value, list of URI's of songs that match criteria
 
+    # Add genres to broaden search
+    added_genres = [] # Genres to be added to the genre list
+    for genre in genre_list:
+        if genre == 'acoustic':
+            added_genres.append('folk')
+        elif genre == 'alternative':
+            added_genres.extend(['alt-rock', 'emo', 'synth-pop'])
+        elif genre == 'ambient':
+            added_genres.extend(['chill', 'dub', 'new-age'])
+        elif genre == 'brazil':
+            added_genres.extend(['bossanova', 'forro', 'mpb', 'pagode', 'sertanejo'])
+        elif genre == 'classical':
+            added_genres.append('piano')
+        elif genre == 'club':
+            added_genres.extend(['minimal-techno', 'progressive-rock', 'techno', 'chicago-house', 'deep-house', 'detroit-techno'])
+        elif genre == 'country':
+            added_genres.extend(['bluegrass', 'folk', 'honky-tonk'])
+        elif genre == 'disco':
+            added_genres.append('groove')
+        elif genre == 'dubstep':
+            added_genres.extend(['drum-and-bass', 'hardcore', 'idm', 'industrial', 'dubstep'])
+        elif genre == 'edm':
+            added_genres.extend(['breakbeat', 'drum-and-bass', 'electro', 'electronic', 'garage', 'hardstyle', 'techno', 'trance'])
+        elif genre == 'funk':
+            added_genres.append('groove')
+        elif genre == 'hard-rock':
+            added_genres.extend(['goth', 'grindcore'])
+        elif genre == 'heavy-metal':
+            added_genres.extend(['black-metal', 'death-metal', 'grindcore'])
+        elif genre == 'indie':
+            added_genres.extend(['emo', 'folk', 'indie-pop'])
+        elif genre == 'jazz':
+            added_genres.append('groove')
+        elif genre == 'latin':
+            added_genres.extend(['dancehall', 'latino', 'reggaeton', 'salsa', 'samba', 'tango'])
+        elif genre == 'metal':
+            added_genres.extend(['metal-misc', 'metalcore'])
+        elif genre == 'pop':
+            added_genres.extend(['indie-pop', 'pop-film', 'synth-pop'])
+        elif genre == 'punk':
+            added_genres.extend(['emo', 'punk-rock'])
+        elif genre == 'reggae':
+            added_genres.extend(['dub', 'dancehall', 'ska'])
+        elif genre == 'r-n-b':
+            added_genres.append('groove')
+        elif genre == 'soul':
+            added_genres.append('groove')
+        
+    # Add genres to the original genre list
+    genre_list.extend(added_genres)
+
     # Check if user inputted an artist or not
     if len(related_artist) != 0: # Artist inputted
         # Get artist information
