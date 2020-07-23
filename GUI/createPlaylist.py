@@ -5,6 +5,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import *
 
+
 createPlaylist = tk.Tk()
 createPlaylist.title("Time to create a new playlist!")
 createPlaylist.configure(bg = "black")

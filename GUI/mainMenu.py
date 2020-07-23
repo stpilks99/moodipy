@@ -11,6 +11,10 @@ from tkinter import ttk
 from PIL import ImageTk,Image
 from tkinter import messagebox 
 
+import sqlite3
+database = sqlite3.connect('moodipy.db')
+c = database.cursor()
+
 # Function called when logout button pressed
 def logout():
     log = messagebox.askquestion("logout", "Are you sure you want to logout?") 
@@ -25,18 +29,10 @@ def logout():
 
 # Creating Main Menu window
 mainMenu = Tk()
-#container = ttk.Frame(mainMenu)
-#canvas = tk.Canvas(container)
-#scrollbar = ttk.Scrollbar(container, orient = "vertical", command = canvas.yview)
-#scrollFrame = ttk.Frame(canvas)
 mainMenu.title("Moodipy")
 mainMenu.configure(bg = "black")
 mainMenu.resizable(width = False, height = False)
 mainMenu.geometry("900x680")
-
-#Rectangle shape
-#p = Canvas(mainMenu, width = 800, height = 200, bg = "gray")
-#p.place(x = 46, y = 440)
 
 
 # New playlist button
@@ -61,21 +57,38 @@ snake.create_image(5, 5, anchor=NW, image=img)
 yp = tk.Label(mainMenu, text ='Your Playlists:', fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
 yp.place(x = 47, y = 375)
 
-# Playlist labels
-#p1 = Button(p, text = '                                           Playlist 1                                           ', fg = "black", bg = "green", bd = 6, relief = "raised", font = "Helvetica 18 bold italic")
-#p1.place(x = 34, y = 100)
+c = database.cursor()
+c.execute("""SELECT COUNT(playlisturi) FROM playlistmaster;""")
+numOfPlaylists = c.fetchall()
 
+for i in numOfPlaylists:
+    print(i[0])
+    numOfP = i[0]
 
+c.execute("""SELECT username FROM playlistmaster;""")
+pName = c.fetchall()
 
-# Scrollbar
-#sw = ScrolledWindow(mainMenu, width = 900, height = 600)
-#sw.pack()
-#win = sw.window
+for j in pName:
+    print(j)
 
 #creating multiple buttons in a frame that is placed row after row using .grid
 def playlists():
-    for i in range(10):
-        p1 = Button(frame, text = '                                      Playlist 1                                           ', fg = "black", bg = "green", bd = 6, relief = "raised", font = "Helvetica 18 bold italic").grid(row=i,column=0)
+    c = database.cursor()
+    c.execute("""SELECT COUNT(playlisturi) FROM playlistmaster;""")
+    numOfPlaylists = c.fetchall()
+
+    for i in numOfPlaylists:
+        print(i[0])
+        numOfP = i[0]
+
+    c.execute("""SELECT username FROM playlistmaster;""")
+    pName = c.fetchall()
+ 
+
+    for i in range(numOfP):
+        n = str(pName[i])
+        name = '                                    ' + n.strip('(),').replace('\'', '') + '                                          '
+        p1 = Button(frame, text = name, fg = "black", bg = "green", bd = 6, relief = "raised", font = "Helvetica 18 bold italic").grid(row=i,column=0)
 
 
 def myfunction(event):
@@ -88,8 +101,8 @@ myframe=Frame(mainMenu,relief=GROOVE,width=50,height=100,bd=1)
 myframe.place(x=80,y=450)
 
 
-canvas=Canvas(myframe,)
-frame=Frame(canvas)
+canvas=Canvas(myframe, bg = "green")
+frame=Frame(canvas, bg = "green")
 
 #adding a scrollbar
 myscrollbar=Scrollbar(myframe,orient="vertical",command=canvas.yview)
