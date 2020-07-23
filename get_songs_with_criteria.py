@@ -113,6 +113,7 @@ def get_songs_with_criteria(mood, # User entered mood
 
 
     # Get song recommendations based on genre
+    length_prev_loop = 0 # Instantiate for use later
     while len(valid_tracks) <= num_songs_needed: # Loop until all songs found 
         combined_track_list = songs_on_list + valid_tracks
         recommendations_raw = sp.recommendations(seed_genres=genre_list, seed_tracks=combined_track_list,limit=50)
@@ -132,6 +133,15 @@ def get_songs_with_criteria(mood, # User entered mood
             
             if mood in track_moods: # Criteria matches
                 valid_tracks.append(track[0]) # Add URI to valid tracks
+
+        # Count number of loops that the tracks have not changed, if > 5 throw exception
+        if len(valid_tracks) == length_prev_loop: # If the number of tracks retu
+            fail_loop_count += 1
+        if fail_loop_count > 4: # If the loop has failed 5 times
+            raise Exception('The program failed to add any tracks after 5 loops.')
+
+
+        length_prev_loop = len(valid_tracks)
 
     # Remove songs that the user has said they don't want
     for unwanted_track in disliked_songs:
