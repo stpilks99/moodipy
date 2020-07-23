@@ -1,0 +1,76 @@
+Pseudocode for creating playlist from user inputs
+
+Inputs: 
+    Playlist title: string
+
+    Mood: string   
+        Mood = string
+            Happy
+            Sad
+            Motivated
+            Calm
+            Frantic
+            Party
+            Gaming
+
+    Time period: string
+        Possible: older, 70s, 80s, 90s, 00s, 10s
+
+    Related artist: string
+
+    Preferred genres: list of strings
+        Possible: from list in onenote
+
+    Explicit value: bool
+
+    List of disliked songs
+
+    Number of songs needed to generate
+
+
+Output:
+    list of track URI's that fit criteria
+
+
+Pseudococde:
+    Create user class
+    authorize = auth
+    sp = authorize.authorize_util
+    
+    If user inputs an artist:
+        Instantiate artist class
+        Get artist genres
+        Input artist and genre into recommendations
+        Check criteria on each song
+        If song criteria matches user input and song limit has not been reached:
+            Add to matching songs list
+        If song limit has been reached  
+            return song URI's
+        
+    If there are not yet enough songs (could still be zero if artist was not input):
+        Get user liked artists, top artists
+        Compare artists' genres to user input genres
+        If genres match up:
+            Save artist to list
+
+        For artist in artist_filtered_list:
+            Get artist top songs
+            For song in song_list:
+                Create new song class
+                Compare song statistics with user mood, explicit val, ...
+                If criteria matches:
+                    Add song to matching songs list
+            
+        While playlist is not long enough:
+            Call recommendations based on genres
+            Compare results with user inputted criteria
+            If they match:
+                Add to list
+            
+
+
+
+    
+
+    
+

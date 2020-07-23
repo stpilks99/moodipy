@@ -2,27 +2,31 @@ import spotipy
 
 class User():
 
-    __uri = '' #song URI's
+    __uri = '' #User URI
+    __username = ''
     __songs = [] #using this to return an array of song URI's
+    __user_info = {} # All data on user
 
-    def __init__(self, uri, spotify_class, user_info={}):
+    def __init__(self, spotify_class, user_info={}):
         sp = spotify_class
-        self.__uri = uri
 
-        if len(user_info) == 0:
-            user_info = sp.user(uri)
+        if len(user_info) != 0: # All info already accessible
+            self.__user_info = user_info
+            self.__uri = user_info['uri']
+            self.__username = user_info['id']
+        else: # Info needed
+            self.__user_info = sp.me()
+            self.__uri = self.__user_info['uri']
+            self.__username = self.__user_info['id']
     
-    def get_followed_artists(self, spotify_class): #error - TypeError: string indices must be integers
+    def get_followed_artists(self, spotify_class): #done
         sp = spotify_class
-        result = sp.current_user_followed_artists(limit=5)
+        result = sp.current_user_followed_artists(limit=50)
         uri_list = []
-        print(result['artists'])        
-        for i in result['artists']:
+        list = result['artists']
+        for i in list['items']:
             uri_list.append(i['uri'])
         return uri_list
-        #print(type(result))
-        #print(result.keys())
-        #print(result)
 
     def get_user_top_artists(self, spotify_class): #done
         sp = spotify_class
@@ -40,34 +44,31 @@ class User():
             uri_list.append(i['uri'])
         return uri_list
 
-    def get_user_saved_tracks(self, spotify_class): #almost | error - KeyError: 'uri'
+    def get_user_saved_tracks(self, spotify_class): #done
         sp = spotify_class
         result = sp.current_user_saved_tracks(limit=5)
         uri_list = []
+        print(result['items'])
         for i in result['items']:
-            uri_list.append(i['uri'])
+            uri_list.append(i['track']['uri'])
         return uri_list
-        #print(type(result))
-        #print(result.keys())
-        #print(result['items'])
-        #return result
 
-    def get_playlists(self, spotify_class): #having trouble with the 3rd for loop | same error as get_user_saved_tracks
+    def get_playlists(self, spotify_class): #done
         sp = spotify_class
-        result = sp.current_user_playlists(limit=1)
+        result = sp.current_user_playlists(limit=50)
         uri_playlist = []
-        for i in result['items']:
-            uri_playlist.append(i['uri'])
-        print(uri_playlist)
-        hold = len(uri_playlist)
-        print(hold)
-        for i in range(hold):
-            uri_hold = sp.playlist_tracks(uri_playlist[i])
-        uri_list = []
-        for i in uri_hold['items']:
-            uri_list.append(i['uri'])
-        #return uri_list
-        #print(type(uri_hold))
-        #print(uri_hold.keys())
-        #print(uri_hold['items'])
-        #return result
+        name_playlist = []
+        print(result.keys())
+        print(type(result['items']))
+        #print(result['items'])
+        print(result['items'][0].keys())
+        for playlist in result['items']:
+            name_playlist.append(playlist['name'])
+            uri_playlist.append(playlist['uri'])
+
+        tup = (uri_playlist, name_playlist)
+
+        return tup
+
+    def get_username(self):
+        return self.__username

@@ -1,7 +1,6 @@
 import spotipy
-import moodipy
 
-class Artist(Moodipy):
+class Artist():
     '''Holds functions to get and set data on a particular artist'''
 
     # Variables
@@ -28,7 +27,7 @@ class Artist(Moodipy):
        
     def get_uri(self):
         '''Gets URI of artist'''
-        return self.__uri()
+        return self.__uri
 
 
     def get_related_artists(self, spotify_class):
