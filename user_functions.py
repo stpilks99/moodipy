@@ -46,8 +46,9 @@ class User():
 
     def get_user_saved_tracks(self, spotify_class): #done
         sp = spotify_class
-        result = sp.current_user_saved_tracks()
+        result = sp.current_user_saved_tracks(limit=5)
         uri_list = []
+        print(result['items'])
         for i in result['items']:
             uri_list.append(i['track']['uri'])
         return uri_list
@@ -57,7 +58,10 @@ class User():
         result = sp.current_user_playlists(limit=50)
         uri_playlist = []
         name_playlist = []
-        #print(result['items'][0].keys())
+        print(result.keys())
+        print(type(result['items']))
+        #print(result['items'])
+        print(result['items'][0].keys())
         for playlist in result['items']:
             name_playlist.append(playlist['name'])
             uri_playlist.append(playlist['uri'])
@@ -72,19 +76,3 @@ class User():
 
     def get_uri(self):
         return self.__uri
-
-    def testFunction(self, uri_list, spotify_class):
-        sp = spotify_class
-        result = sp.search(uri_list)
-        #print(result)
-        print(result.keys())
-        song_uri = []
-        song_name = []
-        #print(testVal)
-        #print(result)
-        #testVal = result[0]
-        #print(testVal)
-        for i in result['tracks']:
-            song_uri.append(result(i['uri']))
-            song_name.append(result(i['name']))
-        return song_uri
