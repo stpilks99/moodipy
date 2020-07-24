@@ -191,65 +191,36 @@ class Track():
         popularity_lim = 0.65
 
         # Check if happy
-        if self.__valence >= valence_lim: 
-            if self.__danceability >= danceability_lim:
-                if self.__energy >= energy_lim:
-                # High valence, danceability, energy
-                    if self.__tempo >= tempo_lim:
-                        # Average to fast tempo
-                        fitting_moods.append('happy')
+        if self.__valence >= valence_lim: # High valence
+            fitting_moods.append('happy')
 
         # Check if sad
-        if self.__valence <= valence_lim:
-            if self.__danceability <= danceability_lim:
-                if self.__energy <= energy_lim:
-                    # Low valence, danceability, energy
-                    if self.__tempo <= tempo_lim:
-                        # Average to slow tempo
-                        fitting_moods.append('sad')
+        if self.__valence <= valence_lim: # Low valence
+            fitting_moods.append('sad')
 
         # Check for motivated
-        if self.__energy >= energy_lim:
-            if self.__valence >= valence_lim:
-                # High valence and energy
-                if self.__tempo >= tempo_lim:
-                    # Average to high tempo and danceability
-                    fitting_moods.append('motivated')
+        if self.__energy >= energy_lim: # High energy
+            fitting_moods.append('motivated')
 
         # Check if calm
-        if self.__acousticness >= acousticness_lim:
-            # High acousticness
-            if self.__energy <= energy_lim:
-                if self.__speechiness <= speechiness_lim:
-                    # Low energy, speechiness
-                    fitting_moods.append('calm')
+        if self.__energy <= energy_lim: # Low energy and tempo
+            if self.__tempo <= tempo_lim:
+                fitting_moods.append('calm')
 
         # Check if frantic
-        if self.__tempo >= tempo_lim:
-            if self.__loudness >= loudness_lim:
-                if self.__energy >= energy_lim:
-                    if self.__danceability >= danceability_lim:
-                        # High tempo, loudness, danceability, energy
-                        if self.__acousticness <= acousticness_lim:
-                            # Low acousticness
-                            fitting_moods.append('frantic')
+        if self.__tempo >= tempo_lim: # High tempo and energy
+            if self.__energy >= energy_lim:
+                fitting_moods.append('frantic')
 
         # Check if party
-        if self.__danceability >= danceability_lim:
-            if self.__energy >= energy_lim:
-                if self.__valence >= valence_lim:
-                    if self.__popularity >= popularity_lim:
-                        # High danceability, energy, valence, loudness, popularity
-                        if self.__acousticness <= acousticness_lim:
-                            # Low acousticness
-                            fitting_moods.append('party')
+        if self.__danceability >= danceability_lim: # High danceability and popularity
+            if self.__popularity >= popularity_lim:
+                    fitting_moods.append('party')
 
         # Check if gaming
-        if self.__instrumentalness >= instrumentalness_lim:
-            # High instrumentalness
-            if self.__speechiness <= speechiness_lim:
-                # Low speechiness
-                fitting_moods.append('gaming')
+        if self.__speechiness <= speechiness_lim:
+            # Low speechiness
+            fitting_moods.append('gaming')
 
         # return list
         return fitting_moods
