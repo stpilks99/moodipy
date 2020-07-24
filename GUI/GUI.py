@@ -29,6 +29,7 @@ c.execute(setup_master)
 #database setup end
 
 u = ""
+close = 0
 # global logout function to multiple windows can see it
 def logout():
         log = messagebox.askquestion("logout", "Are you sure you want to logout?") 
@@ -992,23 +993,44 @@ class login:
                 self.master.resizable(width = False, height = False)
                 self.master.geometry("900x600")
 
-                self.B = Button(login,
+                self.B = Button(self.master,
                 text = "Login with Spotify",
                 bg ="green",
                 font = "Helvetica 20 bold italic",
                 bd = 6, relief = "raised",
                 width = 25,
-                height = 2)
+                height = 2,
+                ##### call spotify login function here
+                # for now it will just close the window
+                command = self.main_menu)
                 self.B.place(x = 225,y = 480)
-                self.canvas = Canvas(login, width = 850, height = 460)
+                self.canvas = Canvas(self.master, width = 850, height = 460)
                 self.canvas.pack()
                 self.img = ImageTk.PhotoImage(Image.open("./GUI/snake.png"))
-                self.canvas.create_image(20, 20, anchor=NW, image=self.img) 
+                self.canvas.create_image(20, 20, anchor=NW, image=self.img)
+
+        def closeWindow(self):
+                # add login function here
+                self.master.destroy()
+
+        def main_menu(self):
+                self.newMainMenu = tk.Toplevel(self.master)
+                self.moodipy = mainMenu(self.newMainMenu)
+
+        #def main_menu(self)
 
 def main():
         #add function to check login credentials
         root = tk.Tk()
-        moodipy = mainMenu(root)
+        moodipy = login(root)
+        
+        # if creds match:
+                
+                # close login window with closeWindow()
+                # open mainmenu
+        # else
+                #show error
+        
         root.mainloop()
 
 if __name__ == '__main__':
