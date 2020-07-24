@@ -27,7 +27,7 @@ class Playlist:
 
     # User to access to playlists -- this may be improper
 
-    def __init__(self, name, user, spotify_class, user_playlist_info, tracks=[], uri=''):
+    def __init__(self, name, user, spotify_class, tracks=[], uri=''):
         '''
         user_playlist_uris: tuple with 2 lists, first one contains playlist URI's and second one 
                             contains playlist names. 
@@ -38,11 +38,12 @@ class Playlist:
             # This playlist doesn't exist yet
             self.__moved_to_spotify = False
             # Check for duplicate playlist name
-            playlist_uris = user_playlist_info[0]
-            playlist_names = user_playlist_into[1]
-            for i in range(len(playlist_uris)):
-                if playlist_names[i] == name:
+            user_playlists_raw = sp.user_playlists()
+            playlist_names = []
+            for playlist in user_playlists_raw['items']:
+                if playlist['name'] == name:
                     raise Exception("The user has a playlist with this name.")
+                    
             #If name is not found in duplicates
             self.__name = name
 
