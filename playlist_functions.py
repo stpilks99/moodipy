@@ -20,25 +20,28 @@ class Playlist:
     __temp_add = [] # If playlist has been created, list of queued songs to add
     __temp_remove = [] # If playlist has been created, list of queued songs to remove
     __name = '' # Playlist name
-    __user = '' # Spotify username of current user
+    __user_name = '' # Spotify username of current user
+    __user_uri = '' # URI of current user
     __moved_to_spotify = False
 
     # Maybe we need more variables
 
     # User to access to playlists -- this may be improper
 
-    def __init__(self, name, user, spotify_class, tracks=[], uri=''):
+    def __init__(self, name, user_uri, spotify_class, tracks=[], uri=''):
         '''
         user_playlist_uris: tuple with 2 lists, first one contains playlist URI's and second one 
                             contains playlist names. 
         '''
         sp = spotify_class
-        self.__user = user
+        self.__user_uri = user_uri
+        user_data = sp.me()
+        self.__user_name = user_data['id']
         if len(uri) == 0:
             # This playlist doesn't exist yet
             self.__moved_to_spotify = False
             # Check for duplicate playlist name
-            user_playlists_raw = sp.user_playlists()
+            user_playlists_raw = sp.user_playlists(self.__user_name)
             playlist_names = []
             for playlist in user_playlists_raw['items']:
                 if playlist['name'] == name:
@@ -48,7 +51,7 @@ class Playlist:
             self.__name = name
 
             if len(tracks) != 0: # If instantiated with tracks
-                self.__uri_tracks = tracks
+                self.__temp_add = tracks
 
         else: # The playlist already exists
             self.__uri_playlist = uri
@@ -67,6 +70,13 @@ class Playlist:
         # Will have to return [(uri0, name0), (uri1, name1)...]
 
 
+    def get_playlist_uri(self):
+        if self.__moved_to_spotify == False:
+            raise Exception("Playlist not created in Spotify yet.")
+        else:
+            return self.__uri_playlist
+
+
     def remove_songs_local(self, uri_list):
         #Remove song from local playlist
         for song in uri_list:
@@ -79,7 +89,7 @@ class Playlist:
             raise Exception("The playlist has not been exported to Spotify yet.")
         sp = spotify_class
         try:
-            sp.user_playlist_add_tracks(self.__user, self.__uri_playlist, self.__temp_add) # Add to playlist
+            sp.user_playlist_add_tracks(self.__user_name, self.__uri_playlist, self.__temp_add) # Add to playlist
         except:
             return False
         self.__temp_add = []
@@ -92,7 +102,7 @@ class Playlist:
         if self.__moved_to_spotify == False: # Check if playlist exists in Spotify
             raise Exception('This playlist has not been exported to Spotify yet.')
         sp = spotify_class
-        sp.user_playlist_remove_all_occurrences_of_tracks(self.__user, self.__uri_playlist, self.__temp_remove) # Remove from Spotify
+        sp.user_playlist_remove_all_occurrences_of_tracks(self.__user_name, self.__uri_playlist, self.__temp_remove) # Remove from Spotify
         self.__temp_remove = [] # Reset list
 
 
@@ -101,8 +111,19 @@ class Playlist:
         if self.__moved_to_spotify == True:
             raise Exception("This playlist has already been created.")
         sp = spotify_class
-        sp.user_playlist_create(self.__user, self.__name)
-        # return URI, if it did not work return falase
+        try:
+            sp.user_playlist_create(self.__user_name, self.__name)
+        except:
+            raise Exception('Playlist not able to be created')
+        self.__moved_to_spotify = True
+        user_playlists_raw = sp.user_playlists(self.__user_name)
+        playlist_names = []
+        for playlist in user_playlists_raw['items']:
+            if playlist['name'] == self.__name:
+                self.__uri_playlist = playlist['uri']
+                return playlist['uri']
+        # return URI, if it did not work return ''
+        return ''
 
 
     def get_playlist_tracks(self, spotify_class):

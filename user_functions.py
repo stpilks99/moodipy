@@ -72,3 +72,7 @@ class User():
 
     def get_username(self):
         return self.__username
+
+
+    def get_uri(self):
+        return self.__uri
