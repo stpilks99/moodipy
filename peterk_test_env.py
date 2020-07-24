@@ -5,11 +5,18 @@ from user_functions import User
 from get_songs_with_criteria import get_songs_with_criteria
 import spotipy
 
+import collections
+
 
 if __name__ == '__main__':
     # Get authorization
     authorize = auth()
     sp = authorize.authorize_util()
 
-    get_songs_with_criteria('',[],'','Juice WRLD', False, [], 0, 0, 'spotify:user:buffalobulldoggy', sp)
-        
+    #get_songs_with_criteria('sad',[],'','Juice WRLD', False, [], [], 0, 'spotify:user:buffalobulldoggy', sp)
+
+    return_uris = get_songs_with_criteria('happy', ['acoustic'], '', '', True, [], [], 50, sp)
+    print(return_uris)
+    
+
+    

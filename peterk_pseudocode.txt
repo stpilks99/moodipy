@@ -46,27 +46,17 @@ Pseudococde:
             Add to matching songs list
         If song limit has been reached  
             return song URI's
+            
+    While playlist is not long enough:
+        Call recommendations based on genres
+        Compare results with user inputted criteria
+        If they match:
+            Add to list
         
-    If there are not yet enough songs (could still be zero if artist was not input):
-        Get user liked artists, top artists
-        Compare artists' genres to user input genres
-        If genres match up:
-            Save artist to list
+    Check for URI's in the list that hte user does not want
+        Remove from return list 
 
-        For artist in artist_filtered_list:
-            Get artist top songs
-            For song in song_list:
-                Create new song class
-                Compare song statistics with user mood, explicit val, ...
-                If criteria matches:
-                    Add song to matching songs list
-            
-        While playlist is not long enough:
-            Call recommendations based on genres
-            Compare results with user inputted criteria
-            If they match:
-                Add to list
-            
+    Return list
 
 
 

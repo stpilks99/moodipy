@@ -14,15 +14,65 @@ def get_songs_with_criteria(mood, # User entered mood
                             disliked_songs, # list of songs that have been previously removed from the playlist
                             songs_on_list, # The current list of songs in the playlist
                             num_songs_needed, # How many songs should this return?
-                            user_uri, # User's uri
                             spotify_class):  # authorized class 
 
     ''' This will take a lot of inputs and return a list of songs that fit the user criteria'''                        
     # Instantiate user class
     sp = spotify_class
-    current_user = User(spotify_class)
+    current_user = User(sp)
     
     valid_tracks = []    # Return value, list of URI's of songs that match criteria
+
+    # Add genres to broaden search
+    added_genres = [] # Genres to be added to the genre list
+    for genre in genre_list:
+        if genre == 'acoustic':
+            added_genres.append('folk')
+        elif genre == 'alternative':
+            added_genres.extend(['alt-rock', 'emo', 'synth-pop'])
+        elif genre == 'ambient':
+            added_genres.extend(['chill', 'dub', 'new-age'])
+        elif genre == 'brazil':
+            added_genres.extend(['bossanova', 'forro', 'mpb', 'pagode', 'sertanejo'])
+        elif genre == 'classical':
+            added_genres.append('piano')
+        elif genre == 'club':
+            added_genres.extend(['minimal-techno', 'progressive-rock', 'techno', 'chicago-house', 'deep-house', 'detroit-techno'])
+        elif genre == 'country':
+            added_genres.extend(['bluegrass', 'folk', 'honky-tonk'])
+        elif genre == 'disco':
+            added_genres.append('groove')
+        elif genre == 'dubstep':
+            added_genres.extend(['drum-and-bass', 'hardcore', 'idm', 'industrial', 'dubstep'])
+        elif genre == 'edm':
+            added_genres.extend(['breakbeat', 'drum-and-bass', 'electro', 'electronic', 'garage', 'hardstyle', 'techno', 'trance'])
+        elif genre == 'funk':
+            added_genres.append('groove')
+        elif genre == 'hard-rock':
+            added_genres.extend(['goth', 'grindcore'])
+        elif genre == 'heavy-metal':
+            added_genres.extend(['black-metal', 'death-metal', 'grindcore'])
+        elif genre == 'indie':
+            added_genres.extend(['emo', 'folk', 'indie-pop'])
+        elif genre == 'jazz':
+            added_genres.append('groove')
+        elif genre == 'latin':
+            added_genres.extend(['dancehall', 'latino', 'reggaeton', 'salsa', 'samba', 'tango'])
+        elif genre == 'metal':
+            added_genres.extend(['metal-misc', 'metalcore'])
+        elif genre == 'pop':
+            added_genres.extend(['indie-pop', 'pop-film', 'synth-pop'])
+        elif genre == 'punk':
+            added_genres.extend(['emo', 'punk-rock'])
+        elif genre == 'reggae':
+            added_genres.extend(['dub', 'dancehall', 'ska'])
+        elif genre == 'r-n-b':
+            added_genres.append('groove')
+        elif genre == 'soul':
+            added_genres.append('groove')
+        
+    # Add genres to the original genre list
+    genre_list.extend(added_genres)
 
     # Check if user inputted an artist or not
     if len(related_artist) != 0: # Artist inputted
@@ -61,6 +111,9 @@ def get_songs_with_criteria(mood, # User entered mood
                 valid_tracks.append(track[0]) # Add URI to valid tracks 
 
 
+    # Instantiate for use later in loop
+    length_prev_loop = 0 
+    fail_loop_count = 0
     # Get song recommendations based on genre
     while len(valid_tracks) <= num_songs_needed: # Loop until all songs found 
         combined_track_list = songs_on_list + valid_tracks
@@ -81,6 +134,15 @@ def get_songs_with_criteria(mood, # User entered mood
             
             if mood in track_moods: # Criteria matches
                 valid_tracks.append(track[0]) # Add URI to valid tracks
+
+        # Count number of loops that the tracks have not changed, if > 5 throw exception
+        if len(valid_tracks) == length_prev_loop: # If the number of tracks retu
+            fail_loop_count += 1
+        if fail_loop_count > 4: # If the loop has failed 5 times
+            raise Exception('The program failed to add any tracks after 5 loops.')
+
+
+        length_prev_loop = len(valid_tracks)
 
     # Remove songs that the user has said they don't want
     for unwanted_track in disliked_songs:
