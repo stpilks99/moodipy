@@ -497,7 +497,7 @@ class editPlaylist:
                 font = "Helvetica 19 bold italic",
                 width = 14,
                 height = 2,
-                command = self.remove_song)
+                command = lambda x = playlistURI: self.remove_song(x)) ###
                 self.rem.place(x = 0, y = 248)
 
                 self.rank = Button(self.master,
@@ -518,7 +518,7 @@ class editPlaylist:
                 font = "Helvetica 19 bold italic",
                 width = 14,
                 height = 2,
-                command = self.deleteP)
+                command = lambda x = playlistURI: self.deleteP(x)) ###
                 self.de.place(x = 0, y = 415)
 
                 self.rec = Button(self.master,
@@ -586,7 +586,10 @@ class editPlaylist:
                         tk.messagebox.showinfo('Recommendations added!','Recommendations have been added to your playlist reaching the max number of songs (60).')
         
 
-        def deleteP(self):
+        def deleteP(self, playlistURI):
+                pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
+                print("playlist URI that nees to be deleted: " + pURI)
+
                 self.dp = tk.messagebox.askquestion("confirm playlist removal", "Are you sure you want to delete this playlist?")
 
                 if self.dp == 'yes':
@@ -616,9 +619,9 @@ class editPlaylist:
                 self.newAddSong = tk.Toplevel(self.master)
                 self.moodipy = addSong(self.newAddSong, playlistURI)
 
-        def remove_song(self):
+        def remove_song(self, playlistURI):
                 self.newRemoveSong = tk.Toplevel(self.master)
-                self.moodipy = removeSong(self.newRemoveSong)
+                self.moodipy = removeSong(self.newRemoveSong, playlistURI)
 
 class rankSongs:
         def __init__(self, master):
@@ -627,6 +630,10 @@ class rankSongs:
                 self.master.configure(bg = "black")
                 self.master.resizable(width = False, height = False)
                 self.master.geometry("900x680")
+
+                #need to add function to add to command so it can bring back to playlist and give back the ratings chosen
+                #add recommendations function would go here inside function when created
+                #add recommendations function would go here inside function when created
 
                 #creates done button that brings to playlist window
                 self.Done = Button(self.master, command = self.closeWindow, text = "Done", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3)
@@ -803,7 +810,7 @@ class addSong:
                 self.master.destroy()
 
 class removeSong:
-        def __init__(self, master):
+        def __init__(self, master, playlistURI):
                 self.master = master
                 self.master.title("Time to remove a song from the playlist!")
                 self.master.configure(bg = "black")
@@ -856,7 +863,7 @@ class removeSong:
                                 font = "Helvetica 30 bold italic", 
                                 width = 9, 
                                 height = 2,
-                                command = self.remove)
+                                command = lambda x = playlistURI: self.remove(x))
 
                 self.Remove.place(x = 630, y = 520)
 
@@ -875,11 +882,15 @@ class removeSong:
 
         #function that gets the title and artist to remove from playlist
         #in this function need to add the function from functions group since command only accepts one function  
-        def remove(self):
+        def remove(self, playlistURI):
                 self.titleRemove = self.et1.get()
                 self.artistRemove = self.ea1.get()
                 print(self.titleRemove)
                 print(self.artistRemove)
+
+                #name of table for playlist that its on
+                pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
+                print("URI where song will be removed: " + pURI)
 
                 self.rm = tk.messagebox.askquestion("confirm song removal", "Are you sure you want to remove this song?")
 
