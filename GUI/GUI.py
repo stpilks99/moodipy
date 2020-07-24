@@ -176,8 +176,8 @@ class createPlaylist:
                         self.gselected = self.listbox.get(i)
                         print(self.gselected)
                 #Note: the variables on lines 166-170 & line 175 are the user input
-                #need to add both create playlist functions here
-                
+                #need to add create playlist functions here
+                #need to add create playlist functions here
                         
         def __init__(self, master):
                 self.master = master
@@ -479,15 +479,15 @@ class editPlaylist:
                 height = 1)
                 self.hd.place(x = 0, y = 110)
 
-                # Edit/Options
+                #Edit/Options
                 self.add = Button(self.master,
                 text = "Add\nSong",
-                command = self.add_song,
                 bg ="green", bd = 6,
                 relief = "raised",
                 font = "Helvetica 19 bold italic",
                 width = 14,
-                height = 2)
+                height = 2,
+                command = lambda x = playlistURI: self.add_song(x)) ###
                 self.add.place(x = 0, y = 165)
 
                 self.rem = Button(self.master,
@@ -529,7 +529,7 @@ class editPlaylist:
                         font = "Helvetica 19 bold italic",
                         width = 14,
                         height = 2,
-                        command = self.addRec)
+                        command = lambda x = playlistURI: self.addRec(x))
                 self.rec.place(x = 0, y = 498)
 
                 self.analysis = Button(self.master,
@@ -571,16 +571,19 @@ class editPlaylist:
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print(pURI)
                 c.execute("""SELECT COUNT(songname) FROM playlist""" + pURI + """;""")
-                numOfSongs = c.fetchall()
+                s = c.fetchall()
+
+                numOfSongs = str(s[0]).strip(',()')
+
                 print(numOfSongs)
-                #need to add query that counts num of songs in playlisturi
-                #if max songs reached
-                tk.messagebox.showerror('Error!','The max amount of songs (60) has been reached.')
-                #else:
-                #add recommendations function goes here
-                #add recommendations function goes here
-                #if successfully added:
-                tk.messagebox.showinfo('Recommendations added!','Recommendations have been added to your playlist reaching the max number of songs (60).')
+
+                if int(numOfSongs) >= 60:
+                        tk.messagebox.showerror('Error!','The max amount of songs (60) has been reached.')
+                else:
+                        #add recommendations function goes here
+                        #add recommendations function goes here
+                        #if successfully added:
+                        tk.messagebox.showinfo('Recommendations added!','Recommendations have been added to your playlist reaching the max number of songs (60).')
         
 
         def deleteP(self):
@@ -609,9 +612,9 @@ class editPlaylist:
                 self.newRankSongs = tk.Toplevel(self.master)
                 self.moodipy = rankSongs(self.newRankSongs)
 
-        def add_song(self):
+        def add_song(self, playlistURI):
                 self.newAddSong = tk.Toplevel(self.master)
-                self.moodipy = addSong(self.newAddSong)
+                self.moodipy = addSong(self.newAddSong, playlistURI)
 
         def remove_song(self):
                 self.newRemoveSong = tk.Toplevel(self.master)
@@ -693,7 +696,7 @@ class rankSongs:
                 self.master.destroy()
 
 class addSong:
-        def __init__(self, master):
+        def __init__(self, master, playlistURI):
                 self.master = master
                 self.master.title("Time to add a song to the playlist!")
                 self.master.configure(bg = "black")
@@ -741,12 +744,12 @@ class addSong:
                 #creates Add button that brings to playlist window
                 self.Add = Button(self.master, text = "Add", 
                                 bg ="green", 
-                                command = self.addSongToPlaylist,
                                 bd = 6, 
                                 relief = "raised", 
                                 font = "Helvetica 30 bold italic", 
                                 width = 9, 
-                                height = 2)
+                                height = 2,
+                                command = lambda x = playlistURI: self.addSongToPlaylist(x))
 
                 self.Add.place(x = 630, y = 520)
 
@@ -765,29 +768,36 @@ class addSong:
         
         #function that gets the title and artist to add to playlist
         #in this function need to add the function from functions group since command only accepts one function
-        def addSongToPlaylist(self):
+        def addSongToPlaylist(self, playlistURI):
                 self.titleAdd = self.et.get()
                 self.artistAdd = self.ea.get()
                 print(self.titleAdd)
                 print(self.artistAdd)
 
-                #GUI needs to add the query that counts the number of songs here
+                pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
+                print(pURI)
+                c.execute("""SELECT COUNT(songname) FROM playlist""" + pURI + """;""")
+                s = c.fetchall()
 
-                #if there are less than 60 songs then allow to add song:
-                self.confirmAdd = tk.messagebox.askquestion("confirm song to be added", "Are you sure you want to add this song?")
+                numOfSongs = str(s[0]).strip(',()')
 
-                if self.confirmAdd == 'yes':
-                        print("yes")
-                        #add add song function here
-                        #add add song function here
-                        #if song is added, get a return from function that indicates its added:
-                        tk.messagebox.showinfo("song added!", "Your song has been added! Click cancel to go back to your playlist or add another song.") 
-                        #else if not added (get something from function that indicates its has not been added), display try again:
-                        tk.messagebox.showerror("Error", "A problem has occurred adding this song. Please try again.")               
-                elif self.confirmAdd == 'no':
-                        tk.messagebox.showinfo('Return','You will now return to the add song window. Here you can either enter another song to add or click cancel to go back to your playlist.')
-                #else:
-                tk.messagebox.showerror('Error','The max amount of songs (60) has been reached. Please click cancel when returned to the add song window and delete a song to add more.')
+                print(numOfSongs)
+
+                if int(numOfSongs) < 60:
+                        self.confirmAdd = tk.messagebox.askquestion("confirm song to be added", "Are you sure you want to add this song?")
+
+                        if self.confirmAdd == 'yes':
+                                print("yes")
+                                #add add song function here
+                                #add add song function here
+                                #if song is added, get a return from function that indicates its added:
+                                tk.messagebox.showinfo("song added!", "Your song has been added! Click cancel to go back to your playlist or add another song.") 
+                                #else if not added (get something from function that indicates its has not been added), display try again:
+                                tk.messagebox.showerror("Error", "A problem has occurred adding this song. Please try again.")               
+                        elif self.confirmAdd == 'no':
+                                tk.messagebox.showinfo('Return','You will now return to the add song window. Here you can either enter another song to add or click cancel to go back to your playlist.')
+                else:
+                        tk.messagebox.showerror('Error','The max amount of songs (60) has been reached. Please click cancel when returned to the add song window and delete a song to add more.')
 
         def closeWindow(self):
                 self.master.destroy()
