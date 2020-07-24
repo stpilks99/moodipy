@@ -85,6 +85,6 @@ class User():
         #testVal = result[0]
         #print(testVal)
         for i in result['tracks']:
-            song_uri.append(result(i['uri']))
-            song_name.append(result(i['name']))
+            song_uri.append(i['uri'])
+            song_name.append(i['name'])
         return song_uri
