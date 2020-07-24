@@ -10,6 +10,10 @@ from tkinter import ttk
 from PIL import ImageTk,Image
 from tkinter import messagebox 
 
+import sqlite3
+database = sqlite3.connect('moodipy.db')
+c = database.cursor()
+
 ep = Tk()
 ep.title("View Playlist")
 ep.configure(bg = "black")

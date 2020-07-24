@@ -75,12 +75,43 @@ def FQAs():
                 font = "Helvetica 20 bold italic").grid(row = 4, column = 0)
 
     a3 = tk.Label(frame,
-                text = "Ranking a song tells Moodipy which song attributes you like and dislike. After \nranking a song, you have the option to not hear it again in a playlist. ",
+                text = "Ranking a song tells Moodipy which song attributes you like and dislike. \nAfter ranking a song, you have the option to not hear it again in a playlist. ",
                 fg = "black", 
                 bg = "gray", 
                 bd = 6, 
                 relief = "sunken",
                 font = "Helvetica 14 bold italic").grid(row=5, column=0)
+    q4 = tk.Label(frame,
+                text = "How does adding recommendations work?",
+                fg = "black", 
+                bg = "green", 
+                bd = 6, 
+                relief = "sunken",
+                font = "Helvetica 20 bold italic").grid(row = 6, column = 0)
+
+    a4 = tk.Label(frame,
+                text = "Answer", #add answer to how add recommendations work, make sure to add \n if really long
+                fg = "black", 
+                bg = "gray", 
+                bd = 6, 
+                relief = "sunken",
+                font = "Helvetica 14 bold italic").grid(row=7, column=0)
+    q5 = tk.Label(frame,
+                text = "Is there a link with the code that creates Moodipy?",
+                fg = "black", 
+                bg = "green", 
+                bd = 6, 
+                relief = "sunken",
+                font = "Helvetica 20 bold italic").grid(row = 8, column = 0)
+
+    a5 = tk.Label(frame,
+                text = "To see how Moodipy was created you can go to: \n https://github.com/stpilks99/Moodipy",
+                fg = "black", 
+                bg = "gray", 
+                bd = 6, 
+                relief = "sunken",
+                font = "Helvetica 14 bold italic").grid(row=9, column=0)
+
 
 def myfunction(event):
     #used to limit scrolling operations 

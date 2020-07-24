@@ -22,24 +22,21 @@ lm = tk.Label(rankSongs,
 
 lm.place(x= 30, y = 20) 
 
-#add query to find number of songs in playlist 
+def rank(x, y, z):
+    songranks = []
 
-#do another query to pull song title
+    songranks.append(x)
+    songranks.append(y)
+    songranks.append(z)
 
-#creates a label with song 1 
+    print(songranks)
 
 
 #creating multiple scales and labels in a frame that is placed row after row using .grid
 def songs():
     j=0
     k=1
-    #songranks = []
     for i in range(10):
-
-        #r1 = sc1.get()
-        #r2 = sc2.get()
-        #r3 = sc3.get()
-        
         sc1 = tk.Scale(frame, from_= 1, to = 3).grid(row=j, column=0)
 
         s1 = tk.Label(frame, text ='         song 1        ', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic").grid(row=k,column=0)
@@ -55,11 +52,11 @@ def songs():
         j+=2
         k+=2
 
-        #songranks.append(r1)
-        #songranks.append(r2)
-        #songranks.append(r3)
+        a = sc1.get()
+        b = sc2.get()
+        c = sc3.get()
 
-        #print(songranks)
+        rank(a, b, c)
 
 
 def myfunction(event):
@@ -98,7 +95,8 @@ Done = Button(rankSongs,
             relief = "raised", 
             font = "Helvetica 20 bold italic", 
             width = 10, 
-            height = 3)
+            height = 3,
+            command = rank)
 Done.place(x = 685,y = 525)
 
 #creates cancel button that brings back to homepage

@@ -57,19 +57,6 @@ snake.create_image(5, 5, anchor=NW, image=img)
 yp = tk.Label(mainMenu, text ='Your Playlists:', fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
 yp.place(x = 47, y = 375)
 
-c = database.cursor()
-c.execute("""SELECT COUNT(playlisturi) FROM playlistmaster;""")
-numOfPlaylists = c.fetchall()
-
-for i in numOfPlaylists:
-    print(i[0])
-    numOfP = i[0]
-
-c.execute("""SELECT username FROM playlistmaster;""")
-pName = c.fetchall()
-
-for j in pName:
-    print(j)
 
 #creating multiple buttons in a frame that is placed row after row using .grid
 def playlists():
@@ -118,5 +105,15 @@ canvas.create_window((0,0),window=frame,anchor='nw')
 #binding the myfunction to the frame to allow for scrolling 
 frame.bind("<Configure>",myfunction)
 playlists()
+
+# c.execute("""SELECT playlisturi FROM playlistmaster""")
+# qr = c.fetchall()
+
+# uri = []
+# for val in qr:
+#     j = 0
+#     uri.insert(j, val)
+#     j+=1
+#     print(uri)  
 
 mainMenu.mainloop()
