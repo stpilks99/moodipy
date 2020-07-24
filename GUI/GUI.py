@@ -285,7 +285,7 @@ class createPlaylist:
                 self.Lg = tk.Label(self.master, text = "Enter preferred genres:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
                 self.Lg.place(x = 47, y = 420)
 
-                self.msg = tk.Label(self.master, text = " Please select the\ngenres you want last. \nIf not highlighted blue\n then they are not selected. ", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 12 bold italic" )
+                self.msg = tk.Label(self.master, text = " Please select up to 5 \ngenres you want last. \nIf not highlighted blue\n then they are not selected. ", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 12 bold italic" )
                 self.msg.place(x = 645, y = 115)
 
                 #28 genres
