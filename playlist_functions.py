@@ -59,15 +59,19 @@ class Playlist:
             self.__moved_to_spotify = True
 
 
-    def add_songs_local(self, uri_list):
-        #Add track to palylist locally
-        for song in uri_list:
-            self.__temp_add.append(song)
-
-        # Get name from Spotify
-        # data = sp.tracks()
-
-        # Will have to return [(uri0, name0), (uri1, name1)...]
+    def add_songs_local(self, uri_list, spotify_class):
+        sp = spotify_class
+        result = sp.tracks(uri_list)
+        #print(result)
+        print(result.keys())
+        song_uri = []
+        song_name = []
+        #print(result['items'])
+        for i in result['tracks']:
+            song_uri.append(i['uri'])
+            song_name.append(i['name'])
+        addSongList = (song_uri, song_name)
+        return addSongList
 
 
     def get_playlist_uri(self):
@@ -77,10 +81,19 @@ class Playlist:
             return self.__uri_playlist
 
 
-    def remove_songs_local(self, uri_list):
-        #Remove song from local playlist
-        for song in uri_list:
-            self.__temp_remove.append(song)
+    def remove_songs_local(self, uri_list, spotify_class):
+        sp = spotify_class
+        result = sp.tracks(uri_list)
+        #print(result)
+        print(result.keys())
+        song_uri = []
+        song_name = []
+        #print(result['items'])
+        for i in result['tracks']:
+            song_uri.append(i['uri'])
+            song_name.append(i['name'])
+        removeSongList = (song_uri, song_name)
+        return removeSongList
 
 
     def add_songs_sp(self, spotify_class):
@@ -93,6 +106,7 @@ class Playlist:
         except:
             return False
         self.__temp_add = []
+        Playlist.add_songs_local(self.__user_name, self.__uri_playlist, sp)
         return True
         
 
@@ -104,6 +118,7 @@ class Playlist:
         sp = spotify_class
         sp.user_playlist_remove_all_occurrences_of_tracks(self.__user_name, self.__uri_playlist, self.__temp_remove) # Remove from Spotify
         self.__temp_remove = [] # Reset list
+        Playlist.remove_songs_local(self.__user_name, self.__uri_playlist, sp)
 
 
     def create_spotify_playlist(self, spotify_class):
