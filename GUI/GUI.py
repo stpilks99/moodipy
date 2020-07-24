@@ -10,7 +10,12 @@ from tkinter import messagebox
 from tkinter.tix import *
 from tkinter import ttk
 from PIL import ImageTk,Image
+import sqlite3
+from functools import partial
+database = sqlite3.connect('moodipy.db')
+c = database.cursor()
 
+u = ""
 # global logout function to multiple windows can see it
 def logout():
         log = messagebox.askquestion("logout", "Are you sure you want to logout?") 
@@ -56,8 +61,8 @@ class mainMenu:
                 self.myframe=Frame(self.master,relief=GROOVE,width=50,height=100,bd=1)
                 self.myframe.place(x=80,y=450)
 
-                self.canvas=Canvas(self.myframe)
-                self.frame=Frame(self.canvas)
+                self.canvas=Canvas(self.myframe, bg = "green")
+                self.frame=Frame(self.canvas, bg = "green")
 
                 #adding a scrollbar
                 self.myscrollbar=Scrollbar(self.myframe,orient="vertical",command=self.canvas.yview)
@@ -73,10 +78,66 @@ class mainMenu:
                 #binding the myfunction to the frame to allow for scrolling 
                 self.frame.bind("<Configure>",self.myfunction)
                 self.playlists()
+                self.master.grab_set()
 
         def playlists(self):
-                for i in range(10):
-                        self.p1 = Button(self.frame, command = self.edit_playlist, text = '                                      Playlist 1                                           ', fg = "black", bg = "green", bd = 6, relief = "raised", font = "Helvetica 18 bold italic").grid(row=i,column=0)
+                c.execute("""SELECT COUNT(playlisturi) FROM playlistmaster;""")
+                self.numOfPlaylists = c.fetchall()
+                # printing total number of playlists user has in library
+                for i in self.numOfPlaylists:
+                        #print(i[0])
+                        self.numOfP = i[0]
+
+                c.execute("""SELECT username FROM playlistmaster;""")
+                self.pName = c.fetchall()
+
+                c.execute("""SELECT playlisturi FROM playlistmaster;""")
+                self.qr = c.fetchall()
+
+                self.pURIList = []
+                # array kept printing backwards so we had
+                # to iterate through the query of playlist uris
+                for self.val in self.qr:
+                        j = 0
+                        self.pURIList.insert(j, self.val)
+                        j += 1
+                        print(self.pURIList)
+
+
+                
+                # printing all of the URIs as a list in playlist master
+                #print(self.pURI)
+                for i in range(self.numOfP):
+                        playlistURI = str(self.pURIList[i]).strip('(,)')
+                        print(playlistURI)
+                        self.n = str(self.pName[i])
+                        self.name = '                                    ' + self.n.strip('(),').replace('\'', '') + '                                          '
+                        # each button needs a different name to distinguish them
+                        #print(i)
+                        # Using a lambda function here (a small anonymous function) 
+                        # because each button calls the same edit_playlist open window function but with different arguments.
+                        # Otherwise, clicking each button would just give editPlaylist the same playlistURI over and over.
+                        # Variables x and y have to be declared inside the lambda because i and uri are global to the outer scope and can be 
+                        # changed immediately by the next loop (which is why only the last playlistURI in the query kept showing). 
+                        self.playlistButton = tk.Button(self.frame, command = lambda x = i, y = playlistURI: self.onButtonClick(x, y), text = self.name, fg = "black", bg = "green", bd = 6, relief = "raised", font = "Helvetica 18 bold italic").grid(row=i,column=0)
+                #print(i)
+
+        def onButtonClick(self, buttonID, playlistURI):
+                c.execute("""SELECT COUNT(playlisturi) FROM playlistmaster;""")
+                self.numOfPlaylists = c.fetchall()
+                for i in self.numOfPlaylists:
+                        # printing total number of playlists user has in library
+                        #print(i[0])
+                        self.numOfP = i[0]
+                for j in range(self.numOfP):
+                        #print(j)
+                        #print(buttonID)
+                        # if the buttonID you clicked matches the 'nth' playlist we want to edit
+                        if (buttonID == j):
+                                print(playlistURI)
+                                self.edit_playlist(playlistURI)
+                                break
+
 
         def myfunction(self, event):
                 #used to limit scrolling operations 
@@ -96,9 +157,10 @@ class mainMenu:
                self.moodipy = helpDoc(self.newHelpDoc)
         
         # open editPlaylist window
-        def edit_playlist(self):
+        def edit_playlist(self, playlistURI):
+                #print(str(self.playlistURI))
                 self.newEditPlaylist = tk.Toplevel(self.master)
-                self.moodipy = editPlaylist(self.newEditPlaylist)
+                self.moodipy = editPlaylist(self.newEditPlaylist, playlistURI)
 
 #create playlist window
 class createPlaylist:
@@ -144,12 +206,12 @@ class createPlaylist:
                 #creates entry so user can enter playlist title
                 self.lt = tk.Label(self.master, text ='Playlist title:', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
                 self.playlistName = Entry(self.master, font = "Helvetica 22 italic") 
-                self.lt.place(x = 47, y = 150)
-                self.playlistName.place(x = 230, y = 155) 
+                self.lt.place(x = 47, y = 120)
+                self.playlistName.place(x = 230, y = 125) 
 
                 #creates a drop down list where the user can select a mood with a label next to it
                 self.Lmd = tk.Label(self.master, text = "Select one mood:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-                self.Lmd.place(x = 47, y = 210)
+                self.Lmd.place(x = 47, y = 180)
 
                 #array of moods to be placed inside drop down menu
                 self.moods = ["Happy", 
@@ -161,11 +223,11 @@ class createPlaylist:
                         "Gaming"]
 
                 self.moodsSelected = ttk.Combobox(self.master, values = self.moods, font = "Helvetica 22 italic")
-                self.moodsSelected.place(x = 300, y = 215)
+                self.moodsSelected.place(x = 295, y = 185)
 
                 #creates a drop down list where the user can select a time period
                 self.Lp = tk.Label(self.master, text = "Select time period:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-                self.Lp.place(x = 47, y = 270)
+                self.Lp.place(x = 47, y = 240)
 
                 self.times = ["2010's +",
                         "2000's", 
@@ -175,43 +237,45 @@ class createPlaylist:
                         "None"]
 
                 self.timePeriod = ttk.Combobox(self.master, values = self.times, font = "Helvetica 22 italic")
-                self.timePeriod.place(x = 317, y = 275)
+                self.timePeriod.place(x = 317, y = 244)
 
                 #creates a entry where user can enter prefered artist
                 self.Lp = tk.Label(self.master, text = "Enter preferred artist:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-                self.Lp.place(x = 47, y = 330)
+                self.Lp.place(x = 47, y = 300)
                 self.artistEntered = Entry(self.master, font = "Helvetica 22 italic") 
-                self.artistEntered.place(x = 355, y = 335) 
+                self.artistEntered.place(x = 355, y = 305) 
 
                 #creates a checkbox where the user can select preferred genres
-                self.La = tk.Label(self.master, text = "Enter preferred genres:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-                self.La.place(x = 47, y = 390)
+                self.Lg = tk.Label(self.master, text = "Enter preferred genres:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
+                self.Lg.place(x = 47, y = 420)
 
-                self.genres = ["Acoustic", "Alternative", "Classical", "Club", "Country", "Dubstep", "EDM", "Funk", "Rock", "Hard Rock", "Heavy Metal", "Hip Hop", "Indie", "Holidays", "Latin", "Pop", "RnB", "Reggae", "Soul", "Jazz", "Afrobeat"]
+                self.msg = tk.Label(self.master, text = " Please select the\ngenres you want last. \nIf not highlighted blue\n then they are not selected. ", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 12 bold italic" )
+                self.msg.place(x = 645, y = 115)
 
-                self.listbox = tk.Listbox(self.master, bg = "white", height = 2, width = 42, bd = 6, relief = "sunken", font = "Helvetica 12 bold italic", selectmode = MULTIPLE) 
+                #28 genres
+                self.genres = ["Acoustic", "Afrobeat", "Alternative", "Ambient", "Brazil", "Classical", "Club", "Country", "Disco", "Dubstep", "EDM", "Funk", "Gospel", "Hard Rock", "Heavy Metal", "Hip Hop", "Holidays", "Indie", "Jazz", "Kpop", "Latin", "Metal", "Pop", "Punk", "Reggae", "RnB", "Rock", "Soul"]
+
+                self.listbox = tk.Listbox(self.master, bg = "white", height = 4, width = 45, bd = 6, relief = "sunken", font = "Helvetica 12 bold italic", selectmode = MULTIPLE) 
                 self.listbox.pack(side = RIGHT, fill = BOTH) 
-                self.listbox.place(x = 370, y = 388)
+                self.listbox.place(x = 370, y = 420)
                 self.scrollbar = tk.Scrollbar(self.master) 
 
                 for self.values in self.genres: 
                         self.listbox.insert(END, self.values) 
 
                 self.listbox.config(yscrollcommand = self.scrollbar.set) 
-                self.scrollbar.config(command = self.listbox.yview)
+                self.scrollbar.config(command = self.listbox.yview) 
 
                 #creates a drop down list where the user can select yes for explict or no for non explicit
-                self.La = tk.Label(self.master, text = "Would you like explicit songs:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-                self.La.place(x = 47, y = 450)
+                self.Le = tk.Label(self.master, text = "Would you like explict songs:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
+                self.Le.place(x = 47, y = 360)
 
                 self.options = ["Yes", 
                         "No", ]
 
                 self.explicitOrNot = ttk.Combobox(self.master, values = self.options, font = "Helvetica 22 italic")
-                self.explicitOrNot.place(x = 450, y = 455)
-
-                self.msg = tk.Label(self.master, text = " Please select the\ngenres you want last. \nIf not highlighted blue\n then they are not selected. ", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 12 bold italic" )
-                self.msg.place(x =645, y = 115)
+                self.explicitOrNot.place(x = 450, y = 365)
+                
 
                 # forces user to click on new playlist window so they can't use 2 windows at once
                 self.master.grab_set()
@@ -220,6 +284,93 @@ class createPlaylist:
                 self.master.destroy()
 
 class helpDoc:
+        def myfunction(self, event):
+                #used to limit scrolling operations 
+                self.canvas.configure(scrollregion=self.canvas.bbox("all"),width=760,height=310)
+        def FQAs(self):
+                self.q1 = tk.Label(self.frame, 
+                        text = "How does this program work?",
+                        fg = "black", 
+                        bg = "green", 
+                        bd = 6, 
+                        relief = "sunken",
+                        font = "Helvetica 20 bold italic").grid(row = 0, column =0)
+
+
+                self.a1 = tk.Label(self.frame,
+                        text = "Moodipy interfaces with the Spotify API to retrieve data on songs and playlists.\nIt organizes and sorts data to make playlist based on certain genres or moods.",
+                        fg = "black", 
+                        bg = "gray", 
+                        bd = 6, 
+                        relief = "sunken",
+                        font = "Helvetica 14 bold italic").grid(row = 1, column =0)
+                        
+
+                self.q2 = tk.Label(self.frame,
+                        text = "How many songs can I add to a playlist?",
+                        fg = "black", 
+                        bg = "green", 
+                        bd = 6, 
+                        relief = "sunken",
+                        font = "Helvetica 20 bold italic").grid(row = 2, column =0)
+                
+
+                self.a2 = tk.Label(self.frame,
+                        text = "Using Moodipy, each playlist has a max of 30 songs. Moodipy only adds songs \nit thinks you'll really like (based on moods, ranking, time periods and more) so \nyou'll never find yourself skipping through a bunch of songs you hate.",
+                        fg = "black", 
+                        bg = "gray", 
+                        bd = 6, 
+                        relief = "sunken",
+                        font = "Helvetica 14 bold italic").grid(row = 3, column =0) 
+
+                self.q3 = tk.Label(self.frame,
+                                text = "What does ranking a song do?",
+                                fg = "black", 
+                                bg = "green", 
+                                bd = 6, 
+                                relief = "sunken",
+                                font = "Helvetica 20 bold italic").grid(row = 4, column = 0)
+
+                self.a3 = tk.Label(self.frame,
+                                text = "Ranking a song tells Moodipy which song attributes you like and dislike. After \nranking a song, you have the option to not hear it again in a playlist. ",
+                                fg = "black", 
+                                bg = "gray", 
+                                bd = 6, 
+                                relief = "sunken",
+                                font = "Helvetica 14 bold italic").grid(row=5, column=0)
+
+                self.q4 = tk.Label(self.frame,
+                        text = "How does adding recommendations work?",
+                        fg = "black", 
+                        bg = "green", 
+                        bd = 6, 
+                        relief = "sunken",
+                        font = "Helvetica 20 bold italic").grid(row = 6, column = 0)
+                
+                self.a4 = tk.Label(self.frame,
+                        text = "Answer", #add answer to how add recommendations work, make sure to add \n if really long
+                        fg = "black", 
+                        bg = "gray", 
+                        bd = 6, 
+                        relief = "sunken",
+                        font = "Helvetica 14 bold italic").grid(row=7, column=0)
+
+                self.q5 = tk.Label(self.frame,
+                        text = "Is there a link with the code that creates Moodipy?",
+                        fg = "black", 
+                        bg = "green", 
+                        bd = 6, 
+                        relief = "sunken",
+                        font = "Helvetica 20 bold italic").grid(row = 8, column = 0)
+
+                self.a5 = tk.Label(self.frame,
+                        text = "To see how Moodipy was created you can go to: \n https://github.com/stpilks99/Moodipy",
+                        fg = "black", 
+                        bg = "gray", 
+                        bd = 6, 
+                        relief = "sunken",
+                        font = "Helvetica 14 bold italic").grid(row=9, column=0)
+
         def __init__(self, master):
                 self.master = master
                 self.master.title("Moodipy Help/Documentation")
@@ -227,95 +378,68 @@ class helpDoc:
                 self.master.resizable(width = False, height = False)
                 self.master.geometry("900x680")
 
-                #creates done button that brings to playlist window
-                self.Home = Button(self.master, text = "Done", command = self.closeWindow, bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3)
-                self.Home.place(x = 700,y = 540)
-
-                #creates label with message 
                 self.lm = tk.Label(self.master, 
-                text="Frequently Asked Questions...", 
-                fg = "black", 
-                bg = "green", 
-                bd = 6, 
-                relief = "raised",
-                font = "Helvetica 30 bold italic")
+                        text="Frequently Asked Questions...", 
+                        fg = "black", 
+                        bg = "green", 
+                        bd = 6, 
+                        relief = "raised",
+                        font = "Helvetica 30 bold italic")
 
                 self.lm.place(x = 150, y = 35)
 
-                # Q1 labels
-                self.q1 = tk.Label(self.master, 
-                text = "How does this program work?",
-                fg = "black", 
-                bg = "green", 
-                bd = 6, 
-                relief = "sunken",
-                font = "Helvetica 18 bold italic")
-                self.q1.place(x = 40, y = 120)
+                #creates done button that brings to playlist window
+                self.Home = tk.Button(self.master, text = "Done", command = self.closeWindow, bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3)
+                self.Home.place(x = 700,y = 540)
 
-                self.a1 = tk.Label(self.master,
-                text = "Moodipy interfaces with the Spotify API to retrieve data on songs and playlists.\nIt organizes and sorts data to make playlist based on certain genres or moods.",
-                fg = "black", 
-                bg = "gray", 
-                bd = 6, 
-                relief = "sunken",
-                font = "Helvetica 12 bold italic")
-                self.a1.place(x = 60, y = 170)
+                 #creating a frame in main window that will hold a canvas 
+                self.myframe=tk.Frame(self.master,relief=GROOVE,width=50,height=100,bd=1)
+                self.myframe.place(x=50,y=140)
 
-                self.q2 = tk.Label(self.master,
-                text = "How many songs can I add to a playlist?",
-                fg = "black", 
-                bg = "green", 
-                bd = 6, 
-                relief = "sunken",
-                font = "Helvetica 18 bold italic")
-                self.q2.place(x = 40, y = 230)
+                #canvas created on the myframe and then frame on the canvas where widgets will be placed
+                self.canvas=tk.Canvas(self.myframe)
+                self.frame=tk.Frame(self.canvas, bg = "black")
 
-                self.a2 = tk.Label(self.master,
-                text = "Using Moodipy, each playlist has a max of 60 songs. Moodipy only adds songs \nit thinks you'll really like (based on moods, ranking, time periods and more) so \nyou'll never find yourself skipping through a bunch of songs you hate.",
-                fg = "black", 
-                bg = "gray", 
-                bd = 6, 
-                relief = "sunken",
-                font = "Helvetica 12 bold italic")
-                self.a2.place(x = 60, y = 280)
+                #adding a scrollbar
+                self.myscrollbar=tk.Scrollbar(self.myframe,orient="vertical",command=self.canvas.yview)
+                self.canvas.configure(yscrollcommand=self.myscrollbar.set)
+                self.myscrollbar.pack(side="right",fill="y")
 
-                self.q3 = tk.Label(self.master,
-                text = "What does ranking a song do?",
-                fg = "black", 
-                bg = "green", 
-                bd = 6, 
-                relief = "sunken",
-                font = "Helvetica 18 bold italic")
-                self.q3.place(x = 40, y = 360)
+                #determines where canvas is 
+                self.canvas.pack(side="left")
 
-                self.a3 = tk.Label(self.master,
-                text = "Ranking a song tells Moodipy which song attributes you like and dislike. After \nranking a song, you have the option to not hear it again in a playlist. ",
-                fg = "black", 
-                bg = "gray", 
-                bd = 6, 
-                relief = "sunken",
-                font = "Helvetica 12 bold italic")
-                self.a3.place(x = 60, y = 410)
+                #this allows for the frame with the widgets that are buttons
+                self.canvas.create_window((0,0),window=self.frame,anchor='nw')
 
-                #another q: what does ranking a song do 
-                # forces user to click on certain window
-                self.master.grab_set()       
+                #binding the myfunction to the frame to allow for scrolling 
+                self.frame.bind("<Configure>", self.myfunction)
+                self.FQAs()
+                self.master.grab_set() 
 
         def closeWindow(self):
                 self.master.destroy()
 
 class editPlaylist:
-        def __init__(self, master):
+        def __init__(self, master, playlistURI):
                 self.master = master
+                #select username from playlistmaster where playlisturi = uri
                 self.master.title("View Playlist")
                 self.master.configure(bg = "black")
                 self.master.resizable(width = False, height = False)
                 self.master.geometry("900x680")
+                
+                print("this is the uri " + playlistURI)
+                
+                # c.execute("""SELECT username FROM playlistmaster WHERE playlisturi = '""" + u  + """';""")
+                # self.pURI = c.fetchall()
+                # for i in self.pURI:
+                #         print(i)
 
-                # Function called when logout button pressed
-
+                fetchPlaylistTitle = """SELECT username FROM playlistmaster WHERE playlisturi = """ + playlistURI + """;"""
+                c.execute(fetchPlaylistTitle)
+                playlistTitle = str(c.fetchone()).strip('(,)\'')
                 # Playlist title label
-                self.t = Label(self.master, text = '        Playlist Title        ',  fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 40 bold italic")
+                self.t = Label(self.master, text = '        ' + str(playlistTitle) + '        ',  fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 40 bold italic")
                 self.t.place(x = 275, y = 50)
 
                 # Sidebar buttons
@@ -443,7 +567,7 @@ class editPlaylist:
                 tk.messagebox.showerror('Error!','The max amount of songs (60) has been reached.')
 
         def deleteP(self):
-                self.dp = tk.messagebox.askquestion("confirm song removal", "Are you sure you want to delete this playlist?")
+                self.dp = tk.messagebox.askquestion("confirm playlist removal", "Are you sure you want to delete this playlist?")
 
                 if self.dp == 'yes':
                         print("yes") #add delete playlist query
@@ -776,6 +900,7 @@ class analysis:
 
                 self.Done = Button(self.master, text = "Done", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3, command = self.closeWindow)
                 self.Done.place(x = 685, y = 530)
+                self.master.grab_set()
 
         def closeWindow(self):
                 self.master.destroy()
