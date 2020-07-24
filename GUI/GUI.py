@@ -11,8 +11,22 @@ from tkinter import ttk
 from PIL import ImageTk,Image
 import sqlite3
 from functools import partial
+#open database file
 database = sqlite3.connect('moodipy.db')
 c = database.cursor()
+#create master table to store information. This can be moved as part of the login sequence
+setup_master = """CREATE TABLE IF NOT EXISTS "playlistmaster" (
+    "playlisturi"	CHAR(39) NOT NULL UNIQUE,
+    "username"	TEXT,
+    "playlistmood"	TEXT,
+    "playlistperiod"	TEXT,
+    "preferredartist"	TEXT,
+    "preferredgenre"	TEXT,
+    "explicit"	BOOL,
+    PRIMARY KEY("playlisturi")
+);"""
+c.execute(setup_master)
+#database setup end
 
 u = ""
 # global logout function to multiple windows can see it
@@ -163,6 +177,21 @@ class mainMenu:
 
 #create playlist window
 class createPlaylist:
+        # SQL Create playlist function
+        def sql_create_playlist(self,pURI):
+                dummyplaylistname = "removethisplaylistlater2"
+                pURI = dummyplaylistname #REMOVE LATER
+                # create entry in playlist master table
+                sqlcommand = "INSERT INTO playlistmaster (playlisturi,username, playlistmood,playlistperiod, preferredartist, explicit) " + \
+                             "VALUES('" +pURI+"','"+self.pName+"','"+self.mSelected+"','"+self.tSelected+"','" +self.artist+"','" +self.e+ "')"
+                c.execute(sqlcommand)
+                # create table for playlist
+                sqlcommand = "CREATE TABLE " + "playlist" +pURI.strip("spotify:playlist:") + """ ("songuri"	CHAR(36) NOT NULL UNIQUE,
+                       "songname"	TEXT,
+                       "songrating"	NUMERIC,
+                       PRIMARY KEY("songuri"));"""
+                c.execute(sqlcommand)
+                database.commit()  # actually save the database
         def criteria(self):
                 self.pName = self.playlistName.get()
                 self.mSelected = self.moodsSelected.get()
@@ -175,9 +204,13 @@ class createPlaylist:
                 for i in self.selection:
                         self.gselected = self.listbox.get(i)
                         print(self.gselected)
-                #Note: the variables on lines 166-170 & line 175 are the user input
-                #need to add create playlist functions here
-                #need to add create playlist functions here
+                #Note: the variables on lines above are the user input
+                # need to add create playlist functions here
+                # functions team will generate the playlist uri from spotify
+                self.sql_create_playlist("change this for playlisturi here")
+
+
+
                         
         def __init__(self, master):
                 self.master = master
@@ -584,18 +617,28 @@ class editPlaylist:
                         #add recommendations function goes here
                         #if successfully added:
                         tk.messagebox.showinfo('Recommendations added!','Recommendations have been added to your playlist reaching the max number of songs (60).')
-        
+        def sql_delete_playlist(self,pURI):
+                # sql delete playlist function
+                pURISPOT = "playlist" + pURI  # matching the pURI (Just the sudo string) to the table name
+                querry1 = """DROP TABLE """ + pURISPOT + """; """
+                querry2 = """DELETE FROM playlistmaster WHERE playlisturi = '""" + pURISPOT + """';"""
+                c.execute(querry1)
+                c.execute(querry2)
+                database.commit()  # actually save the database
+
 
         def deleteP(self, playlistURI):
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
-                print("playlist URI that nees to be deleted: " + pURI)
+                print("playlist URI that needs to be deleted: " + pURI)
 
                 self.dp = tk.messagebox.askquestion("confirm playlist removal", "Are you sure you want to delete this playlist?")
 
                 if self.dp == 'yes':
                         print("yes") 
                         #add delete playlist function
-                        #add delete playlist function
+
+                        #sql function
+                        self.sql_delete_playlist(pURI)
                 #ep.destroy() and bring back to homepage, GUI needs to do this
                 elif self.dp == 'no':
                         tk.messagebox.showinfo('Return','You will now return to your playlist.')       
@@ -622,7 +665,6 @@ class editPlaylist:
         def remove_song(self, playlistURI):
                 self.newRemoveSong = tk.Toplevel(self.master)
                 self.moodipy = removeSong(self.newRemoveSong, playlistURI)
-
 class rankSongs:
         def __init__(self, master):
                 self.master = master
