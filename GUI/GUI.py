@@ -5,7 +5,6 @@ import tkinter as tk
 import os
 
 from tkinter import *
-# for some reason, messagebox doesn't get imported automatically...
 from tkinter import messagebox
 from tkinter.tix import *
 from tkinter import ttk
@@ -20,6 +19,8 @@ u = ""
 def logout():
         log = messagebox.askquestion("logout", "Are you sure you want to logout?") 
         if log == 'yes':
+                #add logout function here to log out from spotify
+                #add logout function
                 sys.exit()
         elif log == 'no':
                 tk.messagebox.showinfo('Return','You will now return to your window.')
@@ -102,8 +103,6 @@ class mainMenu:
                         self.pURIList.insert(j, self.val)
                         j += 1
                         print(self.pURIList)
-
-
                 
                 # printing all of the URIs as a list in playlist master
                 #print(self.pURI)
@@ -176,6 +175,9 @@ class createPlaylist:
                 for i in self.selection:
                         self.gselected = self.listbox.get(i)
                         print(self.gselected)
+                #Note: the variables on lines 166-170 & line 175 are the user input
+                #need to add both create playlist functions here
+                
                         
         def __init__(self, master):
                 self.master = master
@@ -316,7 +318,7 @@ class helpDoc:
                 
 
                 self.a2 = tk.Label(self.frame,
-                        text = "Using Moodipy, each playlist has a max of 30 songs. Moodipy only adds songs \nit thinks you'll really like (based on moods, ranking, time periods and more) so \nyou'll never find yourself skipping through a bunch of songs you hate.",
+                        text = "Using Moodipy, each playlist has a max of 60 songs. Moodipy only adds songs \nit thinks you'll really like (based on moods, ranking, time periods and more) so \nyou'll never find yourself skipping through a bunch of songs you hate.",
                         fg = "black", 
                         bg = "gray", 
                         bd = 6, 
@@ -439,7 +441,7 @@ class editPlaylist:
                 c.execute(fetchPlaylistTitle)
                 playlistTitle = str(c.fetchone()).strip('(,)\'')
                 # Playlist title label
-                self.t = Label(self.master, text = '        ' + str(playlistTitle) + '        ',  fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 40 bold italic")
+                self.t = Label(self.master, text =  str(playlistTitle) ,  fg = "black", bg = "green", bd = 6, width = 20, relief = "sunken", font = "Helvetica 35 bold italic")
                 self.t.place(x = 275, y = 50)
 
                 # Sidebar buttons
@@ -542,16 +544,22 @@ class editPlaylist:
                 self.analysis.place(x = 0, y =582)
 
                 # Songs
-                self.fields = Label(self.master, text = '                               Song Title                               ', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 18 bold italic")
+                pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
+                print(pURI)
+                c.execute("""SELECT songname FROM playlist""" + pURI + """;""")
+                songs = c.fetchall()
+
+                self.fields = Label(self.master, text = 'Song Title', fg = "black", bg = "green", bd = 6, width = 39, relief = "sunken", font = "Helvetica 18 bold italic")
                 self.fields.place(x = 275, y = 150)
 
-                self.listbox = Listbox(self.master, bg = "gray", height = 16, width = 50, bd = 6, relief = "sunken", font = "Helvetica 15 bold italic") 
+                self.listbox = Listbox(self.master, bg = "gray", height = 16, width = 53, bd = 6, relief = "sunken", font = "Helvetica 15 bold italic") 
                 self.listbox.pack(side = RIGHT, fill = BOTH) 
                 self.listbox.place(x = 275, y = 220)
                 self.scrollbar = Scrollbar(self.master) 
 
-                for self.values in range(100): 
-                        self.listbox.insert(END, self.values) 
+                for self.values in songs: 
+                        sngs =str(self.values).strip(',()').replace('\'', '')
+                        self.listbox.insert(END, sngs) 
 
                 self.listbox.config(yscrollcommand = self.scrollbar.set) 
                 self.scrollbar.config(command = self.listbox.yview)
@@ -559,19 +567,30 @@ class editPlaylist:
                 # forces user to click on certain window
                 self.master.grab_set()
 
-        def addRec(self):
-                #add recommendations function goes here
-                #if successfully added
-                tk.messagebox.showinfo('Recommendations added!','Recommendations have been added to your playlist reaching the max number of songs (60).')
+        def addRec(self, playlistURI):
+                pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
+                print(pURI)
+                c.execute("""SELECT COUNT(songname) FROM playlist""" + pURI + """;""")
+                numOfSongs = c.fetchall()
+                print(numOfSongs)
+                #need to add query that counts num of songs in playlisturi
                 #if max songs reached
                 tk.messagebox.showerror('Error!','The max amount of songs (60) has been reached.')
+                #else:
+                #add recommendations function goes here
+                #add recommendations function goes here
+                #if successfully added:
+                tk.messagebox.showinfo('Recommendations added!','Recommendations have been added to your playlist reaching the max number of songs (60).')
+        
 
         def deleteP(self):
                 self.dp = tk.messagebox.askquestion("confirm playlist removal", "Are you sure you want to delete this playlist?")
 
                 if self.dp == 'yes':
-                        print("yes") #add delete playlist query
-                #ep.destroy() and bring back to homepage
+                        print("yes") 
+                        #add delete playlist function
+                        #add delete playlist function
+                #ep.destroy() and bring back to homepage, GUI needs to do this
                 elif self.dp == 'no':
                         tk.messagebox.showinfo('Return','You will now return to your playlist.')       
 
@@ -620,12 +639,6 @@ class rankSongs:
                 font = "Helvetica 28 bold italic")
 
                 self.lm.place(x= 30, y = 50) 
-
-                #add query to find number of songs in playlist 
-
-                #do another query to pull song title
-
-                #creates a label with song 1 
 
                 #creating a frame in main window that will hold a canvas 
                 self.myframe=Frame(self.master,relief=GROOVE,width=50,height=100,bd=1)
@@ -758,22 +771,23 @@ class addSong:
                 print(self.titleAdd)
                 print(self.artistAdd)
 
-                #if there are less than 60 songs then allow to add song
+                #GUI needs to add the query that counts the number of songs here
+
+                #if there are less than 60 songs then allow to add song:
                 self.confirmAdd = tk.messagebox.askquestion("confirm song to be added", "Are you sure you want to add this song?")
 
                 if self.confirmAdd == 'yes':
                         print("yes")
-                        #add query to see number of row, if 60 max reached then:
-                        tk.messagebox.showerror('Error','The max amount of songs (60) has been reached. Please click cancel when returned to the add song window and delete a song to add more.')
-                        #else:
-                        #add add song function
-                        #if song is added, get a return from function that indicates its added
+                        #add add song function here
+                        #add add song function here
+                        #if song is added, get a return from function that indicates its added:
                         tk.messagebox.showinfo("song added!", "Your song has been added! Click cancel to go back to your playlist or add another song.") 
-                        #else if not added, display try again
-                        tk.messagebox.showerror("Error", "A problem has occurred adding this song. Please try again.") 
-                        
+                        #else if not added (get something from function that indicates its has not been added), display try again:
+                        tk.messagebox.showerror("Error", "A problem has occurred adding this song. Please try again.")               
                 elif self.confirmAdd == 'no':
                         tk.messagebox.showinfo('Return','You will now return to the add song window. Here you can either enter another song to add or click cancel to go back to your playlist.')
+                #else:
+                tk.messagebox.showerror('Error','The max amount of songs (60) has been reached. Please click cancel when returned to the add song window and delete a song to add more.')
 
         def closeWindow(self):
                 self.master.destroy()
@@ -795,7 +809,8 @@ class removeSong:
                                 width = 32,
                                 font = "Helvetica 30 bold italic")
                 self.lt.place(x = 56, y = 70)
-                        #getting entry for title of song
+
+                #getting entry for title of song
                 self.et1 = Entry(self.master, font = "Helvetica 40 italic", width = 21) 
                 self.et1.place(x = 230, y = 290) 
 
@@ -859,10 +874,11 @@ class removeSong:
                 self.rm = tk.messagebox.askquestion("confirm song removal", "Are you sure you want to remove this song?")
 
                 if self.rm == 'yes':
-                        print("yes") #add remove function
-                        #if song is removed, get a return from function that indicates its removed
+                        print("yes")
+                        #add remove function here
+                        #if song is removed, get a return from function that indicates its removed:
                         tk.messagebox.showinfo("song removed!", "Your song has been removed! Click cancel to go back to your playlist or remove another song.") 
-                        #else if not removed, display try again
+                        #else if not removed, display try again:
                         tk.messagebox.showerror("Error", "A problem has occurred removing this song. Please check your playlist to ensure this song is in it by clicking cancel. If it is on your playlist, then please try again.") 
                 elif self.rm == 'no':
                         tk.messagebox.showinfo('Return','You will now return to the remove song window. Here you can either enter another song to remove or click cancel to go back to your playlist.')
@@ -881,22 +897,22 @@ class analysis:
                 self.title = tk.Label(self.master, text ="Here's an analysis of your playlist:", 
                                 fg = "black", 
                                 bg = "green", 
-                                bd = 8, 
+                                bd = 10, 
                                 relief = "sunken", 
                                 height = 2,
-                                width = 28,
+                                width = 32,
                                 font = "Helvetica 28 bold italic")
-                self.title.place(x = 95, y = 30)
+                self.title.place(x = 90, y = 30)
 
-                self.stuff = tk.Label(self.master, text ="stuff : ", 
+                self.stuff = tk.Label(self.master, text ="stuff : ", #analysis would go in the the " "
                                 fg = "black", 
                                 bg = "gray", 
                                 bd = 8, 
                                 relief = "sunken", 
-                                height = 10,
-                                width = 50,
+                                height = 14,
+                                width = 57,
                                 font = "Helvetica 16 bold italic")
-                self.stuff.place(x = 65, y = 250)
+                self.stuff.place(x = 85, y = 155)
 
                 self.Done = Button(self.master, text = "Done", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3, command = self.closeWindow)
                 self.Done.place(x = 685, y = 530)
