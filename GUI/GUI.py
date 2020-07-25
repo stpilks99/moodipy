@@ -13,12 +13,15 @@ from PIL import ImageTk,Image
 import sqlite3
 from functools import partial
 
-from spotify_authorize import auth
-from artist_functions import Artist
-from playlist_functions import Playlist
-from track_functions import Track
-from user_functions import User
-from get_songs_with_criteria import get_songs_with_criteria
+#import spotify_authorize
+import spotipy
+from track_functions import *
+from artist_functions import *
+from spotify_authorize import *
+from user_functions import *
+from playlist_functions import *
+from get_songs_with_criteria import *
+
 
 #====================================================
 # INSTANTIATE VARIABLES FOR SPOTIFY
