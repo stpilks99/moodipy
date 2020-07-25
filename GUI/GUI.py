@@ -43,7 +43,7 @@ print(cList)
 # INSTANTIATE VARIABLES FOR SPOTIFY
 
 # login
-username = 'buffalobulldoggy' # Must be changed for final version
+username = 'b3qviosg0fm0mqq9k0uh6uit1' # Must be changed for final version
 auth = auth(username)
 sp = auth.authorize_util() # Spotify authorized class
 #====================================================
