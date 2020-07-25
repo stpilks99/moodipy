@@ -10,7 +10,12 @@ sp = authorize.authorize_util()
 #print(sp)
 spot = spotipy.Spotify()
 #test = sp.current_user()
-test2 = User.get_username('danielj1128', sp)
+tracks = ('artist:Halsey track:castle')
+artist = 'Halsey'
+song = 'Castle'
+#test = User.get_playlists('danielj1128', sp)
+#name uri
+test2 = User.testFunction('danielj1128', artist, song, sp)
 #print(test)
 print(test2)
 print('BREAK')
