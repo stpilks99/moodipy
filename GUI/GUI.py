@@ -22,73 +22,8 @@ from user_functions import *
 from playlist_functions import *
 from get_songs_with_criteria import *
 
-#open database file
-def find(pattern, path):
-    result = []
-    for root, dirs, files in os.walk(path):
-        for name in files:
-            if fnmatch.fnmatch(name, pattern):
-                result.append(os.path.join(root, name))
-    return result
+from Moodipy_SQL_Queries import *
 
-cList = find('.cache-*', '../')
-print(cList)
-for entry in cList:
-    os.remove(entry)
-
-cList = find('.cache-*', '../')
-print(cList)
-
-#====================================================
-# INSTANTIATE VARIABLES FOR SPOTIFY
-
-# login
-username = 'b3qviosg0fm0mqq9k0uh6uit1' # Must be changed for final version
-auth = auth(username)
-sp = auth.authorize_util() # Spotify authorized class
-#====================================================
-
-
-
-
-
-cList = find('.cache-*', '../')
-name = '' # Spotify username of user
-if len(cList) > 1:
-    print("Error, to many cache files")
-    tk.messagebox.showerror('Login failed', 'Multiple cache files found. Please try again')
-elif len(cList) == 0:
-    print("Error, no cache file found")
-    tk.messagebox.showerror('Login failed', 'No cache file found, login unsuccessful')
-    sys.exit()
-else:
-    name = cList[0][cList[0].find('-')+1:] #stripped down username from spotify
-    print("Found Spotify username:"+ name+"\nUsing it to create a database file.")
-database = sqlite3.connect(name+".db")
-c = database.cursor()
-
-def sql_create_database():
-    setup_master = """CREATE TABLE IF NOT EXISTS "playlistmaster" (
-        "playlisturi"	CHAR(39) NOT NULL UNIQUE,
-        "username"	TEXT,
-        "playlistmood"	TEXT,
-        "playlistperiod"	TEXT,
-        "preferredartist"	TEXT,
-        "preferredgenre"	TEXT,
-        "explicit"	BOOL,
-        PRIMARY KEY("playlisturi")
-    );"""
-    c.execute(setup_master)
-    setup_deleted_songs = """CREATE TABLE IF NOT EXISTS "deletedsongs" (
-	"SongURI"	TEXT);"""
-    c.execute(setup_deleted_songs)
-    database.commit()
-    return 0
-sql_create_database()
-#database setup end
-
-u = ""
-close = 0
 # global logout function to multiple windows can see it
 def logout():
         log = messagebox.askquestion("logout", "Are you sure you want to logout?") 
@@ -107,7 +42,10 @@ def logout():
 # main menu window class
 class mainMenu:
         # constructor
-        def __init__(self, master):
+        def __init__(self, master,  c, database, sp):
+                self.c = c
+                self.database = database
+                self.sp = sp
                 self.master = master
                 self.master.title("Moodipy")
                 self.master.configure(bg = "black")
@@ -160,18 +98,18 @@ class mainMenu:
                 self.master.grab_set()
 
         def playlists(self):
-                c.execute("""SELECT COUNT(playlisturi) FROM playlistmaster;""")
-                self.numOfPlaylists = c.fetchall()
+                self.c.execute("""SELECT COUNT(playlisturi) FROM playlistmaster;""")
+                self.numOfPlaylists = self.c.fetchall()
                 # printing total number of playlists user has in library
                 for i in self.numOfPlaylists:
                         #print(i[0])
                         self.numOfP = i[0]
 
-                c.execute("""SELECT username FROM playlistmaster;""")
-                self.pName = c.fetchall()
+                self.c.execute("""SELECT username FROM playlistmaster;""")
+                self.pName = self.c.fetchall()
 
-                c.execute("""SELECT playlisturi FROM playlistmaster;""")
-                self.qr = c.fetchall()
+                self.c.execute("""SELECT playlisturi FROM playlistmaster;""")
+                self.qr = self.c.fetchall()
 
                 self.pURIList = []
                 # array kept printing backwards so we had
@@ -200,8 +138,8 @@ class mainMenu:
                 #print(i)
 
         def onButtonClick(self, buttonID, playlistURI):
-                c.execute("""SELECT COUNT(playlisturi) FROM playlistmaster;""")
-                self.numOfPlaylists = c.fetchall()
+                self.c.execute("""SELECT COUNT(playlisturi) FROM playlistmaster;""")
+                self.numOfPlaylists = self.c.fetchall()
                 for i in self.numOfPlaylists:
                         # printing total number of playlists user has in library
                         #print(i[0])
@@ -214,6 +152,7 @@ class mainMenu:
                                 print(playlistURI)
                                 self.edit_playlist(playlistURI)
                                 break
+                        
 
 
         def myfunction(self, event):
@@ -225,64 +164,27 @@ class mainMenu:
                 # creating new Toplevel (on top of everything) window called newCreatePlaylist
                 self.newCreatePlaylist = tk.Toplevel(self.master)
                 # object is created through class definition
-                self.moodipy = createPlaylist(self.newCreatePlaylist)
+                self.moodipy = createPlaylist(self.newCreatePlaylist, self.c, self.database, self.sp)
 
         # Function to open helpDoc window
         # new Toplevel window is created 
         def help_doc(self):
                self.newHelpDoc = tk.Toplevel(self.master)
-               self.moodipy = helpDoc(self.newHelpDoc)
+               self.moodipy = helpDoc(self.newHelpDoc, self.c, self.database, self.sp)
         
         # open editPlaylist window
         def edit_playlist(self, playlistURI):
                 #print(str(self.playlistURI))
                 self.newEditPlaylist = tk.Toplevel(self.master)
-                self.moodipy = editPlaylist(self.newEditPlaylist, playlistURI)
+                self.moodipy = editPlaylist(self.newEditPlaylist, playlistURI, self.c, self.database, self.sp)
 
 #create playlist window
 class createPlaylist:
         # SQL Create playlist function
-        def sql_create_playlist(self,pURI):
-                dummyplaylistname = "removethisplaylistlater2"
-                pURI = dummyplaylistname #REMOVE LATER
-                # create entry in playlist master table
-                sqlcommand = "INSERT INTO playlistmaster (playlisturi,username, playlistmood,playlistperiod, preferredartist, explicit) " + \
-                             "VALUES('" +pURI+"','"+self.pName+"','"+self.mSelected+"','"+self.tSelected+"','" +self.artist+"','" +self.e+ "')"
-                c.execute(sqlcommand)
-                # create table for playlist
-                sqlcommand = "CREATE TABLE " + "playlist" +pURI.strip("spotify:playlist:") + """ ("songuri"	CHAR(36) NOT NULL UNIQUE,
-                       "songname"	TEXT,
-                       "songrating"	NUMERIC,
-                       PRIMARY KEY("songuri"));"""
-                c.execute(sqlcommand)
-                database.commit()  # actually save the database
-        def criteria(self):
-                self.pName = self.playlistName.get()
-                self.mSelected = self.moodsSelected.get()
-                self.tSelected = self.timePeriod.get()
-                self.artist = self.artistEntered.get()
-                self.e = self.explicitOrNot.get()
-
-                print(self.pName + "\n" + self.mSelected + "\n" + self.tSelected + "\n" + self.artist + "\n" + self.e)
-                self.selection = self.listbox.curselection()
-                for i in self.selection:
-                        self.gselected = self.listbox.get(i)
-                        print(self.gselected)
-                #Note: the variables on lines above are the user input
-                # need to add create playlist functions here
-                # functions team will generate the playlist uri from spotify
-                playlist1 = Playlist(self.pName,'user_uri', sp)
-                playlist_uri = playlist1.create_spotify_playlist(sp)
-                if len(playlist_uri) == 0:
-                    # Print error
-                    pass
-
-                self.sql_create_playlist(playlist_uri)
-
-
-
-                        
-        def __init__(self, master):
+        def __init__(self, master,  c, database, sp):
+                self.c = c
+                self.database = database
+                self.sp = sp
                 self.master = master
                 self.master.title("Time to create a new playlist!")
                 self.master.configure(bg = "black")
@@ -385,6 +287,45 @@ class createPlaylist:
                 # forces user to click on new playlist window so they can't use 2 windows at once
                 self.master.grab_set()
 
+
+        def sql_create_playlist(self,pURI, ):
+                dummyplaylistname = "removethisplaylistlater2"
+                pURI = dummyplaylistname #REMOVE LATER
+                # create entry in playlist master table
+                sqlcommand = "INSERT INTO playlistmaster (playlisturi,username, playlistmood,playlistperiod, preferredartist, explicit) " + \
+                             "VALUES('" +pURI+"','"+self.pName+"','"+self.mSelected+"','"+self.tSelected+"','" +self.artist+"','" +self.e+ "')"
+                self.c.execute(sqlcommand)
+                # create table for playlist
+                sqlcommand = "CREATE TABLE " + "playlist" +pURI.strip("spotify:playlist:") + """ ("songuri"	CHAR(36) NOT NULL UNIQUE,
+                       "songname"	TEXT,
+                       "songrating"	NUMERIC,
+                       PRIMARY KEY("songuri"));"""
+                self.c.execute(sqlcommand)
+                self.database.commit()  # actually save the database
+        def criteria(self):
+                self.pName = self.playlistName.get()
+                self.mSelected = self.moodsSelected.get()
+                self.tSelected = self.timePeriod.get()
+                self.artist = self.artistEntered.get()
+                self.e = self.explicitOrNot.get()
+
+                print(self.pName + "\n" + self.mSelected + "\n" + self.tSelected + "\n" + self.artist + "\n" + self.e)
+                self.selection = self.listbox.curselection()
+                for i in self.selection:
+                        self.gselected = self.listbox.get(i)
+                        print(self.gselected)
+                #Note: the variables on lines above are the user input
+                # need to add create playlist functions here
+                # functions team will generate the playlist uri from spotify
+                playlist1 = Playlist(self.pName,'user_uri', self.sp)
+                playlist_uri = playlist1.create_spotify_playlist(self.sp)
+                if len(playlist_uri) == 0:
+                    # Print error
+                    pass
+
+                self.sql_create_playlist(playlist_uri)
+
+
         def closeWindow(self):
                 self.master.destroy()
 
@@ -476,7 +417,10 @@ class helpDoc:
                         relief = "sunken",
                         font = "Helvetica 14 bold italic").grid(row=9, column=0)
 
-        def __init__(self, master):
+        def __init__(self, master,  c, database, sp):
+                self.c = c
+                self.database = database
+                self.sp = sp
                 self.master = master
                 self.master.title("Moodipy Help/Documentation")
                 self.master.configure(bg = "black")
@@ -525,7 +469,10 @@ class helpDoc:
                 self.master.destroy()
 
 class editPlaylist:
-        def __init__(self, master, playlistURI):
+        def __init__(self, master, playlistURI,  c, database, sp):
+                self.c = c
+                self.database = database
+                self.sp = sp
                 self.master = master
                 #select username from playlistmaster where playlisturi = uri
                 self.master.title("View Playlist")
@@ -541,8 +488,8 @@ class editPlaylist:
                 #         print(i)
 
                 fetchPlaylistTitle = """SELECT username FROM playlistmaster WHERE playlisturi = """ + playlistURI + """;"""
-                c.execute(fetchPlaylistTitle)
-                playlistTitle = str(c.fetchone()).strip('(,)\'')
+                self.c.execute(fetchPlaylistTitle)
+                playlistTitle = str(self.c.fetchone()).strip('(,)\'')
                 # Playlist title label
                 self.t = Label(self.master, text =  str(playlistTitle) ,  fg = "black", bg = "green", bd = 6, width = 20, relief = "sunken", font = "Helvetica 35 bold italic")
                 self.t.place(x = 275, y = 50)
@@ -649,8 +596,8 @@ class editPlaylist:
                 # Songs
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print(pURI)
-                c.execute("""SELECT songname FROM playlist""" + pURI + """;""")
-                songs = c.fetchall()
+                self.c.execute("""SELECT songname FROM playlist""" + pURI + """;""")
+                songs = self.c.fetchall()
 
                 self.fields = Label(self.master, text = 'Song Title', fg = "black", bg = "green", bd = 6, width = 39, relief = "sunken", font = "Helvetica 18 bold italic")
                 self.fields.place(x = 275, y = 150)
@@ -673,8 +620,8 @@ class editPlaylist:
         def addRec(self, playlistURI):
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print(pURI)
-                c.execute("""SELECT COUNT(songname) FROM playlist""" + pURI + """;""")
-                s = c.fetchall()
+                self.c.execute("""SELECT COUNT(songname) FROM playlist""" + pURI + """;""")
+                s = self.c.fetchall()
 
                 numOfSongs = str(s[0]).strip(',()')
 
@@ -687,14 +634,15 @@ class editPlaylist:
                         #add recommendations function goes here
                         #if successfully added:
                         tk.messagebox.showinfo('Recommendations added!','Recommendations have been added to your playlist reaching the max number of songs (60).')
+
         def sql_delete_playlist(self,pURI):
                 # sql delete playlist function
                 pURISPOT = "playlist" + pURI  # matching the pURI (Just the sudo string) to the table name
                 querry1 = """DROP TABLE """ + pURISPOT + """; """
                 querry2 = """DELETE FROM playlistmaster WHERE playlisturi = '""" + pURISPOT + """';"""
-                c.execute(querry1)
-                c.execute(querry2)
-                database.commit()  # actually save the database
+                self.c.execute(querry1)
+                self.c.execute(querry2)
+                self.database.commit()  # actually save the database
 
 
         def deleteP(self, playlistURI):
@@ -718,25 +666,30 @@ class editPlaylist:
         
         def analysis_window(self):
                 self.newAnalysisWindow = tk.Toplevel(self.master)
-                self.moodipy = analysis(self.newAnalysisWindow)
+                self.moodipy = analysis(self.newAnalysisWindow, self.c, self.database, self.sp)
 
         def help_doc(self):
                 self.newHelpDoc = tk.Toplevel(self.master)
-                self.moodipy = helpDoc(self.newHelpDoc)
+                self.moodipy = helpDoc(self.newHelpDoc, self.c, self.database, self.sp)
 
         def rank_songs(self):
                 self.newRankSongs = tk.Toplevel(self.master)
-                self.moodipy = rankSongs(self.newRankSongs)
+                self.moodipy = rankSongs(self.newRankSongs, self.c, self.database, self.sp)
 
         def add_song(self, playlistURI):
                 self.newAddSong = tk.Toplevel(self.master)
-                self.moodipy = addSong(self.newAddSong, playlistURI)
+                self.moodipy = addSong(self.newAddSong, playlistURI, self.c, self.database, self.sp)
 
         def remove_song(self, playlistURI):
                 self.newRemoveSong = tk.Toplevel(self.master)
-                self.moodipy = removeSong(self.newRemoveSong, playlistURI)
+                self.moodipy = removeSong(self.newRemoveSong, playlistURI, self.c, self.database, self.sp)
+
+
 class rankSongs:
-        def __init__(self, master):
+        def __init__(self, master,  c, database, sp):
+                self.c = c
+                self.database = database
+                self.sp = sp
                 self.master = master
                 self.master.title("Time to rank songs!")
                 self.master.configure(bg = "black")
@@ -815,7 +768,10 @@ class rankSongs:
                 self.master.destroy()
 
 class addSong:
-        def __init__(self, master, playlistURI):
+        def __init__(self, master, playlistURI,  c, database, sp):
+                self.c = c
+                self.database = database
+                self.sp = sp
                 self.master = master
                 self.master.title("Time to add a song to the playlist!")
                 self.master.configure(bg = "black")
@@ -895,8 +851,8 @@ class addSong:
 
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print(pURI)
-                c.execute("""SELECT COUNT(songname) FROM playlist""" + pURI + """;""")
-                s = c.fetchall()
+                self.c.execute("""SELECT COUNT(songname) FROM playlist""" + pURI + """;""")
+                s = self.c.fetchall()
 
                 numOfSongs = str(s[0]).strip(',()')
 
@@ -908,6 +864,8 @@ class addSong:
                         if self.confirmAdd == 'yes':
                                 print("yes")
                                 #add add song function here
+                                # inputs: list of uri's and names
+                                # output: 
                                 #add add song function here
                                 #if song is added, get a return from function that indicates its added:
                                 tk.messagebox.showinfo("song added!", "Your song has been added! Click cancel to go back to your playlist or add another song.") 
@@ -922,7 +880,10 @@ class addSong:
                 self.master.destroy()
 
 class removeSong:
-        def __init__(self, master, playlistURI):
+        def __init__(self, master, playlistURI,  c, database, sp):
+                self.c = c
+                self.database = database
+                self.sp = sp
                 self.master = master
                 self.master.title("Time to remove a song from the playlist!")
                 self.master.configure(bg = "black")
@@ -1020,7 +981,10 @@ class removeSong:
                 self.master.destroy()
 
 class analysis:
-        def __init__(self, master):
+        def __init__(self, master, c, database, sp):
+                self.c = c
+                self.database = database
+                self.sp = sp
                 self.master = master
                 self.master.title("Analysis")
                 self.master.configure(bg = "black")
@@ -1037,13 +1001,13 @@ class analysis:
                                 font = "Helvetica 28 bold italic")
                 self.title.place(x = 90, y = 30)
 
-                self.stuff = tk.Label(self.master, text ="stuff : ", #analysis would go in the the " "
+                self.stuff = tk.Label(self.master, text ="Static     |                     Description                           |  Happy  |  Sad  | Motivated  |  Calm | Frantic  | Party  |  Gaming\nValence | 0-1 scale of how cheerful the track is  | > 0.5 | < 0.5 | NA | NA | NA | > 0.5 | NA\nEnergy   | 0-1 scale of how energetic the track is | NA | NA | >.7 |  <.7 |  >.7  | >.7  | NA\nAcousticness | 0-1 scale of how acoustic the track is | NA | NA | NA | NA | NA | NA | NA\nDanceability | 0-1 scale of how much you can dance to the track | NA | NA | NA | NA | NA | >.65 | NA\nSpeechiness | 0-1 how much speech dominates the track | NA | NA | NA | NA | NA | NA | <.085\nTempo | Bpm measure of track | NA | NA | NA | <120 | >120 | NA | NA\nPopularity | 0-100 scale of track’s popularity | NA | NA | NA | NA | NA | >65 | NA\n", 
                                 fg = "black", 
                                 bg = "gray", 
                                 bd = 8, 
                                 relief = "sunken", 
                                 height = 14,
-                                width = 57,
+                                width = 60,
                                 font = "Helvetica 16 bold italic")
                 self.stuff.place(x = 85, y = 155)
 
@@ -1055,28 +1019,104 @@ class analysis:
                 self.master.destroy()
 
 class login:
+
         def __init__(self, master):
                 self.master = master
                 self.master.title("Welcome to Moodipy!")
                 self.master.configure(bg = "black")
                 self.master.resizable(width = False, height = False)
                 self.master.geometry("900x600")
+                self.usernameEntry = Entry(self.master, font = "Helvetica 20 italic", width = 21) 
+                self.usernameEntry.place(x = 440, y = 400) 
+ 
+                self.uTitle = tk.Label(self.master, text ='username:', 
+                                fg = "black", 
+                                bg = "green", 
+                                bd = 8, 
+                                relief = "sunken", 
+                                height = 1,
+                                width = 10,
+                                font = "Helvetica 20 bold italic")
+                self.uTitle.place(x = 225, y = 400)
 
                 self.B = Button(self.master,
                 text = "Login with Spotify",
                 bg ="green",
-                font = "Helvetica 20 bold italic",
+                font = "Helvetica 18 bold italic",
                 bd = 6, relief = "raised",
                 width = 25,
                 height = 2,
                 ##### call spotify login function here
                 # for now it will just close the window
-                command = self.main_menu)
+                command = self.log)
                 self.B.place(x = 225,y = 480)
-                self.canvas = Canvas(self.master, width = 850, height = 460)
+                self.canvas = Canvas(self.master, width = 400, height = 350)
                 self.canvas.pack()
-                self.img = ImageTk.PhotoImage(Image.open("./GUI/snake.png"))
-                self.canvas.create_image(20, 20, anchor=NW, image=self.img)
+                self.img = ImageTk.PhotoImage(Image.open("./GUI/mainSnake.png"))
+                self.canvas.create_image(75, 75, anchor=NW, image=self.img)
+
+
+        def log(self):
+
+                self.username = self.usernameEntry.get()
+                print(self.username)
+                def find(pattern, path):
+                        result = []
+                        for root, dirs, files in os.walk(path):
+                            for name in files:
+                                if fnmatch.fnmatch(name, pattern):
+                                    result.append(os.path.join(root, name))
+                        return result
+
+                cList = find('.cache-*', '../')
+                print(cList)
+                for entry in cList:
+                    os.remove(entry)
+
+                cList = find('.cache-*', '../')
+                print(cList)
+                self.database = sqlite3.connect(self.username+".db")
+                self.c = self.database.cursor()
+
+                def sql_create_database():
+                    setup_master = """CREATE TABLE IF NOT EXISTS "playlistmaster" (
+                        "playlisturi"	CHAR(39) NOT NULL UNIQUE,
+                        "username"	TEXT,
+                        "playlistmood"	TEXT,
+                        "playlistperiod"	TEXT,
+                        "preferredartist"	TEXT,
+                        "preferredgenre"	TEXT,
+                        "explicit"	BOOL,
+                        PRIMARY KEY("playlisturi")
+                    );"""
+                    self.c.execute(setup_master)
+                    setup_deleted_songs = """CREATE TABLE IF NOT EXISTS "deletedsongs" (
+                    "SongURI"	TEXT);"""
+                    self.c.execute(setup_deleted_songs)
+                    self.database.commit()
+                    return 0
+                sql_create_database()
+                
+                #username = 'b3qviosg0fm0mqq9k0uh6uit1' # Must be changed for final version
+                authorize = auth(self.username)
+                self.sp = authorize.authorize_util() # Spotify authorized class
+
+                cList = find('.cache-*', '../')
+                name = '' # Spotify username of user
+                if len(cList) > 1:
+                    print("Error, to many cache files")
+                    tk.messagebox.showerror('Login failed', 'Multiple cache files found. Please try again')
+                elif len(cList) == 0:
+                    print("Error, no cache file found")
+                    tk.messagebox.showerror('Login failed', 'No cache file found, login unsuccessful')
+                    sys.exit()
+                else:
+                    name = cList[0][cList[0].find('-')+1:] #stripped down username from spotify
+                    print("Found Spotify username:"+ name+"\nUsing it to create a database file.")
+                database = sqlite3.connect(name+".db")
+                #c = database.cursor()
+                self.main_menu()
+
 
         def closeWindow(self):
                 # add login function here
@@ -1084,7 +1124,7 @@ class login:
 
         def main_menu(self):
                 self.newMainMenu = tk.Toplevel(self.master)
-                self.moodipy = mainMenu(self.newMainMenu)
+                self.moodipy = mainMenu(self.newMainMenu, self.c, self.database, self.sp)
 
         #def main_menu(self)
 
