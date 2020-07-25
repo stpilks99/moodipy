@@ -21,7 +21,7 @@ def addS(self,sURI,sNAME,userPlaylist,list):              #add song function
              VALUES ('""" + sURI + """','""" + sNAME + """');"""
         cursor.execute(query1)
          
-    query2 = """SELECT sNAME FROM """ + userPlaylist + """;"""
+    query2 = """SELECT songname FROM """ + userPlaylist + """;"""
     
     cursor.execute(query2)
     query_result = cursor.fetchall()
