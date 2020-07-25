@@ -11,27 +11,40 @@ import os
 database = sqlite3.connect("moodipy.db")
 cursor = database.cursor()
 
-def addS(self,songuri,songname,userPlaylist):              #add song function
-    query1 = """INSERT INTO """ + userPlaylist + """ (songuri, songname, songrating) 
-             VALUES ('spotify:track:3yrSvpt2l1xhsV9Em88Pul','Brown Eyed Girl','10');"""
+def addS(self,sURI,sNAME,userPlaylist,list):              #add song function
+    #songInfo = (sURI,sNAME)
+    for i in range(len(list)):
+        songInfo = list[i]
+        sURI  = songInfo[0]
+        sNAME = songInfo[1]
+        query1 = """INSERT INTO """ + userPlaylist + """           
+             VALUES ('""" + sURI + """','""" + sNAME + """');"""
+        cursor.execute(query1)
+         
     query2 = """SELECT songname FROM """ + userPlaylist + """;"""
-    cursor.execute(query1)
+    
     cursor.execute(query2)
     query_result = cursor.fetchall()
     for i in query_result:
         print(i)
+    database.commit()
 
-def printS(self,songname,username,userPlaylist):           #print song function
-    songname = """SELECT songname FROM """ + userPlaylist + """;"""
+def removeS(self,sURI,userPlaylist):
+    query1 = """DELETE FROM """ + userPlaylist + """ WHERE songuri = '""" + sURI + """'"""
+    cursor.execute(query1)
+    database.commit()
+
+def printS(self,sNAME,username,userPlaylist):           #print song function
+    sNAME = """SELECT sNAME FROM """ + userPlaylist + """;"""
     username = """SELECT username FROM playlistmaster WHERE playlistname = '""" + userPlaylist + """';"""
-    cursor.execute(songname)
+    cursor.execute(sNAME)
     cursor.execute(username)
     query_result = cursor.fetchall()
     for i in query_result:
         print(i)
 
 def getNumbT(self,numTrack,userPlaylist):                         #get number of tracks in playlist
-    numTrack = """SELECT COUNT(songuri) FROM """ + userPlaylist + """;"""
+    numTrack = """SELECT COUNT(sURI) FROM """ + userPlaylist + """;"""
     cursor.execute(numTrack)
     query_result = cursor.fetchall()
     for i in query_result:
@@ -40,10 +53,10 @@ def getNumbT(self,numTrack,userPlaylist):                         #get number of
 def createP(self,newPlaylist,userPlaylist):                       #create a playlist
     newPlaylist = """INSERT INTO playlistmaster (playlistname, playlistmood,playlistperiod, preferredartist, preferredgenre) VALUES ('""" + userPlaylist + """','jazz','2000','jackson5','swing'); 
     CREATE TABLE " """ + userPlaylist + """ (
-	"songuri"	TEXT,
-	"songname"	TEXT,
+	"sURI"	TEXT,
+	"sNAME"	TEXT,
 	"songrating"	NUMERIC,
-	PRIMARY KEY("songuri")
+	PRIMARY KEY("sURI")
     );"""
     cursor.execute(newPlaylist)
     cursor.execute()
@@ -55,14 +68,7 @@ def removeP(self,userPlaylist):                       #remove a playlist
     remPlaylist = """DROP TABLE """  + userPlaylist + """; DELETE FROM playlistmaster WHERE playlistname = '""" + userPlaylist + """';"""
     cursor.execute(remPlaylist)
     return 0
-
-def main():
-    #menu
-
-    userPlaylist = " "
-
-    option = input("Select an option ")
-
+    
 
     
 
