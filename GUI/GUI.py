@@ -3,6 +3,7 @@ import spotipy
 import spotipy.util as util
 import tkinter as tk 
 import os
+import fnmatch
 
 from tkinter import *
 from tkinter import messagebox
@@ -12,20 +13,42 @@ from PIL import ImageTk,Image
 import sqlite3
 from functools import partial
 #open database file
-database = sqlite3.connect('moodipy.db')
+def find(pattern, path):
+    result = []
+    for root, dirs, files in os.walk(path):
+        for name in files:
+            if fnmatch.fnmatch(name, pattern):
+                result.append(os.path.join(root, name))
+    return result
+cList = find('.cache-*', '../')
+if len(cList) > 1:
+    print("Error, to many cache files")
+elif len(cList) == 0:
+    print("Error, no cache file found")
+else:
+    name = cList[0][cList[0].find('-')+1:] #stripped down username from spotify
+    print("Found Spotify username:"+ name+"\nUsing it to create a database file.")
+database = sqlite3.connect(name+".db")
 c = database.cursor()
-#create master table to store information. This can be moved as part of the login sequence
-setup_master = """CREATE TABLE IF NOT EXISTS "playlistmaster" (
-    "playlisturi"	CHAR(39) NOT NULL UNIQUE,
-    "username"	TEXT,
-    "playlistmood"	TEXT,
-    "playlistperiod"	TEXT,
-    "preferredartist"	TEXT,
-    "preferredgenre"	TEXT,
-    "explicit"	BOOL,
-    PRIMARY KEY("playlisturi")
-);"""
-c.execute(setup_master)
+
+def sql_create_database():
+    setup_master = """CREATE TABLE IF NOT EXISTS "playlistmaster" (
+        "playlisturi"	CHAR(39) NOT NULL UNIQUE,
+        "username"	TEXT,
+        "playlistmood"	TEXT,
+        "playlistperiod"	TEXT,
+        "preferredartist"	TEXT,
+        "preferredgenre"	TEXT,
+        "explicit"	BOOL,
+        PRIMARY KEY("playlisturi")
+    );"""
+    c.execute(setup_master)
+    setup_deleted_songs = """CREATE TABLE IF NOT EXISTS "deletedsongs" (
+	"SongURI"	TEXT);"""
+    c.execute(setup_deleted_songs)
+    database.commit()
+    return 0
+sql_create_database()
 #database setup end
 
 u = ""

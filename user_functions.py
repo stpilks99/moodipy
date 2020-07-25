@@ -73,18 +73,27 @@ class User():
     def get_uri(self):
         return self.__uri
 
-    def testFunction(self, uri_list, spotify_class):
+    def testFunction(self, artist, song, spotify_class):
         sp = spotify_class
-        result = sp.search(uri_list)
+        searchVal = ('artist:' + artist + ' track:' + song) #artist and song are pulled from user input in GUI
+        print(searchVal)
+        result = sp.search(searchVal)
         #print(result)
         print(result.keys())
-        song_uri = []
-        song_name = []
+        song_uri_val = []
         #print(testVal)
-        #print(result)
+        #print(result['tracks'])
         #testVal = result[0]
         #print(testVal)
-        for i in result['tracks']:
-            song_uri.append(i['uri'])
-            song_name.append(i['name'])
-        return song_uri
+        for values in result['tracks']['items']:
+            #print(values)
+            song_uri_val.append(values['uri'])
+        song_uri_hold = []
+        song_uri_hold = song_uri_val[0]
+        resultSong = sp.track(song_uri_hold)
+        song_uri = []
+        song_name = []
+        song_name = resultSong['name']
+        song_uri = resultSong['uri']
+        addSongList = (song_uri, song_name)
+        return addSongList

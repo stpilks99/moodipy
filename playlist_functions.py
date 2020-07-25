@@ -59,15 +59,16 @@ class Playlist:
             self.__moved_to_spotify = True
 
 
-    def add_songs_local(self, uri_list):
-        #Add track to palylist locally
-        for song in uri_list:
-            self.__temp_add.append(song)
-
-        # Get name from Spotify
-        # data = sp.tracks()
-
-        # Will have to return [(uri0, name0), (uri1, name1)...]
+    def add_songs_local(self, uri_list, spotify_class):
+        sp = spotify_class
+        resultSong = sp.track(uri_list)
+        song_uri = []
+        song_name = []
+        song_name = resultSong['name']
+        print(song_name)
+        song_uri = resultSong['uri']
+        addSongList = (song_uri, song_name)
+        return addSongList
 
 
     def get_playlist_uri(self):
@@ -77,33 +78,51 @@ class Playlist:
             return self.__uri_playlist
 
 
-    def remove_songs_local(self, uri_list):
-        #Remove song from local playlist
-        for song in uri_list:
-            self.__temp_remove.append(song)
+    def remove_songs_local(self, uri_playlist, song_list, spotify_class):
+        sp = spotify_class
+        song_uri = []
+        song_name = []
+        resultSong = sp.track(song_list)
+        song_name = resultSong['name']
+        song_uri = resultSong['uri']
+        removeSongList = (song_uri, song_name)
+        return removeSongList
 
 
-    def add_songs_sp(self, spotify_class):
+    def add_songs_sp(self, artist, song, spotify_class):
         '''Adds a song or list of songs to the playlist'''
         if self.__moved_to_spotify == False: # Check if playlist has been created in Spotify yet
             raise Exception("The playlist has not been exported to Spotify yet.")
         sp = spotify_class
+        searchVal = ('artist:' + artist + ' track:' + song) #artist and song are pulled from user input in GUI
+        result = sp.search(searchVal)
+        song_uri_val = []
+        for values in result['tracks']['items']:
+            song_uri_val.append(values['uri'])
+        song_uri_hold = []
+        self.__temp_add = song_uri_val[0]
+        song_uri_hold = song_uri_val[0]
         try:
             sp.user_playlist_add_tracks(self.__user_name, self.__uri_playlist, self.__temp_add) # Add to playlist
         except:
             return False
         self.__temp_add = []
+        
+            
+        Playlist.add_songs_local(self.__user_name, song_uri_hold, sp)
         return True
         
 
 
-    def remove_songs_sp(self, spotify_class):
+    def remove_songs_sp(self, song_uri, spotify_class):
         '''Removes selected songs from playlist''' 
         if self.__moved_to_spotify == False: # Check if playlist exists in Spotify
             raise Exception('This playlist has not been exported to Spotify yet.')
         sp = spotify_class
         sp.user_playlist_remove_all_occurrences_of_tracks(self.__user_name, self.__uri_playlist, self.__temp_remove) # Remove from Spotify
+        songs = self.__temp_remove[0]
         self.__temp_remove = [] # Reset list
+        Playlist.remove_songs_local(self.__user_name, self.__uri_playlist, songs, sp)
 
 
     def create_spotify_playlist(self, spotify_class):
