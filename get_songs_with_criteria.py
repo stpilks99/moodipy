@@ -134,7 +134,7 @@ def get_songs_with_criteria(mood, # User entered mood
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50, target_energy=target_energy)
         elif mood == 'calm':
             target_energy = 0.4 # Low energy
-            recommendations_raw = sp.recommendations(seed_genres=genre_list, seed_tracks=last_5,limit=50, target_energy=target_energy)
+            recommendations_raw = sp.recommendations(seed_genres=genre_list, limit=50, target_energy=target_energy)
         elif mood == 'frantic':
             target_tempo = 150  # Fast tempo and high energy
             target_energy = 0.85
