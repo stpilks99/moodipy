@@ -253,7 +253,13 @@ class createPlaylist:
                 #Note: the variables on lines above are the user input
                 # need to add create playlist functions here
                 # functions team will generate the playlist uri from spotify
-                self.sql_create_playlist("change this for playlisturi here")
+                playlist1 = Playlist(self.pName,'user_uri', sp)
+                playlist_uri = playlist1.create_spotify_playlist(sp)
+                if len(playlist_uri) == 0:
+                    # Print error
+                    pass
+
+                self.sql_create_playlist(playlist_uri)
 
 
 
