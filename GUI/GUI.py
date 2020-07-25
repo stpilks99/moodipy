@@ -22,6 +22,22 @@ from user_functions import *
 from playlist_functions import *
 from get_songs_with_criteria import *
 
+#open database file
+def find(pattern, path):
+    result = []
+    for root, dirs, files in os.walk(path):
+        for name in files:
+            if fnmatch.fnmatch(name, pattern):
+                result.append(os.path.join(root, name))
+    return result
+
+cList = find('.cache-*', '../')
+print(cList)
+for entry in cList:
+    os.remove(entry)
+
+cList = find('.cache-*', '../')
+print(cList)
 
 #====================================================
 # INSTANTIATE VARIABLES FOR SPOTIFY
@@ -33,19 +49,18 @@ sp = auth.authorize_util() # Spotify authorized class
 #====================================================
 
 
-#open database file
-def find(pattern, path):
-    result = []
-    for root, dirs, files in os.walk(path):
-        for name in files:
-            if fnmatch.fnmatch(name, pattern):
-                result.append(os.path.join(root, name))
-    return result
+
+
+
 cList = find('.cache-*', '../')
+name = '' # Spotify username of user
 if len(cList) > 1:
     print("Error, to many cache files")
+    tk.messagebox.showerror('Login failed', 'Multiple cache files found. Please try again')
 elif len(cList) == 0:
     print("Error, no cache file found")
+    tk.messagebox.showerror('Login failed', 'No cache file found, login unsuccessful')
+    sys.exit()
 else:
     name = cList[0][cList[0].find('-')+1:] #stripped down username from spotify
     print("Found Spotify username:"+ name+"\nUsing it to create a database file.")
