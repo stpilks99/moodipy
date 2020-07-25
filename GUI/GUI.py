@@ -4,7 +4,7 @@ import spotipy.util as util
 import tkinter as tk 
 import os
 import fnmatch
-#change
+
 from tkinter import *
 from tkinter import messagebox
 from tkinter.tix import *
