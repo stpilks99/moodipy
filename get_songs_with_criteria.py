@@ -128,7 +128,7 @@ def get_songs_with_criteria(mood, # User entered mood
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50)
         elif mood == 'sad':
             target_valence = 0.3 # Low valence
-            recommendations_raw = sp.recommendations(seed_genres=genre_list, seed_tracks=last_5,limit=50, target_valence=target_valence)
+            recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50, target_valence=target_valence)
         elif mood == 'motivated':
             target_energy = 0.85 # High energy
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50, target_energy=target_energy)
@@ -138,7 +138,7 @@ def get_songs_with_criteria(mood, # User entered mood
         elif mood == 'frantic':
             target_tempo = 150  # Fast tempo and high energy
             target_energy = 0.85
-            recommendations_raw = sp.recommendations(seed_genres=genre_list, seed_tracks=last_5,limit=50, target_energy=target_energy, target_tempo=target_tempo)
+            recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50, target_energy=target_energy, target_tempo=target_tempo)
         elif mood == 'party':
             target_danceability = 0.8 # High danceability, energy, and popularity
             target_energy = 0.8
@@ -172,11 +172,11 @@ def get_songs_with_criteria(mood, # User entered mood
             last_5 = valid_tracks[-5:]
             print(last_5)
 
-        # Count number of loops that the tracks have not changed, if > 5 throw exception
+        # Count number of loops that the tracks have not changed, if > 5 return a blank list
         if len(valid_tracks) == length_prev_loop: # If the number of tracks retu
             fail_loop_count += 1
         if fail_loop_count > 4: # If the loop has failed 5 times
-            raise Exception('The program failed to add any tracks after 5 loops.')
+            return []
 
 
         length_prev_loop = len(valid_tracks)
