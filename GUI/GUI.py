@@ -772,6 +772,7 @@ class addSong:
                 self.c = c
                 self.database = database
                 self.sp = sp
+                self.playlistURI
                 self.master = master
                 self.master.title("Time to add a song to the playlist!")
                 self.master.configure(bg = "black")
@@ -1001,15 +1002,80 @@ class analysis:
                                 font = "Helvetica 28 bold italic")
                 self.title.place(x = 90, y = 30)
 
-                self.stuff = tk.Label(self.master, text ="Static     |                     Description                           |  Happy  |  Sad  | Motivated  |  Calm | Frantic  | Party  |  Gaming\nValence | 0-1 scale of how cheerful the track is  | > 0.5 | < 0.5 | NA | NA | NA | > 0.5 | NA\nEnergy   | 0-1 scale of how energetic the track is | NA | NA | >.7 |  <.7 |  >.7  | >.7  | NA\nAcousticness | 0-1 scale of how acoustic the track is | NA | NA | NA | NA | NA | NA | NA\nDanceability | 0-1 scale of how much you can dance to the track | NA | NA | NA | NA | NA | >.65 | NA\nSpeechiness | 0-1 how much speech dominates the track | NA | NA | NA | NA | NA | NA | <.085\nTempo | Bpm measure of track | NA | NA | NA | <120 | >120 | NA | NA\nPopularity | 0-100 scale of track’s popularity | NA | NA | NA | NA | NA | >65 | NA\n", 
-                                fg = "black", 
-                                bg = "gray", 
-                                bd = 8, 
-                                relief = "sunken", 
-                                height = 14,
-                                width = 60,
-                                font = "Helvetica 16 bold italic")
-                self.stuff.place(x = 85, y = 155)
+                self.stuff = tk.Label(self.master, text ="Static |  Description |  Happy  |  Sad  | Motivated  |  Calm | Frantic  | Party  |  Gaming", 
+                        fg = "black", 
+                        bg = "gray", 
+                        bd = 8, 
+                        relief = "sunken", 
+                        height = 1,
+                    width = 80,
+                    font = "Helvetica 10 bold italic")
+                self.stuff.place(x = 0, y = 150)
+                self.stuff1 = tk.Label(self.master, text ="Valence | 0-1 scale of how cheerful the track is  | > 0.5 | < 0.5 | NA | NA | NA | > 0.5 | NA", 
+                                        fg = "black", 
+                                        bg = "gray", 
+                                        bd = 8, 
+                                        relief = "sunken", 
+                                        height = 1,
+                                width = 80,
+                                font = "Helvetica 10 bold italic")
+                self.stuff1.place(x = 0, y = 180)
+
+                self.stuff2 = tk.Label(self.master, text ="Energy   | 0-1 scale of how energetic the track is | NA | NA | >.7 |  <.7 |  >.7  | >.7  | NA", 
+                                        fg = "black", 
+                                        bg = "gray", 
+                                        bd = 8, 
+                                        relief = "sunken", 
+                                        height = 1,
+                                width = 80,
+                                font = "Helvetica 10 bold italic")
+                self.stuff2.place(x = 0, y = 210)
+
+                self.stuff3 = tk.Label(self.master, text ="Acousticness | 0-1 scale of how acoustic the track is | NA | NA | NA | NA | NA | NA | NA", 
+                                        fg = "black", 
+                                        bg = "gray", 
+                                        bd = 8, 
+                                        relief = "sunken", 
+                                        height = 1,
+                                width = 80,
+                                font = "Helvetica 10 bold italic")
+                self.stuff3.place(x = 0, y = 240)
+                self.stuff4 = tk.Label(self.master, text ="Danceability | 0-1 scale of how much you can dance to the track | NA | NA | NA | NA | NA | >.65 | NA", 
+                                        fg = "black", 
+                                        bg = "gray", 
+                                        bd = 8, 
+                                        relief = "sunken", 
+                                        height = 1,
+                                width = 80,
+                                font = "Helvetica 10 bold italic")
+                self.stuff4.place(x = 0, y = 270)
+                self.stuff5 = tk.Label(self.master, text ="Speechiness | 0-1 how much speech dominates the track | NA | NA | NA | NA | NA | NA | <.085", 
+                                        fg = "black", 
+                                        bg = "gray", 
+                                        bd = 8, 
+                                        relief = "sunken", 
+                                        height = 1,
+                                width = 80,
+                                font = "Helvetica 10 bold italic")
+                self.stuff5.place(x = 0, y = 300)
+                self.stuff6 = tk.Label(self.master, text ="Tempo | Bpm measure of track | NA | NA | NA | <120 | >120 | NA | NA", 
+                                        fg = "black", 
+                                        bg = "gray", 
+                                        bd = 8, 
+                                        relief = "sunken", 
+                                        height = 1,
+                                width = 80,
+                                font = "Helvetica 10 bold italic")
+                self.stuff6.place(x = 0, y = 330)
+                self.stuff7 = tk.Label(self.maste, text ="Popularity | 0-100 scale of track’s popularity | NA | NA | NA | NA | NA | >65 | NA", 
+                                        fg = "black", 
+                                        bg = "gray", 
+                                        bd = 8, 
+                                        relief = "sunken", 
+                                        height = 1,
+                                width = 80,
+                                font = "Helvetica 10 bold italic")
+                self.stuff7.place(x = 0, y = 360)
 
                 self.Done = Button(self.master, text = "Done", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3, command = self.closeWindow)
                 self.Done.place(x = 685, y = 530)

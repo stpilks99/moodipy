@@ -28,7 +28,7 @@ class Playlist:
 
     # User to access to playlists -- this may be improper
 
-    def __init__(self, name, user_uri, spotify_class, tracks=[], uri=''):
+    def __init__(self, user_uri, spotify_class, name='', tracks=[], uri=''):
         '''
         user_playlist_uris: tuple with 2 lists, first one contains playlist URI's and second one 
                             contains playlist names. 
@@ -48,7 +48,8 @@ class Playlist:
                     raise Exception("The user has a playlist with this name.")
                     
             #If name is not found in duplicates
-            self.__name = name
+            if len(name) > 0:
+                self.__name = name
 
             if len(tracks) != 0: # If instantiated with tracks
                 self.__temp_add = tracks
@@ -109,7 +110,7 @@ class Playlist:
         self.__temp_add = []
         
             
-        Playlist.add_songs_local(self.__user_name, song_uri_hold, sp)
+        self.add_songs_local(self.__user_name, song_uri_hold, sp)
         return True
         
 
