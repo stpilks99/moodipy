@@ -12,6 +12,24 @@ from tkinter import ttk
 from PIL import ImageTk,Image
 import sqlite3
 from functools import partial
+
+from spotify_authorize import auth
+from artist_functions import Artist
+from playlist_functions import Playlist
+from track_functions import Track
+from user_functions import User
+from get_songs_with_criteria import get_songs_with_criteria
+
+#====================================================
+# INSTANTIATE VARIABLES FOR SPOTIFY
+
+# login
+username = 'buffalobulldoggy' # Must be changed for final version
+auth = auth(username)
+sp = auth.authorize_util() # Spotify authorized class
+#====================================================
+
+
 #open database file
 def find(pattern, path):
     result = []
@@ -57,7 +75,11 @@ close = 0
 def logout():
         log = messagebox.askquestion("logout", "Are you sure you want to logout?") 
         if log == 'yes':
-                #add logout function here to log out from spotify
+                logout_flag = auth.logout()
+                if logout_flag == False:
+                    tk.messagebox.showerror('Logout failed', 'Logout unsuccessful.')
+                else:
+                    tk.messagebox.showinfo('Logout successful', 'User successfully signed out')
                 #add logout function
                 sys.exit()
         elif log == 'no':
@@ -407,7 +429,7 @@ class helpDoc:
                         font = "Helvetica 20 bold italic").grid(row = 6, column = 0)
                 
                 self.a4 = tk.Label(self.frame,
-                        text = "Answer", #add answer to how add recommendations work, make sure to add \n if really long
+                        text = "The program takes in all criteria that the user enters,\nand queries Spotify for songs that have the desired attributes.",
                         fg = "black", 
                         bg = "gray", 
                         bd = 6, 
