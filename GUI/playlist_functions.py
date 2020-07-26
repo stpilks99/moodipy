@@ -60,9 +60,9 @@ class Playlist:
             for playlist in user_playlists_raw['items']:
                 if playlist['uri'] == self.__uri_playlist:
                     self.__name = playlist['name']
+                    break
                 else:
-                    raise Exception('The URI is not a valid playlist')
-            self.__name = name
+                    self.__name = name
             self.__moved_to_spotify = True
 
 
@@ -82,10 +82,10 @@ class Playlist:
 
 
     def get_playlist_uri(self):
-        if self.__moved_to_spotify == False:
-            raise Exception("Playlist not created in Spotify yet.")
-        else:
-            return self.__uri_playlist
+        # if self.__moved_to_spotify == False:
+        #     raise Exception("Playlist not created in Spotify yet.")
+        # else:
+        return self.__uri_playlist
 
 
     def remove_songs_local(self, uri_playlist, song_list, spotify_class):
@@ -101,8 +101,6 @@ class Playlist:
 
     def add_search_songs_sp(self, artist, song, spotify_class):
         '''Adds a song or list of songs to the playlist'''
-        if self.__moved_to_spotify == False: # Check if playlist has been created in Spotify yet
-            raise Exception("The playlist has not been exported to Spotify yet.")
         sp = spotify_class
         searchVal = ('artist:' + artist + ' track:' + song) #artist and song are pulled from user input in GUI
         result = sp.search(searchVal)
@@ -115,7 +113,7 @@ class Playlist:
         try:
             sp.user_playlist_add_tracks(self.__user_name, self.__uri_playlist, self.__temp_add) # Add to playlist
         except:
-            return False
+            return []
         self.__temp_add = [] 
         return self.add_songs_local(self.__user_name, song_uri_hold, sp)
         
@@ -136,8 +134,6 @@ class Playlist:
 
     def remove_songs_sp(self, song_uri, spotify_class):
         '''Removes selected songs from playlist''' 
-        if self.__moved_to_spotify == False: # Check if playlist exists in Spotify
-            raise Exception('This playlist has not been exported to Spotify yet.')
         sp = spotify_class
         sp.user_playlist_remove_all_occurrences_of_tracks(self.__user_name, self.__uri_playlist, self.__temp_remove) # Remove from Spotify
         songs = self.__temp_remove[0]
