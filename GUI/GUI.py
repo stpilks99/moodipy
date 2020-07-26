@@ -28,11 +28,6 @@ from Moodipy_SQL_Queries import *
 def logout():
         log = messagebox.askquestion("logout", "Are you sure you want to logout?") 
         if log == 'yes':
-                logout_flag = auth.logout()
-                if logout_flag == False:
-                    tk.messagebox.showerror('Logout failed', 'Logout unsuccessful.')
-                else:
-                    tk.messagebox.showinfo('Logout successful', 'User successfully signed out')
                 #add logout function
                 sys.exit()
         elif log == 'no':
@@ -824,7 +819,7 @@ class addSong:
                                 font = "Helvetica 30 bold italic", 
                                 width = 9, 
                                 height = 2,
-                                command = lambda x = playlistURI: self.addSongToPlaylist(x))
+                                command = lambda x = playlistURI: self.addSongToPlaylist(x, self.name_db))
 
                 self.Add.place(x = 630, y = 520)
 
@@ -853,7 +848,7 @@ class addSong:
 
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print(pURI)
-                c.execute("""SELECT COUNT(songname) FROM playlist""" + pURI + """;""")
+                c.execute("""SELECT COUNT(songname) FROM """ + pURI + """;""")
                 s = c.fetchall()
 
                 numOfSongs = str(s[0]).strip(',()')
@@ -868,11 +863,30 @@ class addSong:
                                 #add add song function here
                                 # inputs: list of uri's and names
                                 # output: 
-                                #add add song function here
-                                #if song is added, get a return from function that indicates its added:
-                                tk.messagebox.showinfo("song added!", "Your song has been added! Click cancel to go back to your playlist or add another song.") 
-                                #else if not added (get something from function that indicates its has not been added), display try again:
-                                tk.messagebox.showerror("Error", "A problem has occurred adding this song. Please try again.")               
+                                titleAdd = self.titleAdd
+                                artistAdd = self.artistAdd
+                                database_name = self.name_db
+                                full_uri = self.playlistURI[7:]
+                                full_uri = 'spotify:playlist:' + full_uri
+
+                                found_flag = False
+                                user_uri = self.userClass.get_uri()
+                                playlist_uri = '' #playlistURI in GUI.py
+                                playlist1 = Playlist(user_uri, self.sp, uri=full_uri, name=uri_to_title(full_uri))
+                                songsList = playlist1.add_search_songs_sp(artistAdd, titleAdd, self.sp) # This function not working
+                                if len(songsList) == 0:
+                                    found_flag = False
+                                elif len(songsList) > 1:
+                                    found_flag = False
+                                else:
+                                    found_flag = True
+                                    addS(playlist1.get_playlist_uri(), songsList, uri_to_title(full_uri))
+
+        
+                                if found_flag == True:
+                                    tk.messagebox.showinfo("song added!", "Your song has been added! Click cancel to go back to your playlist or add another song.") 
+                                else:
+                                    tk.messagebox.showerror("Error", "A problem has occurred adding this song. Please try again.")               
                         elif self.confirmAdd == 'no':
                                 tk.messagebox.showinfo('Return','You will now return to the add song window. Here you can either enter another song to add or click cancel to go back to your playlist.')
                 else:
