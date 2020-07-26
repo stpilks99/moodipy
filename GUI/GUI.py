@@ -771,7 +771,7 @@ class addSong:
                 self.name_db = name_db
                 self.userClass = userClass
                 self.sp = sp
-                self.playlistURI
+                self.playlistURI = playlistURI
                 self.master = master
                 self.master.title("Time to add a song to the playlist!")
                 self.master.configure(bg = "black")
