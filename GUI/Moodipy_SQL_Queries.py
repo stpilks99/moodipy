@@ -45,7 +45,11 @@ def removeS(sURI,userPlaylist, databaseName):
     database = sqlite3.connect(databaseName)
     cursor = database.cursor()
     query1 = """DELETE FROM """ + userPlaylist + """ WHERE songuri = '""" + sURI + """'"""
-    cursor.execute(query1)
+    try:
+        cursor.execute(query1)
+        return True
+    except:
+        return False
     database.commit()
     database.close()
 
