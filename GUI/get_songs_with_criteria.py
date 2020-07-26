@@ -185,6 +185,8 @@ def get_songs_with_criteria(mood, # User entered mood
         if fail_loop_count > 4: # If the loop has failed 5 times
             return []
 
+        valid_tracks = set(valid_tracks)
+        valid_tracks = list(valid_tracks)
 
         length_prev_loop = len(valid_tracks)
 
@@ -192,5 +194,7 @@ def get_songs_with_criteria(mood, # User entered mood
     for unwanted_track in disliked_songs:
         if unwanted_track in valid_tracks:
             valid_tracks.remove(unwanted_track)
+
+    
 
     return(valid_tracks[:num_songs_needed]) # Only will return URI's of new tracks      
