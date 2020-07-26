@@ -17,7 +17,9 @@ You'll be listening to songs you actually like in no time.
 	b. Once it finishes, open File Explorer and find a directory where you want the Moodipy files to be cloned.
 	c. Right-click in the empty space in the window (where your files would appear), and click "Git Bash Here."
 	d. A terminal window should appear. Copy and paste the following, then hit enter : 
-			git clone https://github.com/stpilks99/Moodipy
+	
+		git clone https://github.com/stpilks99/Moodipy
+			
 	e. The Moodipy folder should appear in the directory once cloning is done.
   
 2. Open the repository in a Python IDE and install prerequisites.
@@ -28,8 +30,10 @@ You'll be listening to songs you actually like in no time.
 	d. There are a few prereqs you need before running the app, but you can install them using the package
 	manager called pip. Open a Python terminal window (you can just search for Python in the Windows search bar 
 	and it should come up as an app) and run each of the following commands:
-			pip install spotipy
-			pip install Pillow
+	
+		pip install spotipy
+		pip install Pillow
+			
 	Spotipy is a Python library for Spotify that makes API calls a lot easier. Pillow is a fork of the Python
 	Image Library that is capable of opening many types of image files - this is needed for the GUI.
 
