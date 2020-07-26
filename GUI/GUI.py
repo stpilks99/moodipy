@@ -339,7 +339,7 @@ class createPlaylist:
                 
                 '''Add songs to playlist in SQL'''
                 song_uris_names = playlistClass.add_songs_local(returned_list, self.sp)
-                flag = addS(uri_playlist, song_uris_names, name_db)
+                flag = addS(uri_playlist, song_uris_names, self.name_db)
                 if flag == False:
                     print('ERROR pushing songs to database')
                 self.closeWindow()

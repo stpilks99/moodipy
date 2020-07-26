@@ -36,6 +36,12 @@ You'll be listening to songs you actually like in no time.
 			
 	Spotipy is a Python library for Spotify that makes API calls a lot easier. Pillow is a fork of the Python
 	Image Library that is capable of opening many types of image files - this is needed for the GUI.
+	
+2a. Have your Spotify username ready.
+	a. Please note this isn't the same thing as your email. For instance, if you created your Spotify account
+	through Facebook, Spotify may assign a really long base-62 number as your username. Head over to 
+	https://www.spotify.com/us/account/overview/ and look at the Profile section to see it. Hightlight it and 
+	copy it - you'll need it for the next step.
 
 3. Run GUI.py.
 	a. A login window will appear. Enter your Spotify username, click the "Login with Spotify" button and you'll be

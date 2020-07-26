@@ -78,6 +78,7 @@ class Playlist:
         for i in resultSong['tracks']:
             tup = (i['uri'], i['name'])
             addSongList.append(tup)
+        print(addSongList)
         return addSongList
 
 
