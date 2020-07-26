@@ -89,7 +89,7 @@ def createP(databaseName, uri,mood,period,artist,genre,explicit,p_title):       
 
 
     #create table for playlist
-    sqlcommand = "CREATE TABLE '"+p_title+"""' ("songuri"	CHAR(36) NOT NULL UNIQUE,
+    sqlcommand = "CREATE TABLE '"+p_title_uri+"""' ("songuri"	CHAR(36) NOT NULL UNIQUE,
            "songname"	TEXT,
            "songrating"	NUMERIC,
            PRIMARY KEY("songuri"));"""
