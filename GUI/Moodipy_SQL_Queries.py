@@ -14,7 +14,7 @@ import os
 
 
 
-def addS(self,sURI,sNAME,userPlaylist,list, databaseName):              #add song function
+def addS(sURI,sNAME,userPlaylist,list, databaseName):              #add song function
     #songInfo = (sURI,sNAME)
     database = sqlite3.connect(databaseName)
     cursor = database.cursor()
@@ -32,7 +32,7 @@ def addS(self,sURI,sNAME,userPlaylist,list, databaseName):              #add son
     database.close()
     return True
 
-def removeS(self,sURI,userPlaylist, databaseName):
+def removeS(sURI,userPlaylist, databaseName):
     database = sqlite3.connect(databaseName)
     cursor = database.cursor()
     query1 = """DELETE FROM """ + userPlaylist + """ WHERE songuri = '""" + sURI + """'"""
@@ -40,7 +40,7 @@ def removeS(self,sURI,userPlaylist, databaseName):
     database.commit()
     database.close()
 
-def printS(self,sNAME,username,userPlaylist, databaseName):           #print song function
+def printS(sNAME,username,userPlaylist, databaseName):           #print song function
     database = sqlite3.connect(databaseName)
     cursor = database.cursor()
     sNAME = """SELECT sNAME FROM """ + userPlaylist + """;"""
@@ -52,7 +52,7 @@ def printS(self,sNAME,username,userPlaylist, databaseName):           #print son
         print(i)
     database.close()
 
-def getNumbT(self,numTrack,userPlaylist, databaseName):                         #get number of tracks in playlist
+def getNumbT(numTrack,userPlaylist, databaseName):                         #get number of tracks in playlist
     database = sqlite3.connect(databaseName)
     cursor = database.cursor()
     numTrack = """SELECT COUNT(sURI) FROM """ + userPlaylist + """;"""
@@ -62,7 +62,7 @@ def getNumbT(self,numTrack,userPlaylist, databaseName):                         
         print(i)
     database.close()
 
-def createP(self, userPlaylist, databaseName):                       #create a playlist
+def createP(userPlaylist, databaseName):                       #create a playlist
     database = sqlite3.connect(databaseName)
     cursor = database.cursor()
     newPlaylist = """INSERT INTO playlistmaster (playlisturi, playlistmood,playlistperiod, preferredartist, preferredgenre) VALUES ('""" + userPlaylist + """','jazz','2000','jackson5','swing');""" 
@@ -85,7 +85,7 @@ def createP(self, userPlaylist, databaseName):                       #create a p
         database.close()
     return 0
 
-def removeP(self, userPlaylist, databaseName):                       #remove a playlist
+def removeP(userPlaylist, databaseName):                       #remove a playlist
     #remove the table
     #remove the table row from the playlistmaster
     database = sqlite3.connect(databaseName)
