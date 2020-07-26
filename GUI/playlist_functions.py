@@ -90,7 +90,7 @@ class Playlist:
         return removeSongList
 
 
-    def add_songs_sp(self, artist, song, spotify_class):
+    def add_search_songs_sp(self, artist, song, spotify_class):
         '''Adds a song or list of songs to the playlist'''
         if self.__moved_to_spotify == False: # Check if playlist has been created in Spotify yet
             raise Exception("The playlist has not been exported to Spotify yet.")
@@ -107,13 +107,14 @@ class Playlist:
             sp.user_playlist_add_tracks(self.__user_name, self.__uri_playlist, self.__temp_add) # Add to playlist
         except:
             return False
-        self.__temp_add = []
-        
-            
-        self.add_songs_local(self.__user_name, song_uri_hold, sp)
-        return True
+        self.__temp_add = [] 
+        return self.add_songs_local(self.__user_name, song_uri_hold, sp)
         
 
+    def add_songs_sp(self, tracks, ):
+        '''takes a list of URI's and adds them to a playlist'''
+        # for track 
+        pass
 
     def remove_songs_sp(self, song_uri, spotify_class):
         '''Removes selected songs from playlist''' 
@@ -152,4 +153,4 @@ class Playlist:
             raise Exception("The playlist has not been created in Spotify.")
 
         sp = spotify_class
-        
+
