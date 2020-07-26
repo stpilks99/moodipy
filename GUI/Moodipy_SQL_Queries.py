@@ -29,6 +29,7 @@ def addS(userPlaylist,uri_name_list, databaseName):              #add song funct
         sNAME = """"""
         sURI  = songInfo[0]
         sNAME = songInfo[1]
+        sNAME = sNAME.replace("'", "") #remove the ' character
         print(sNAME)
         query1 = """INSERT INTO '""" + userPlaylist + """'          
                     VALUES ('""" + sURI + """','""" + sNAME + """', 0);"""
@@ -75,7 +76,7 @@ def getNumbT(numTrack,userPlaylist, databaseName):                         #get 
 
 def createP(databaseName, uri, mood, period, artist, genre, explicit, p_title):  # create a playlist
     # create entry in playlist master table
-    p_title = uri_to_title(uri)
+    p_title_uri = uri_to_title(uri)
     database = sqlite3.connect(databaseName)
     cursor = database.cursor()
     first_genre = genre[0]
