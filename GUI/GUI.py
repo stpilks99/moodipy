@@ -435,9 +435,10 @@ class helpDoc:
                         relief = "sunken",
                         font = "Helvetica 14 bold italic").grid(row=9, column=0)
 
-        def __init__(self, master, name_db, sp):
+        def __init__(self, master, name_db, sp, userClass):
                 self.sp = sp
                 self.name_db = name_db
+                self.userClass = userClass
                 self.master = master
                 self.master.title("Moodipy Help/Documentation")
                 self.master.configure(bg = "black")
