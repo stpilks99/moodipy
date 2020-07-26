@@ -29,12 +29,12 @@ def addS(userPlaylist,uri_name_list, databaseName):              #add song funct
         sNAME = """"""
         sURI  = songInfo[0]
         sNAME = songInfo[1]
-        
+        print(sNAME)
         query1 = """INSERT INTO '""" + userPlaylist + """'          
-            VALUES ('""" + sURI + """',"''' + sNAME + '''", 0);"""
+                    VALUES ('""" + sURI + """','""" + sNAME + """', 0);"""
         cursor.execute(query1)
-        
- 
+
+
     database.commit()
     database.close()
     return True
@@ -72,7 +72,8 @@ def getNumbT(numTrack,userPlaylist, databaseName):                         #get 
         print(i)
     database.close()
 
-def createP(databaseName, uri,mood,period,artist,genre,explicit,p_title):                       #create a playlist
+
+def createP(databaseName, uri, mood, period, artist, genre, explicit, p_title):  # create a playlist
     # create entry in playlist master table
     p_title = uri_to_title(uri)
     database = sqlite3.connect(databaseName)
@@ -93,7 +94,7 @@ def createP(databaseName, uri,mood,period,artist,genre,explicit,p_title):       
            "songname"	TEXT,
            "songrating"	NUMERIC,
            PRIMARY KEY("songuri"));"""
-    #print(sqlcommand) #debug to see SQL command
+    # print(sqlcommand) #debug to see SQL command
     cursor.execute(sqlcommand)
     database.commit()  # actually save the database
     database.close()
@@ -120,7 +121,7 @@ def sql_delete_playlist(self,pURI, name_db):
     querry2 = """DELETE FROM playlistmaster WHERE playlisturi = '""" + pURISPOT + """';"""
     c.execute(querry1)
     c.execute(querry2)
-    database.commit()  # actually save the database 
+    database.commit()  # actually save the database
     database.close()
 
 
@@ -141,7 +142,7 @@ def sql_create_database(name_db):
     setup_deleted_songs = """CREATE TABLE IF NOT EXISTS "deletedsongs" (
     "SongURI"	TEXT);"""
     c.execute(setup_deleted_songs)
-    
+
     database.commit()
     database.close()
     return 0
