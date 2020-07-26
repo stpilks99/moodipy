@@ -326,7 +326,7 @@ class createPlaylist:
                 user_uri = self.userClass.get_uri()
                 playlistClass = Playlist(user_uri, self.sp, playlist_title)
                 uri_playlist = playlistClass.create_spotify_playlist(self.sp)
-                flag = createP(self.name_db, uri_playlist, playlist_mood, time_period, pref_artist, playlist_genres, playlist_explicit) # Not working right now
+                flag = createP(self.name_db, uri_playlist, playlist_mood, time_period, pref_artist, playlist_genres, playlist_explicit, playlist_title) # Not working right now
                 if flag != 0:
                     print('ERROR with creating database table')
                     # Popup error
@@ -342,6 +342,7 @@ class createPlaylist:
                 flag = addS(uri_playlist, song_uris_names, name_db)
                 if flag == False:
                     print('ERROR pushing songs to database')
+                self.closeWindow()
 
 
         def closeWindow(self):
@@ -1165,16 +1166,16 @@ class login:
                     print("Found Spotify username:"+ name+"\nUsing it to create a database file.")
                 database = sqlite3.connect(name+".db")
                 #c = database.cursor()
-                self.main_menu()
+                self.main_menu(sp)
 
 
         def closeWindow(self):
                 # add login function here
                 self.master.destroy()
 
-        def main_menu(self):
+        def main_menu(self, sp):
                 self.newMainMenu = tk.Toplevel(self.master)
-                self.moodipy = mainMenu(self.newMainMenu, self.name_db, self.sp, self.userClass)
+                self.moodipy = mainMenu(self.newMainMenu, self.name_db, sp, self.userClass)
 
         #def main_menu(self)
 

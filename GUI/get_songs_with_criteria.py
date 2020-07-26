@@ -171,7 +171,7 @@ def get_songs_with_criteria(mood, # User entered mood
             track_obj = Track(track[0], sp, track_data=track[1], track_audio_features=track[2])
             track_moods = track_obj.get_mood()
             
-            if mood in track_moods: # Criteria matches
+            if mood.lower() in track_moods: # Criteria matches
                 valid_tracks.append(track[0]) # Add URI to valid tracks
 
         # Use last 5 songs added to the playlist as the recommendations for the next round
