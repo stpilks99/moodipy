@@ -191,6 +191,7 @@ class createPlaylist:
         def __init__(self, master,  name_db, sp, userClass):
                 self.name_db = name_db
                 self.userClass = userClass
+                self.sp = sp
                 self.master = master
                 self.master.title("Time to create a new playlist!")
                 self.master.configure(bg = "black")
@@ -306,8 +307,7 @@ class createPlaylist:
                 self.selection = self.listbox.curselection()
                 genre_list = []
                 for i in self.selection:
-                        self.gselected = self.listbox.get(i)
-                        genre_list.append()
+                        genre_list.append(self.listbox.get(i))
                 print(genre_list)
                 #Note: the variables on lines above are the user input
                 # need to add create playlist functions here
@@ -320,27 +320,26 @@ class createPlaylist:
                 time_period = self.tSelected
                 playlist_explicit = self.e
                 num_songs_needed = 30
-                db_name = self.db_name
+                name_db = self.name_db
 
                 # Code for creating playlist and adding recommendations
-                user_uri = userClass.get_uri()
-                playlistClass = Playlist(user_uri, sp, playlist_title)
-                names_uris = playlistClass.add_songs_local(['spotify:track:7jLwP6B3bcEQFooFZk67cH', 'spotify:track:1yYiUGDBW68b2tkdBDoUJT'], sp)
-                uri_playlist = playlistClass.create_spotify_playlist(sp)
-                flag = createP(db_name, uri_playlist, playlist_mood, time_period, pref_artist, playlist_genres, playlist_explicit) # Not working right now
+                user_uri = self.userClass.get_uri()
+                playlistClass = Playlist(user_uri, self.sp, playlist_title)
+                uri_playlist = playlistClass.create_spotify_playlist(self.sp)
+                flag = createP(self.name_db, uri_playlist, playlist_mood, time_period, pref_artist, playlist_genres, playlist_explicit) # Not working right now
                 if flag != 0:
                     print('ERROR with creating database table')
                     # Popup error
                 print(flag)
                 # Find recommendations based on user input
-                returned_list = get_songs_with_criteria(playlist_mood, playlist_genres, time_period, pref_artist, False, [], [], num_songs_needed, sp)        
-                flag = playlistClass.add_songs_sp(returned_list, sp)
+                returned_list = get_songs_with_criteria(playlist_mood, playlist_genres, time_period, pref_artist, False, [], [], num_songs_needed, self.sp)        
+                flag = playlistClass.add_songs_sp(returned_list, self.sp)
                 if flag == False:
                     print('ERROR moving songs to Spotify')
                 
                 '''Add songs to playlist in SQL'''
-                song_uris_names = playlistClass.add_songs_local(returned_list, sp)
-                flag = addS(uri_playlist, song_uris_names, db_name)
+                song_uris_names = playlistClass.add_songs_local(returned_list, self.sp)
+                flag = addS(uri_playlist, song_uris_names, name_db)
                 if flag == False:
                     print('ERROR pushing songs to database')
 

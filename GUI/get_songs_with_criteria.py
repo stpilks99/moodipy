@@ -20,6 +20,12 @@ def get_songs_with_criteria(mood, # User entered mood
     # Instantiate user class
     sp = spotify_class
     current_user = User(sp)
+
+    # Translate incoming genres
+    for i in range(len(genre_list)):
+        genre_list[i] = genre_list[i].lower()
+        genre_list[i] = genre_list[i].replace(" ", "-")
+
     
     valid_tracks = []    # Return value, list of URI's of songs that match criteria
 
@@ -122,33 +128,34 @@ def get_songs_with_criteria(mood, # User entered mood
         combined_track_list = songs_on_list + valid_tracks
         
         # Check entered mood, set target values
-        if mood == 'happy':
+        if mood == 'Happy':
             # High valence
             target_valence = 0.5 # Higher valence means more cheerful
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50)
-        elif mood == 'sad':
+        elif mood == 'Sad':
             target_valence = 0.3 # Low valence
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50, target_valence=target_valence)
-        elif mood == 'motivated':
+        elif mood == 'Motivated':
             target_energy = 0.85 # High energy
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50, target_energy=target_energy)
-        elif mood == 'calm':
+        elif mood == 'Calm':
             target_energy = 0.4 # Low energy
             recommendations_raw = sp.recommendations(seed_genres=genre_list, limit=50, target_energy=target_energy)
-        elif mood == 'frantic':
+        elif mood == 'Frantic':
             target_tempo = 150  # Fast tempo and high energy
             target_energy = 0.85
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50, target_energy=target_energy, target_tempo=target_tempo)
-        elif mood == 'party':
+        elif mood == 'Party':
             target_danceability = 0.8 # High danceability, energy, and popularity
             target_energy = 0.8
             target_popularity = 80
             recommendations_raw = sp.recommendations(seed_genres=genre_list, seed_tracks=last_5,limit=50, target_energy=target_energy, target_danceability=target_danceability, target_popularity=target_popularity)
-        elif mood == 'gaming':
+        elif mood == 'Gaming':
             target_speechiness = .05
             target_tempo = 120
             recommendations_raw = sp.recommendations(seed_genres=genre_list, seed_tracks=last_5,limit=50, target_speechiness=target_speechiness)
-        
+        else:
+            raise Exception('invalid mood input')
         
         all_track_info = recommendations_raw['tracks']
         recommended_uris = [] # Holds URI's found from recommendations query

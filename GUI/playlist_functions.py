@@ -56,19 +56,28 @@ class Playlist:
 
         else: # The playlist already exists
             self.__uri_playlist = uri
+            user_playlists_raw = sp.user_playlists(self.__user_name)
+            for playlist in user_playlists_raw['items']:
+                if playlist['uri'] == self.__uri_playlist:
+                    self.__name = playlist['name']
+                else:
+                    raise Exception('The URI is not a valid playlist')
             self.__name = name
             self.__moved_to_spotify = True
 
 
     def add_songs_local(self, uri_list, spotify_class):
         sp = spotify_class
-        resultSong = sp.track(uri_list)
-        song_uri = []
-        song_name = []
-        song_name = resultSong['name']
-        print(song_name)
-        song_uri = resultSong['uri']
-        addSongList = (song_uri, song_name)
+        resultSong = sp.tracks(uri_list)
+        song_uri = '' # Holds temp song uri
+        song_name = '' # Holds temp song name
+        addSongList = [] # Holds tuples
+        print(type(resultSong['tracks'][0]))
+        print(resultSong['tracks'][0]['uri'])
+        print(resultSong['tracks'][0]['name'])    
+        for i in resultSong['tracks']:
+            tup = (i['uri'], i['name'])
+            addSongList.append(tup)
         return addSongList
 
 
@@ -111,10 +120,19 @@ class Playlist:
         return self.add_songs_local(self.__user_name, song_uri_hold, sp)
         
 
-    def add_songs_sp(self, tracks, ):
+    def add_songs_sp(self, tracks, sp):
         '''takes a list of URI's and adds them to a playlist'''
         # for track 
-        pass
+        if not isinstance(tracks, list):
+            raise Exception("Tracks are not in a list")
+        # Add songs
+        try:
+            sp.user_playlist_add_tracks(self.__user_name, self.__uri_playlist, tracks)
+        except:
+            return False
+            
+        return True
+        
 
     def remove_songs_sp(self, song_uri, spotify_class):
         '''Removes selected songs from playlist''' 
