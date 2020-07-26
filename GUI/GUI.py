@@ -650,9 +650,7 @@ class editPlaylist:
                 if int(numOfSongs) >= 60:
                         tk.messagebox.showerror('Error!','The max amount of songs (60) has been reached.')
                 else:
-                        #add recommendations function goes here
-                        #add recommendations function goes here
-                        #if successfully added:
+                        
                         tk.messagebox.showinfo('Recommendations added!','Recommendations have been added to your playlist reaching the max number of songs (60).')    
                 database.close()
         def closeWindow(self):
@@ -989,10 +987,37 @@ class removeSong:
                 if self.rm == 'yes':
                         print("yes")
                         #add remove function here
-                        #if song is removed, get a return from function that indicates its removed:
-                        tk.messagebox.showinfo("song removed!", "Your song has been removed! Click cancel to go back to your playlist or remove another song.") 
-                        #else if not removed, display try again:
-                        tk.messagebox.showerror("Error", "A problem has occurred removing this song. Please check your playlist to ensure this song is in it by clicking cancel. If it is on your playlist, then please try again.") 
+                        titleRemove = self.titleRemove
+                        artistRemove = self.artistRemove
+                        database_name = self.name_db
+                        full_uri = playlistURI[7:]
+                        full_uri = 'spotify:playlist:' + full_uri
+
+                        found_flag = False
+                        user_uri = self.userClass.get_uri()
+                        search = titleRemove + ' ' + artistRemove
+                        results = self.sp.search(search)
+                        remove_flag = False
+                        playlist1 = Playlist(user_uri, self.sp, uri=full_uri, name=uri_to_title(full_uri))
+                        for track in results['tracks']['items']:
+                            track_uri = track['uri']
+                            remove_flag = removeS(track_uri, full_uri, self.name_db)
+                            if remove_flag == True:
+                                playlist1 = Playlist(user_uri, self.sp, uri=full_uri, name=uri_to_title(full_uri))
+                                try:
+                                    playlist1.remove_songs_sp(track_uri, sp)
+                                except:
+                                    remove_flag = False
+                                break
+
+
+                        print(len(results))
+                        playlist1 = Playlist(user_uri, self.sp, uri=full_uri, name=uri_to_title(full_uri))
+                        
+                        if remove_flag == True:
+                            tk.messagebox.showinfo("song removed!", "Your song has been removed! Click cancel to go back to your playlist or remove another song.") 
+                        else:
+                            tk.messagebox.showerror("Error", "A problem has occurred removing this song. Please check your playlist to ensure this song is in it by clicking cancel. If it is on your playlist, then please try again.") 
                 elif self.rm == 'no':
                         tk.messagebox.showinfo('Return','You will now return to the remove song window. Here you can either enter another song to remove or click cancel to go back to your playlist.')
 
