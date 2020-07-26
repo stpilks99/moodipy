@@ -435,9 +435,10 @@ class helpDoc:
                         relief = "sunken",
                         font = "Helvetica 14 bold italic").grid(row=9, column=0)
 
-        def __init__(self, master, name_db, sp):
+        def __init__(self, master, name_db, sp, userClass):
                 self.sp = sp
                 self.name_db = name_db
+                self.userClass = userClass
                 self.master = master
                 self.master.title("Moodipy Help/Documentation")
                 self.master.configure(bg = "black")
@@ -491,6 +492,7 @@ class editPlaylist:
                 self.sp = sp
                 self.userClass = userClass
                 self.master = master
+                self.sp = sp
                 #select username from playlistmaster where playlisturi = uri
                 self.master.title("View Playlist")
                 self.master.configure(bg = "black")
@@ -503,7 +505,7 @@ class editPlaylist:
                 # self.pURI = c.fetchall()
                 # for i in self.pURI:
                 #         print(i)
-                database = sqlite3.connect(self.name_db)
+                database = sqlite3.connect(name_db)
                 c = database.cursor()
                 fetchPlaylistTitle = """SELECT username FROM playlistmaster WHERE playlisturi = """ + playlistURI + """;"""
                 
@@ -1147,8 +1149,8 @@ class login:
                 
                 #username = 'b3qviosg0fm0mqq9k0uh6uit1' # Must be changed for final version
                 authorize = auth(self.username)
-                self.sp = authorize.authorize_util() # Spotify authorized class
-                self.userClass = User(self.sp)
+                sp = authorize.authorize_util() # Spotify authorized class
+                self.userClass = User(sp)
 
                 cList = find('.cache-*', '../')
                 name = '' # Spotify username of user
