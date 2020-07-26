@@ -320,7 +320,7 @@ class createPlaylist:
                 time_period = self.tSelected
                 playlist_explicit = self.e
                 num_songs_needed = 30
-                name_db = self.name_db
+                #name_db = self.name_db
 
                 # Code for creating playlist and adding recommendations
                 user_uri = self.userClass.get_uri()
@@ -490,6 +490,7 @@ class helpDoc:
 class editPlaylist:
         def __init__(self, master, playlistURI,  name_db, sp, userClass):
                 self.name_db = name_db
+                self.sp = sp
                 self.userClass = userClass
                 self.master = master
                 self.sp = sp
@@ -618,7 +619,7 @@ class editPlaylist:
                 # Songs
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print(pURI)
-                c.execute("""SELECT songname FROM playlist""" + pURI + """;""")
+                c.execute("""SELECT songname FROM """ + pURI + """;""")
                 songs = c.fetchall()
 
                 self.fields = Label(self.master, text = 'Song Title', fg = "black", bg = "green", bd = 6, width = 39, relief = "sunken", font = "Helvetica 18 bold italic")
@@ -1149,8 +1150,8 @@ class login:
                 
                 #username = 'b3qviosg0fm0mqq9k0uh6uit1' # Must be changed for final version
                 authorize = auth(self.username)
-                sp = authorize.authorize_util() # Spotify authorized class
-                self.userClass = User(sp)
+                self.sp = authorize.authorize_util() # Spotify authorized class
+                self.userClass = User(self.sp)
 
                 cList = find('.cache-*', '../')
                 name = '' # Spotify username of user
