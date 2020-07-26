@@ -78,13 +78,18 @@ def createP(databaseName, uri,mood,period,artist,genre,explicit,p_title):       
     database = sqlite3.connect(databaseName)
     cursor = database.cursor()
     first_genre = genre[0]
+    if artist  == "":
+        artist = "null"
+    period = period.replace("'","")
+    period = period.replace("+", "")
     sqlcommand = "INSERT INTO playlistmaster (playlisturi, username, playlistmood,playlistperiod, preferredartist, preferredgenre, explicit) " + \
-                 "VALUES('" + p_title + "','" + p_title + "','" + mood + "','" + period + "','" + artist + "','" + first_genre + "','" + str(explicit) + "')"
+                 "VALUES('" + p_title_uri + "','" + p_title + "','" + mood + "','" + period + "','" + artist + "','" + first_genre + "','" + str(explicit) + "')"
+    print(sqlcommand)  # debug to see SQL command
     cursor.execute(sqlcommand)
-    # print(sqlcommand) #debug to see SQL command
+
 
     #create table for playlist
-    sqlcommand = "CREATE TABLE '"+p_title+"""' ("songuri"	CHAR(36) NOT NULL UNIQUE,
+    sqlcommand = "CREATE TABLE '"+p_title_uri+"""' ("songuri"	CHAR(36) NOT NULL UNIQUE,
            "songname"	TEXT,
            "songrating"	NUMERIC,
            PRIMARY KEY("songuri"));"""
