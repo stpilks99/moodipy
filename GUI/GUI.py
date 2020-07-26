@@ -1148,8 +1148,8 @@ class login:
                 
                 #username = 'b3qviosg0fm0mqq9k0uh6uit1' # Must be changed for final version
                 authorize = auth(self.username)
-                self.sp = authorize.authorize_util() # Spotify authorized class
-                self.userClass = User(self.sp)
+                sp = authorize.authorize_util() # Spotify authorized class
+                self.userClass = User(sp)
 
                 cList = find('.cache-*', '../')
                 name = '' # Spotify username of user
