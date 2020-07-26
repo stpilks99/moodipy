@@ -75,7 +75,7 @@ def getNumbT(numTrack,userPlaylist, databaseName):                         #get 
 
 def createP(databaseName, uri, mood, period, artist, genre, explicit, p_title):  # create a playlist
     # create entry in playlist master table
-    p_title = uri_to_title(uri)
+    p_title_uri = uri_to_title(uri)
     database = sqlite3.connect(databaseName)
     cursor = database.cursor()
     first_genre = genre[0]
