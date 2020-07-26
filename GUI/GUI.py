@@ -597,7 +597,7 @@ class editPlaylist:
                         font = "Helvetica 19 bold italic",
                         width = 14,
                         height = 2,
-                        command = lambda x = playlistURI: self.addRec(x))
+                        command = lambda x = playlistURI: self.addRec(x, self.name_db))
                 self.rec.place(x = 0, y = 498)
 
                 self.analysis = Button(self.master,
@@ -638,10 +638,15 @@ class editPlaylist:
         def addRec(self, playlistURI,name_db):
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print(pURI)
+                full_uri = pURI[8:]
+                full_uri = 'spotify:playlist:' + full_uri
                 database = sqlite3.connect(name_db)
                 c = database.cursor()
-                c.execute("""SELECT COUNT(songname) FROM playlist""" + pURI + """;""")
+                c.execute("""SELECT COUNT(songname) FROM """ + pURI + """;""")
+                
                 s = c.fetchall()
+                database.commit
+                database.close()
 
                 numOfSongs = str(s[0]).strip(',()')
 
@@ -650,9 +655,24 @@ class editPlaylist:
                 if int(numOfSongs) >= 60:
                         tk.messagebox.showerror('Error!','The max amount of songs (60) has been reached.')
                 else:
+                        user_uri = self.userClass.get_uri()
+                        playlistClass = Playlist(user_uri, self.sp, uri=full_uri)
+                        # Find recommendations based on user input
+                        returned_list = get_songs_with_criteria(playlist_mood, playlist_genres, time_period, pref_artist, False, [], [], (60-numOfSongs), self.sp)        
+                        flag = playlistClass.add_songs_sp(returned_list, self.sp)
+                        if flag == False:
+                            print('ERROR moving songs to Spotify')
                         
-                        tk.messagebox.showinfo('Recommendations added!','Recommendations have been added to your playlist reaching the max number of songs (60).')    
-                database.close()
+                        '''Add songs to playlist in SQL'''
+                        song_uris_names = playlistClass.add_songs_local(returned_list, self.sp)
+                        flag = addS(uri_playlist, song_uris_names, self.name_db)
+                        
+                        if flag == False:
+                            print('ERROR pushing songs to database')
+                            self.closeWindow()
+                        else:
+                            tk.messagebox.showinfo('Recommendations added!','Recommendations have been added to your playlist reaching the max number of songs (60).')    
+                        
         def closeWindow(self):
                 self.master.destroy()
         
@@ -990,7 +1010,7 @@ class removeSong:
                         titleRemove = self.titleRemove
                         artistRemove = self.artistRemove
                         database_name = self.name_db
-                        full_uri = playlistURI[7:]
+                        full_uri = playlistURI[8:]
                         full_uri = 'spotify:playlist:' + full_uri
 
                         found_flag = False
