@@ -491,6 +491,7 @@ class editPlaylist:
                 self.name_db = name_db
                 self.userClass = userClass
                 self.master = master
+                self.sp = sp
                 #select username from playlistmaster where playlisturi = uri
                 self.master.title("View Playlist")
                 self.master.configure(bg = "black")
@@ -503,7 +504,7 @@ class editPlaylist:
                 # self.pURI = c.fetchall()
                 # for i in self.pURI:
                 #         print(i)
-                database = sqlite3.connect(self.name_db)
+                database = sqlite3.connect(name_db)
                 c = database.cursor()
                 fetchPlaylistTitle = """SELECT username FROM playlistmaster WHERE playlisturi = """ + playlistURI + """;"""
                 
