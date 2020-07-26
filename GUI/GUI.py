@@ -42,10 +42,12 @@ def logout():
 # main menu window class
 class mainMenu:
         # constructor
-        def __init__(self, master,  c, database, sp):
+        def __init__(self, master,  c, database, sp, userClass):
                 self.c = c
                 self.database = database
                 self.sp = sp
+                self.userClass = userClass
+                print(type(userClass))
                 self.master = master
                 self.master.title("Moodipy")
                 self.master.configure(bg = "black")
@@ -181,10 +183,11 @@ class mainMenu:
 #create playlist window
 class createPlaylist:
         # SQL Create playlist function
-        def __init__(self, master,  c, database, sp):
+        def __init__(self, master,  c, database, sp, userClass):
                 self.c = c
                 self.database = database
                 self.sp = sp
+                self.userClass = userClass
                 self.master = master
                 self.master.title("Time to create a new playlist!")
                 self.master.configure(bg = "black")
@@ -469,10 +472,11 @@ class helpDoc:
                 self.master.destroy()
 
 class editPlaylist:
-        def __init__(self, master, playlistURI,  c, database, sp):
+        def __init__(self, master, playlistURI,  c, database, sp, userClass):
                 self.c = c
                 self.database = database
                 self.sp = sp
+                self.userClass = userClass
                 self.master = master
                 #select username from playlistmaster where playlisturi = uri
                 self.master.title("View Playlist")
@@ -686,10 +690,11 @@ class editPlaylist:
 
 
 class rankSongs:
-        def __init__(self, master,  c, database, sp):
+        def __init__(self, master,  c, database, sp, userClass):
                 self.c = c
                 self.database = database
                 self.sp = sp
+                self.userClass = userClass
                 self.master = master
                 self.master.title("Time to rank songs!")
                 self.master.configure(bg = "black")
@@ -768,9 +773,10 @@ class rankSongs:
                 self.master.destroy()
 
 class addSong:
-        def __init__(self, master, playlistURI,  c, database, sp):
+        def __init__(self, master, playlistURI,  c, database, sp, userClass):
                 self.c = c
                 self.database = database
+                self.userClass = userClass
                 self.sp = sp
                 self.playlistURI
                 self.master = master
@@ -881,10 +887,11 @@ class addSong:
                 self.master.destroy()
 
 class removeSong:
-        def __init__(self, master, playlistURI,  c, database, sp):
+        def __init__(self, master, playlistURI,  c, database, sp, userClass):
                 self.c = c
                 self.database = database
                 self.sp = sp
+                self.userClass = userClass
                 self.master = master
                 self.master.title("Time to remove a song from the playlist!")
                 self.master.configure(bg = "black")
@@ -982,10 +989,11 @@ class removeSong:
                 self.master.destroy()
 
 class analysis:
-        def __init__(self, master, c, database, sp):
+        def __init__(self, master, c, database, sp, userClass):
                 self.c = c
                 self.database = database
                 self.sp = sp
+                self.userClass = userClass
                 self.master = master
                 self.master.title("Analysis")
                 self.master.configure(bg = "black")
@@ -1166,6 +1174,7 @@ class login:
                 #username = 'b3qviosg0fm0mqq9k0uh6uit1' # Must be changed for final version
                 authorize = auth(self.username)
                 self.sp = authorize.authorize_util() # Spotify authorized class
+
 
                 cList = find('.cache-*', '../')
                 name = '' # Spotify username of user
