@@ -162,16 +162,17 @@ class Playlist:
         return ''
 
 
-    def get_playlist_tracks(self, spotify_class):
+    def get_playlist_tracks(self, spotify_class, playlist_uri):
         '''Get all track URI's in a playlist'''
         if self.__moved_to_spotify == False:
             raise Exception("The playlist has not been created in Spotify.")
 
         sp = spotify_class
-        raw_data = sp.playlist(self.uri_playlist)
+        raw_data = sp.playlist(playlist_uri)
+        #print(raw_data['tracks']['items'][0]['track'])
         uri_list = []
-        for i in raw_data['items']:
-            uri_list.append(i['uri'])
+        for i in raw_data['tracks']['items']:
+            uri_list.append(i['track']['uri'])
 
         return uri_list
 

@@ -185,8 +185,7 @@ def get_songs_with_criteria(mood, # User entered mood
         if fail_loop_count > 4: # If the loop has failed 5 times
             return []
 
-        valid_tracks = set(valid_tracks)
-        valid_tracks = list(valid_tracks)
+        valid_tracks = list(dict.fromkeys(valid_tracks))
 
         length_prev_loop = len(valid_tracks)
 

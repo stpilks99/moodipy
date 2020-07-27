@@ -652,6 +652,13 @@ class editPlaylist:
                 full_uri = 'spotify:playlist:' + full_uri
                 database = sqlite3.connect(name_db)
                 c = database.cursor()
+                playlist_info = get_playlist_info(pURI, name_db) #get info from sql database
+                print(playlist_info)
+                for i in playlist_info:
+                    info = list(i)
+                print(info[0]) #uri, not needed
+                print(info[2])  #mood
+                print(info[5]) #genre
                 c.execute("""SELECT COUNT(songname) FROM """ + pURI + """;""")
                 
                 s = c.fetchall()
@@ -668,14 +675,18 @@ class editPlaylist:
                         user_uri = self.userClass.get_uri()
                         playlistClass = Playlist(user_uri, self.sp, uri=full_uri)
                         # Find recommendations based on user input
-                        returned_list = get_songs_with_criteria(playlist_mood, playlist_genres, time_period, pref_artist, False, [], [], (60-numOfSongs), self.sp)        
+                        playlist_tracks = playlistClass.get_playlist_tracks(self.sp, full_uri)
+                        list_genres_add = []
+                        list_genres_add.append(info[5])
+                        songs_needed = 60 - int(numOfSongs)
+                        returned_list = get_songs_with_criteria(info[2], list_genres_add, '', '', True, [], playlist_tracks, songs_needed, self.sp)        
                         flag = playlistClass.add_songs_sp(returned_list, self.sp)
                         if flag == False:
                             print('ERROR moving songs to Spotify')
                         
                         '''Add songs to playlist in SQL'''
                         song_uris_names = playlistClass.add_songs_local(returned_list, self.sp)
-                        flag = addS(uri_playlist, song_uris_names, self.name_db)
+                        flag = addS(full_uri, song_uris_names, self.name_db)
                         
                         if flag == False:
                             print('ERROR pushing songs to database')
