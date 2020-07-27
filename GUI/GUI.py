@@ -52,6 +52,10 @@ class mainMenu:
                 self.np = Button(self.master, text = "New Playlist", command = self.new_playlist, bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 2)
                 self.np.place(x = 200, y = 250)
 
+                # # Refresh button
+                self.np = Button(self.master, text = "Refresh", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 2)
+                self.np.place(x = 0, y = 0)
+
                 # Help button
                 self.hd = Button(self.master, text = "Help/Documentation", command = self.help_doc, bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 16, height = 2)
                 self.hd.place(x = 425, y = 250)
@@ -114,7 +118,7 @@ class mainMenu:
                 # to iterate through the query of playlist uris
                 for self.val in self.qr:
                         j = 0
-                        self.pURIList.insert(j, self.val)
+                        self.pURIList.append(self.val)
                         j += 1
                         print(self.pURIList)
                 
@@ -135,6 +139,9 @@ class mainMenu:
                         self.playlistButton = tk.Button(self.frame, command = lambda x = i, y = playlistURI: self.onButtonClick(x, y), text = self.name, fg = "black", bg = "green", bd = 6, relief = "raised", font = "Helvetica 18 bold italic").grid(row=i,column=0)
                 #print(i)
                 database.close()
+
+        def restart(self):
+                self.refresh()
 
         def onButtonClick(self, buttonID, playlistURI):
                 database = sqlite3.connect(self.name_db)
@@ -338,6 +345,8 @@ class createPlaylist:
                 if flag == False:
                     print('ERROR pushing songs to database')
                 self.closeWindow()
+                #mainMenu.refreshWindow(self)
+                #mainMenu.restart(self)
 
 
         def closeWindow(self):
@@ -504,10 +513,11 @@ class editPlaylist:
                 database = sqlite3.connect(name_db)
                 c = database.cursor()
                 fetchPlaylistTitle = """SELECT username FROM playlistmaster WHERE playlisturi = """ + playlistURI + """;"""
-                
+                print("this is a string")
+                print(playlistURI)
                 c.execute(fetchPlaylistTitle)
                 playlistTitle = str(c.fetchone()).strip('(,)\'')
-                
+                print(playlistTitle)
                 # Playlist title label
                 self.t = Label(self.master, text =  str(playlistTitle) ,  fg = "black", bg = "green", bd = 6, width = 20, relief = "sunken", font = "Helvetica 35 bold italic")
                 self.t.place(x = 275, y = 50)
