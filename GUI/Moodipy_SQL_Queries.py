@@ -152,3 +152,15 @@ def sql_create_database(name_db):
     database.close()
     return 0
 
+def get_playlist_info(Puri, name_db):
+   # userPlaylist = uri_to_title(Puri)
+    userPlaylist = "playlist7tcW3t5IkBtdLRN7oQQMUo"
+    database = sqlite3.connect(name_db)
+    cursor = database.cursor()
+    sNAME = """select * from playlistmaster where playlisturi = '"""+Puri+"""'"""
+    cursor.execute(sNAME)
+    query_result = cursor.fetchall()
+    for i in query_result:
+        print(i)
+    database.close()
+    return query_result
