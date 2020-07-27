@@ -50,3 +50,17 @@ You'll be listening to songs you actually like in no time.
 	b. Login with your Spotify credentials on the webpage and click "Authorize." The Moodipy main menu will open
 	and you'll see all the playlists in your library.
 	
+	
+************* ヾ(⌐■_■)ノ♪ You can try out the following features for free : **********************
+- Login
+- Logout
+- Create a playlist, but explicit option and time period are not yet functional
+- Help/doc window
+- Analysis of playlist
+- Once you create a playlist, for now you must logout and log back in to see your changes reflected
+in the list of playlists.
+	
+************ ◉_◉ Please note that the following features are still in development: **************
+- Add 1 song, remove 1 song buttons
+- Rank Song window 
+- Add additional recommendations
