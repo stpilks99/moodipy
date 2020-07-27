@@ -168,4 +168,12 @@ class Playlist:
             raise Exception("The playlist has not been created in Spotify.")
 
         sp = spotify_class
+        raw_data = sp.playlist(self.uri_playlist)
+        uri_list = []
+        for i in raw_data['items']:
+            uri_list.append(i['uri'])
+
+        return uri_list
+
+
 
