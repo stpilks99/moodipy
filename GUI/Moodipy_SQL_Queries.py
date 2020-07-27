@@ -163,4 +163,5 @@ def get_playlist_info(Puri, name_db):
     for i in query_result:
         print(i)
     database.close()
+   #bs comment
     return query_result
