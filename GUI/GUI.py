@@ -53,7 +53,7 @@ class mainMenu:
                 self.np.place(x = 200, y = 250)
 
                 # # Refresh button
-                self.np = Button(self.master, text = "Refresh", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 2)
+                self.np = Button(self.master, command = self.refreshMain, text = "Refresh", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 2)
                 self.np.place(x = 0, y = 0)
 
                 # Help button
@@ -140,9 +140,11 @@ class mainMenu:
                 #print(i)
                 database.close()
 
-        def restart(self):
-                self.refresh()
-
+        def refreshMain(self):
+        # queries the local database again for new playlists and refreshes mainMenu window
+                self.playlists()
+                self.master.update()
+                                
         def onButtonClick(self, buttonID, playlistURI):
                 database = sqlite3.connect(self.name_db)
                 c = database.cursor()
@@ -186,6 +188,9 @@ class mainMenu:
                 #print(str(self.playlistURI))
                 self.newEditPlaylist = tk.Toplevel(self.master)
                 self.moodipy = editPlaylist(self.newEditPlaylist, playlistURI, self.name_db, self.sp, self.userClass)
+
+        def closeWindow(self):
+                self.master.destroy()
 
 #create playlist window
 class createPlaylist:
@@ -345,9 +350,7 @@ class createPlaylist:
                 if flag == False:
                     print('ERROR pushing songs to database')
                 self.closeWindow()
-                #mainMenu.refreshWindow(self)
-                #mainMenu.restart(self)
-
+                
 
         def closeWindow(self):
                 self.master.destroy()
@@ -1151,7 +1154,7 @@ class analysis:
                                 width = 80,
                                 font = "Helvetica 10 bold italic")
                 self.stuff6.place(x = 0, y = 330)
-                self.stuff7 = tk.Label(self.maste, text ="Popularity | 0-100 scale of track’s popularity | NA | NA | NA | NA | NA | >65 | NA", 
+                self.stuff7 = tk.Label(self.master, text ="Popularity | 0-100 scale of track’s popularity | NA | NA | NA | NA | NA | >65 | NA", 
                                         fg = "black", 
                                         bg = "gray", 
                                         bd = 8, 
