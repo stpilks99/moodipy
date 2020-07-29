@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     user_uri = userClass.get_uri()
     mood = ['Happy', 'Sad', 'Motivated', 'Calm', 'Frantic', 'Party', 'Gaming'] # Pick from one
-    genres = ['Acoustic']
+    genres = ['r-n-b']
     disliked_song_uris = [] # Songs that the user does not want to hear anymore
     songs_on_list = []
     num_songs_needed = 25
@@ -26,3 +26,8 @@ if __name__ == '__main__':
         track1 = Track(uri, sp)
         print('URI: ', track1.get_uri(), ', Valence level: ', track1.get_valence_val())
 
+    # Add more and print out different tracks
+    new_uris = get_songs_with_criteria(mood[1], genres, '', '', True, disliked_song_uris, uris, num_songs_needed, sp)
+    for uri in new_uris:
+        track1 = Track(uri, sp)
+        print('URI: ', track1.get_uri(), ', Valence level: ', track1.get_valence_val())

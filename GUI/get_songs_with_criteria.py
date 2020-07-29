@@ -133,7 +133,7 @@ def get_songs_with_criteria(mood, # User entered mood
             target_valence = 0.99 # Higher valence means more cheerful
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50)
         elif mood == 'Sad':
-            target_valence = 0.1 # Low valence
+            target_valence = 0.3 # Low valence
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50, target_valence=target_valence)
         elif mood == 'Motivated':
             target_energy = 0.9 # High energy
@@ -156,6 +156,10 @@ def get_songs_with_criteria(mood, # User entered mood
             recommendations_raw = sp.recommendations(seed_genres=genre_list, seed_tracks=last_5,limit=50, target_speechiness=target_speechiness)
         else:
             raise Exception('invalid mood input')
+
+        # Check for returned results
+        if len(recommendations_raw) == 0:
+            print('No matches found for this criteria')
         
         all_track_info = recommendations_raw['tracks']
         recommended_uris = [] # Holds URI's found from recommendations query
