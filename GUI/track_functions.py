@@ -73,12 +73,14 @@ class Track():
         else:
             self.__track_data = track_data  
 
-        # Add data to class from track() 
-        for artist in self.__track_data['artists']:
-            self.__artists.append(artist['uri'])
-        self.__explicit = bool(self.__track_data['explicit'])
-        self.__popularity = self.__track_data['popularity']  
-        
+        # Add data to class from track()
+        try: 
+            for artist in self.__track_data['artists']:
+                self.__artists.append(artist['uri'])
+            self.__explicit = bool(self.__track_data['explicit'])
+            self.__popularity = self.__track_data['popularity']  
+        except:
+            pass
 
     def get_dance_val(self):
         '''Gets danceability of this song'''

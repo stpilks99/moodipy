@@ -130,20 +130,20 @@ def get_songs_with_criteria(mood, # User entered mood
         # Check entered mood, set target values
         if mood == 'Happy':
             # High valence
-            target_valence = 0.5 # Higher valence means more cheerful
+            target_valence = 0.99 # Higher valence means more cheerful
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50)
         elif mood == 'Sad':
-            target_valence = 0.3 # Low valence
+            target_valence = 0.1 # Low valence
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50, target_valence=target_valence)
         elif mood == 'Motivated':
-            target_energy = 0.85 # High energy
+            target_energy = 0.9 # High energy
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50, target_energy=target_energy)
         elif mood == 'Calm':
-            target_energy = 0.4 # Low energy
+            target_energy = 0.2 # Low energy
             recommendations_raw = sp.recommendations(seed_genres=genre_list, limit=50, target_energy=target_energy)
         elif mood == 'Frantic':
             target_tempo = 150  # Fast tempo and high energy
-            target_energy = 0.85
+            target_energy = 0.9
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50, target_energy=target_energy, target_tempo=target_tempo)
         elif mood == 'Party':
             target_danceability = 0.8 # High danceability, energy, and popularity
@@ -177,7 +177,13 @@ def get_songs_with_criteria(mood, # User entered mood
         # Use last 5 songs added to the playlist as the recommendations for the next round
         if len(valid_tracks) > 5:
             last_5 = valid_tracks[-5:]
-            print(last_5)
+            #print(last_5)
+
+        # Check to see if any of the songs are already on the playlist
+        for track in songs_on_list:
+            if track in valid_tracks:
+                valid_tracks.remove(track)
+                
 
         # Count number of loops that the tracks have not changed, if > 5 return a blank list
         if len(valid_tracks) == length_prev_loop: # If the number of tracks retu
