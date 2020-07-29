@@ -951,7 +951,7 @@ class removeSong:
                 self.master.resizable(width = False, height = False)
                 self.master.geometry("900x680")
 
-                self.lt = tk.Label(self.master, text ='Please enter the title and artist of\n the song title you would like to remove:', 
+                self.lt = tk.Label(self.master, text ='Please enter the title\n of the song title you would like to remove:', 
                                 fg = "black", 
                                 bg = "green", 
                                 bd = 8, 
@@ -963,7 +963,7 @@ class removeSong:
 
                 #getting entry for title of song
                 self.et1 = Entry(self.master, font = "Helvetica 40 italic", width = 21) 
-                self.et1.place(x = 230, y = 290) 
+                self.et1.place(x = 230, y = 310) 
 
                 self.t1 = tk.Label(self.master, text ='Title:', 
                                 fg = "black", 
@@ -973,21 +973,8 @@ class removeSong:
                                 height = 1,
                                 width = 5,
                                 font = "Helvetica 32 bold italic")
-                self.t1.place(x = 65, y = 290)
+                self.t1.place(x = 65, y = 310)
 
-                #getting entry for artist of song
-                self.a1 = tk.Label(self.master, text ='Artist:', 
-                                fg = "black", 
-                                bg = "green", 
-                                bd = 8, 
-                                relief = "sunken", 
-                                height = 1,
-                                width = 5,
-                                font = "Helvetica 32 bold italic")
-                self.a1.place(x = 65, y = 400)
-
-                self.ea1 = Entry(self.master, font = "Helvetica 40 italic", width = 21) 
-                self.ea1.place(x = 230, y = 400) 
 
                 #creates Remove button that brings to playlist window
                 self.Remove = Button(self.master, text = "Remove", 
@@ -999,7 +986,7 @@ class removeSong:
                                 height = 2,
                                 command = lambda x = playlistURI: self.remove(x))
 
-                self.Remove.place(x = 630, y = 520)
+                self.Remove.place(x = 630, y = 500)
 
                 #creates cancel button that brings back to playlist window
                 self.Cancelr = Button(self.master, text = "Close", 
@@ -1010,7 +997,7 @@ class removeSong:
                                 width = 9, 
                                 height = 2,
                                 command = self.closeWindow)
-                self.Cancelr.place(x = 42 , y = 520)
+                self.Cancelr.place(x = 42 , y = 500)
 
                 self.master.grab_set()
 
@@ -1018,9 +1005,7 @@ class removeSong:
         #in this function need to add the function from functions group since command only accepts one function  
         def remove(self, playlistURI):
                 self.titleRemove = self.et1.get()
-                self.artistRemove = self.ea1.get()
                 print(self.titleRemove)
-                print(self.artistRemove)
 
                 #name of table for playlist that its on
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
@@ -1089,83 +1074,83 @@ class analysis:
                                 font = "Helvetica 28 bold italic")
                 self.title.place(x = 90, y = 30)
 
-                self.stuff = tk.Label(self.master, text ="Static |  Description |  Happy  |  Sad  | Motivated  |  Calm | Frantic  | Party  |  Gaming", 
+                self.stuff = tk.Label(self.master, text ="Static    |               Description                   |   Happy    |   Sad   |   Motivated   |   Calm   |   Frantic   |   Party   |  Gaming  ", 
                         fg = "black", 
                         bg = "gray", 
                         bd = 8, 
                         relief = "sunken", 
                         height = 1,
-                    width = 80,
+                    width = 100,
                     font = "Helvetica 10 bold italic")
-                self.stuff.place(x = 0, y = 150)
-                self.stuff1 = tk.Label(self.master, text ="Valence | 0-1 scale of how cheerful the track is  | > 0.5 | < 0.5 | NA | NA | NA | > 0.5 | NA", 
+                self.stuff.place(x = 50, y = 190)
+                self.stuff1 = tk.Label(self.master, text ="Valence | 0-1 scale of how cheerful the track is  |   > 0.5   |   < 0.5   |   NA   |   NA   |   NA   |   > 0.5   |   NA", 
                                         fg = "black", 
                                         bg = "gray", 
                                         bd = 8, 
                                         relief = "sunken", 
                                         height = 1,
-                                width = 80,
+                                width = 100,
                                 font = "Helvetica 10 bold italic")
-                self.stuff1.place(x = 0, y = 180)
+                self.stuff1.place(x = 50, y = 220)
 
-                self.stuff2 = tk.Label(self.master, text ="Energy   | 0-1 scale of how energetic the track is | NA | NA | >.7 |  <.7 |  >.7  | >.7  | NA", 
+                self.stuff2 = tk.Label(self.master, text ="Energy   |   0-1 scale of how energetic the track is   |   NA   |   NA   |   >.7   |   <.7   |    >.7    |   >.7    |   NA", 
                                         fg = "black", 
                                         bg = "gray", 
                                         bd = 8, 
                                         relief = "sunken", 
                                         height = 1,
-                                width = 80,
+                                width = 100,
                                 font = "Helvetica 10 bold italic")
-                self.stuff2.place(x = 0, y = 210)
+                self.stuff2.place(x = 50, y = 250)
 
-                self.stuff3 = tk.Label(self.master, text ="Acousticness | 0-1 scale of how acoustic the track is | NA | NA | NA | NA | NA | NA | NA", 
+                self.stuff3 = tk.Label(self.master, text ="Acousticness |  0-1 scale of how acoustic the track is  |   NA   |   NA   |   NA   |   NA   |   NA   |   NA   |   NA", 
                                         fg = "black", 
                                         bg = "gray", 
                                         bd = 8, 
                                         relief = "sunken", 
                                         height = 1,
-                                width = 80,
+                                width = 100,
                                 font = "Helvetica 10 bold italic")
-                self.stuff3.place(x = 0, y = 240)
-                self.stuff4 = tk.Label(self.master, text ="Danceability | 0-1 scale of how much you can dance to the track | NA | NA | NA | NA | NA | >.65 | NA", 
+                self.stuff3.place(x = 50, y = 280)
+                self.stuff4 = tk.Label(self.master, text ="Danceability | 0-1 scale of tracks danceability    |    NA         |    NA       |    NA      |    NA    |    NA    |    >.65    |    NA",  
                                         fg = "black", 
                                         bg = "gray", 
                                         bd = 8, 
                                         relief = "sunken", 
                                         height = 1,
-                                width = 80,
+                                width = 100,
                                 font = "Helvetica 10 bold italic")
-                self.stuff4.place(x = 0, y = 270)
+                self.stuff4.place(x = 50, y = 310)
                 self.stuff5 = tk.Label(self.master, text ="Speechiness | 0-1 how much speech dominates the track | NA | NA | NA | NA | NA | NA | <.085", 
                                         fg = "black", 
                                         bg = "gray", 
                                         bd = 8, 
                                         relief = "sunken", 
                                         height = 1,
-                                width = 80,
+                                width = 100,
                                 font = "Helvetica 10 bold italic")
-                self.stuff5.place(x = 0, y = 300)
-                self.stuff6 = tk.Label(self.master, text ="Tempo | Bpm measure of track | NA | NA | NA | <120 | >120 | NA | NA", 
+                self.stuff5.place(x = 50, y = 340)
+                self.stuff6 = tk.Label(self.master, text ="Tempo |                 Bpm measure of track                      |    NA    |    NA    |    NA    |    <120    |    >120    |    NA    |    NA", 
                                         fg = "black", 
                                         bg = "gray", 
                                         bd = 8, 
                                         relief = "sunken", 
                                         height = 1,
-                                width = 80,
+                                width = 100,
                                 font = "Helvetica 10 bold italic")
-                self.stuff6.place(x = 0, y = 330)
-                self.stuff7 = tk.Label(self.master, text ="Popularity | 0-100 scale of track’s popularity | NA | NA | NA | NA | NA | >65 | NA", 
+                self.stuff6.place(x = 50, y = 370)
+                self.stuff7 = tk.Label(self.master, text ="Popularity   |         0-100 scale of track’s popularity       |    NA    |    NA    |    NA    |    NA    |    NA    |    >65    |    NA", 
                                         fg = "black", 
                                         bg = "gray", 
                                         bd = 8, 
                                         relief = "sunken", 
                                         height = 1,
-                                width = 80,
+                                width = 100,
                                 font = "Helvetica 10 bold italic")
-                self.stuff7.place(x = 0, y = 360)
+                self.stuff7.place(x = 50, y = 400)
 
                 self.Done = Button(self.master, text = "Done", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3, command = self.closeWindow)
-                self.Done.place(x = 685, y = 530)
+                self.Done.place(x = 680, y = 515)
                 self.master.grab_set()
 
         def closeWindow(self):
