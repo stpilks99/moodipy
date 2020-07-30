@@ -22,45 +22,70 @@ class User():
     def get_followed_artists(self, spotify_class): #done
         sp = spotify_class
         result = sp.current_user_followed_artists(limit=50)
+        #print('result.keys')
+        #print(result.keys())
+        #print('result artists')
+        #print(result['artists'])
         uri_list = []
         list = result['artists']
         for i in list['items']:
             uri_list.append(i['uri'])
+        #print('uri list ')
         return uri_list
 
     def get_user_top_artists(self, spotify_class): #done
         sp = spotify_class
         result = sp.current_user_top_artists(limit=50)
+        #print('result.keys')
+        #print(result.keys())
+        #print('result items')
+        #print(result['items'])
         uri_list = []
         for i in result['items']:
             uri_list.append(i['uri'])
+        #print('uri list ')
         return uri_list
 
     def get_user_top_tracks(self, spotify_class): #done
         sp = spotify_class
         result = sp.current_user_top_tracks(limit=50)
+        #print('result.keys')
+        #print(result.keys())
+        #print('result items')
+        #print(result['items'])
         uri_list = []
         for i in result['items']:
-            uri_list.append(i['uri'])
+            uri_list.append(i['name'])
+        #print('uri list')
         return uri_list
 
     def get_user_saved_tracks(self, spotify_class): #done
         sp = spotify_class
-        result = sp.current_user_saved_tracks()
+        result = sp.current_user_saved_tracks(limit=50)
+        #print('result.keys')
+        #print(result.keys())
+        #print('result items')
+        #print(result['items'])
         uri_list = []
         for i in result['items']:
             uri_list.append(i['track']['uri'])
+        #print('uri list')
         return uri_list
 
     def get_playlists(self, spotify_class): #done
         sp = spotify_class
         result = sp.current_user_playlists(limit=50)
+        #print('result.keys')
+        #print(result.keys())
+        #print('result items')
+        #print(result['items'])
         uri_playlist = []
         name_playlist = []
         #print(result['items'][0].keys())
         for playlist in result['items']:
             name_playlist.append(playlist['name'])
             uri_playlist.append(playlist['uri'])
+        #print('uri list')
 
         tup = (uri_playlist, name_playlist)
 
@@ -76,7 +101,7 @@ class User():
     def testFunction(self, artist, song, spotify_class):
         sp = spotify_class
         searchVal = ('artist:' + artist + ' track:' + song) #artist and song are pulled from user input in GUI
-        print(searchVal)
+        #rint(searchVal)
         result = sp.search(searchVal)
         #print(result)
         print(result.keys())
