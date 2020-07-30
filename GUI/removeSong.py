@@ -12,7 +12,7 @@ removeSong.configure(bg = "black")
 removeSong.resizable(width = False, height = False)
 removeSong.geometry("900x680")
 
-lt = tk.Label(removeSong, text ='Please enter the title and artist of\n the song title you would like to remove:', 
+lt = tk.Label(removeSong, text ='Please enter the title\n of the song you would like to remove:', 
                 fg = "black", 
                 bg = "green", 
                 bd = 8, 
@@ -26,9 +26,7 @@ lt.place(x = 56, y = 70)
 #in this function need to add the function from functions group since command only accepts one function
 def remove():
     titleRemove = et1.get()
-    artistRemove = ea1.get()
     print(titleRemove)
-    print(artistRemove)
 
     rm = messagebox.askquestion("confirm song removal", "Are you sure you want to remove this song?")
 
@@ -43,7 +41,7 @@ def remove():
 
 #getting entry for title of song
 et1 = Entry(removeSong, font = "Helvetica 40 italic", width = 21) 
-et1.place(x = 230, y = 290) 
+et1.place(x = 230, y = 315) 
 
 t1 = tk.Label(removeSong, text ='Title:', 
                 fg = "black", 
@@ -53,21 +51,8 @@ t1 = tk.Label(removeSong, text ='Title:',
                 height = 1,
                 width = 5,
                 font = "Helvetica 32 bold italic")
-t1.place(x = 65, y = 290)
+t1.place(x = 65, y = 315)
 
-#getting entry for artist of song
-a1 = tk.Label(removeSong, text ='Artist:', 
-                fg = "black", 
-                bg = "green", 
-                bd = 8, 
-                relief = "sunken", 
-                height = 1,
-                width = 5,
-                font = "Helvetica 32 bold italic")
-a1.place(x = 65, y = 400)
-
-ea1 = Entry(removeSong, font = "Helvetica 40 italic", width = 21) 
-ea1.place(x = 230, y = 400) 
 
 #creates Remove button that brings to playlist window
 Remove = Button(removeSong, text = "Remove", 
@@ -79,7 +64,7 @@ Remove = Button(removeSong, text = "Remove",
                 height = 2,
                 command = remove)
 
-Remove.place(x = 630, y = 520)
+Remove.place(x = 630, y = 500)
 
 #creates cancel button that brings back to playlist window
 Cancelr = Button(removeSong, text = "Cancel", 
@@ -89,6 +74,6 @@ Cancelr = Button(removeSong, text = "Cancel",
                 font = "Helvetica 30 bold italic", 
                 width = 9, 
                 height = 2)
-Cancelr.place(x = 42 , y = 520)
+Cancelr.place(x = 42 , y = 500)
 
 removeSong.mainloop()
