@@ -78,7 +78,7 @@ def getNumbT(numTrack,userPlaylist, databaseName):                         #get 
     database.close()
 
 
-def createP(databaseName, uri, mood, period, artist, genre, explicit, p_title):  # create a playlist
+def createP(databaseName, uri, mood, artist, genre, p_title):  # create a playlist
     # create entry in playlist master table
     p_title_uri = uri_to_title(uri)
     database = sqlite3.connect(databaseName)
@@ -86,10 +86,10 @@ def createP(databaseName, uri, mood, period, artist, genre, explicit, p_title): 
     first_genre = genre[0]
     if artist  == "":
         artist = "null"
-    period = period.replace("'","")
-    period = period.replace("+", "")
-    sqlcommand = "INSERT INTO playlistmaster (playlisturi, username, playlistmood,playlistperiod, preferredartist, preferredgenre, explicit) " + \
-                 "VALUES('" + p_title_uri + "','" + p_title + "','" + mood + "','" + period + "','" + artist + "','" + first_genre + "','" + str(explicit) + "')"
+    # period = period.replace("'","") removed period
+    # period = period.replace("+", "")
+    sqlcommand = "INSERT INTO playlistmaster (playlisturi, username, playlistmood, preferredartist, preferredgenre) " + \
+                 "VALUES('" + p_title_uri + "','" + p_title + "','" + mood  + "','" + artist + "','" + first_genre + "')"
     print(sqlcommand)  # debug to see SQL command
     cursor.execute(sqlcommand)
 

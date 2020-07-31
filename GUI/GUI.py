@@ -307,13 +307,13 @@ class createPlaylist:
                 user_uri = self.userClass.get_uri()
                 playlistClass = Playlist(user_uri, self.sp, playlist_title)
                 uri_playlist = playlistClass.create_spotify_playlist(self.sp)
-                flag = createP(self.name_db, uri_playlist, playlist_mood, time_period, pref_artist, playlist_genres, playlist_explicit, playlist_title) # Not working right now
+                flag = createP(self.name_db, uri_playlist, playlist_mood, pref_artist, playlist_genres, playlist_title) # Not working right now
                 if flag != 0:
                     print('ERROR with creating database table')
                     # Popup error
                 print(flag)
                 # Find recommendations based on user input
-                returned_list = get_songs_with_criteria(playlist_mood, playlist_genres, time_period, pref_artist, False, [], [], num_songs_needed, self.sp)        
+                returned_list = get_songs_with_criteria(playlist_mood, playlist_genres, pref_artist, [], [], num_songs_needed, self.sp)        
                 flag = playlistClass.add_songs_sp(returned_list, self.sp)
                 if flag == False:
                     print('ERROR moving songs to Spotify')
@@ -669,7 +669,7 @@ class editPlaylist:
                         list_genres_add = []
                         list_genres_add.append(info[5])
                         songs_needed = 60 - int(numOfSongs)
-                        returned_list = get_songs_with_criteria(info[2], list_genres_add, '', '', True, [], playlist_tracks, songs_needed, self.sp)        
+                        returned_list = get_songs_with_criteria(info[2], list_genres_add, '', [], playlist_tracks, songs_needed, self.sp)        
                         flag = playlistClass.add_songs_sp(returned_list, self.sp)
                         if flag == False:
                             print('ERROR moving songs to Spotify')
