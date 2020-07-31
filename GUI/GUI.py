@@ -118,7 +118,7 @@ class mainMenu:
                 # to iterate through the query of playlist uris
                 for self.val in self.qr:
                         j = 0
-                        self.pURIList.append(self.val)
+                        self.pURIList.insert(j, self.val)
                         j += 1
                         print(self.pURIList)
                 
@@ -225,14 +225,14 @@ class createPlaylist:
                 self.lm.place(x= 47, y = 50) 
 
                 #creates entry so user can enter playlist title
-                self.lt = tk.Label(self.master, text ='Playlist title:', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
+                self.lt = tk.Label(self.master, text ='Playlist title:', fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
                 self.playlistName = Entry(self.master, font = "Helvetica 22 italic") 
-                self.lt.place(x = 47, y = 120)
-                self.playlistName.place(x = 230, y = 125) 
+                self.lt.place(x = 47, y = 140)
+                self.playlistName.place(x = 230, y = 145) 
 
                 #creates a drop down list where the user can select a mood with a label next to it
-                self.Lmd = tk.Label(self.master, text = "Select one mood:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-                self.Lmd.place(x = 47, y = 180)
+                self.Lmd = tk.Label(self.master, text = "Select one mood:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
+                self.Lmd.place(x = 47, y = 220)
 
                 #array of moods to be placed inside drop down menu
                 self.moods = ["Happy", 
@@ -244,21 +244,8 @@ class createPlaylist:
                         "Gaming"]
 
                 self.moodsSelected = ttk.Combobox(self.master, values = self.moods, font = "Helvetica 22 italic")
-                self.moodsSelected.place(x = 295, y = 185)
+                self.moodsSelected.place(x = 295, y = 225)
 
-                #creates a drop down list where the user can select a time period
-                self.Lp = tk.Label(self.master, text = "Select time period:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-                self.Lp.place(x = 47, y = 240)
-
-                self.times = ["2010's +",
-                        "2000's", 
-                        "90's", 
-                        "80's", 
-                        "70's",
-                        "None"]
-
-                self.timePeriod = ttk.Combobox(self.master, values = self.times, font = "Helvetica 22 italic")
-                self.timePeriod.place(x = 317, y = 244)
 
                 #creates a entry where user can enter prefered artist
                 self.Lp = tk.Label(self.master, text = "Enter preferred artist:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
@@ -267,36 +254,25 @@ class createPlaylist:
                 self.artistEntered.place(x = 355, y = 305) 
 
                 #creates a checkbox where the user can select preferred genres
-                self.Lg = tk.Label(self.master, text = "Enter preferred genres:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-                self.Lg.place(x = 47, y = 420)
+                self.Lg = tk.Label(self.master, text = "Enter preferred genres:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
+                self.Lg.place(x = 47, y = 380)
 
                 self.msg = tk.Label(self.master, text = " Please select up to 5 \ngenres you want last. \nIf not highlighted blue\n then they are not selected. ", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 12 bold italic" )
-                self.msg.place(x = 645, y = 115)
+                self.msg.place(x = 645, y = 125)
 
                 #28 genres
                 self.genres = ["Acoustic", "Afrobeat", "Alternative", "Ambient", "Brazil", "Classical", "Club", "Country", "Disco", "Dubstep", "EDM", "Funk", "Gospel", "Hard Rock", "Heavy Metal", "Hip Hop", "Holidays", "Indie", "Jazz", "Kpop", "Latin", "Metal", "Pop", "Punk", "Reggae", "RnB", "Rock", "Soul"]
 
-                self.listbox = tk.Listbox(self.master, bg = "white", height = 4, width = 45, bd = 6, relief = "sunken", font = "Helvetica 12 bold italic", selectmode = MULTIPLE) 
+                self.listbox = tk.Listbox(self.master, bg = "white", height = 6, width = 45, bd = 6, relief = "sunken", font = "Helvetica 12 bold italic", selectmode = MULTIPLE) 
                 self.listbox.pack(side = RIGHT, fill = BOTH) 
-                self.listbox.place(x = 370, y = 420)
+                self.listbox.place(x = 370, y = 380)
                 self.scrollbar = tk.Scrollbar(self.master) 
 
                 for self.values in self.genres: 
                         self.listbox.insert(END, self.values) 
 
                 self.listbox.config(yscrollcommand = self.scrollbar.set) 
-                self.scrollbar.config(command = self.listbox.yview) 
-
-                #creates a drop down list where the user can select yes for explict or no for non explicit
-                self.Le = tk.Label(self.master, text = "Would you like explict songs:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-                self.Le.place(x = 47, y = 360)
-
-                self.options = ["Yes", 
-                        "No", ]
-
-                self.explicitOrNot = ttk.Combobox(self.master, values = self.options, font = "Helvetica 22 italic")
-                self.explicitOrNot.place(x = 450, y = 365)
-                
+                self.scrollbar.config(command = self.listbox.yview)             
 
                 # forces user to click on new playlist window so they can't use 2 windows at once
                 self.master.grab_set()
@@ -306,11 +282,9 @@ class createPlaylist:
         def criteria(self):
                 self.pName = self.playlistName.get()
                 self.mSelected = self.moodsSelected.get()
-                self.tSelected = self.timePeriod.get()
                 self.artist = self.artistEntered.get()
-                self.e = self.explicitOrNot.get()
 
-                print(self.pName + "\n" + self.mSelected + "\n" + self.tSelected + "\n" + self.artist + "\n" + self.e)
+                print(self.pName + "\n" + self.mSelected + "\n"  + self.artist + "\n" )
                 self.selection = self.listbox.curselection()
                 genre_list = []
                 for i in self.selection:
@@ -324,8 +298,8 @@ class createPlaylist:
                 playlist_genres = genre_list
                 playlist_mood = self.mSelected
                 pref_artist = self.artist
-                time_period = self.tSelected
-                playlist_explicit = self.e
+                #time_period = self.tSelected
+                #playlist_explicit = self.e
                 num_songs_needed = 30
                 #name_db = self.name_db
 
@@ -583,7 +557,7 @@ class editPlaylist:
 
                 self.rank = Button(self.master,
                 text = "Rank\nSong",
-                command = self.rank_songs,
+                command = lambda x = playlistURI, y = name_db: self.rank_songs(x, y),
                 bg ="green", bd = 6, 
                 relief = "raised",
                 font = "Helvetica 19 bold italic",
@@ -592,14 +566,14 @@ class editPlaylist:
                 self.rank.place(x=0, y = 331)
 
                 self.de = Button(self.master,
-                text = "Delete\nPlaylist",
+                text = "Refresh",
                 bg ="green",
                 bd = 6,
                 relief = "raised",
                 font = "Helvetica 19 bold italic",
                 width = 14,
                 height = 2,
-                command = lambda x = playlistURI: self.deleteP(x)) ###
+                command = lambda x = playlistURI, y = name_db: self.refresh(x, y)) ###
                 self.de.place(x = 0, y = 415)
 
                 self.rec = Button(self.master,
@@ -648,6 +622,19 @@ class editPlaylist:
                 # forces user to click on certain window
                 self.master.grab_set()
                 database.close()
+        # refreshes editPlaylist window by querying all the song names again
+        def refresh(self, playlistURI, name_db): 
+                database = sqlite3.connect(name_db)
+                c = database.cursor()
+                pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
+                print(pURI)
+                c.execute("""SELECT songname FROM """ + pURI + """;""")
+                songs = c.fetchall()
+                for self.values in songs: 
+                        sngs =str(self.values).strip(',()').replace('\'', '')
+                        self.listbox.insert(END, sngs) 
+                self.master.update()
+                
         def addRec(self, playlistURI,name_db):
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print(pURI)
@@ -708,9 +695,9 @@ class editPlaylist:
                 self.newHelpDoc = tk.Toplevel(self.master)
                 self.moodipy = helpDoc(self.newHelpDoc, self.name_db, self.sp, self.userClass)
 
-        def rank_songs(self):
+        def rank_songs(self, playlistURI, name_db):
                 self.newRankSongs = tk.Toplevel(self.master)
-                self.moodipy = rankSongs(self.newRankSongs, self.name_db, self.sp, self.userClass)
+                self.moodipy = rankSongs(self.newRankSongs, self.name_db, self.sp, self.userClass, playlistURI)
 
         def add_song(self, playlistURI):
                 self.newAddSong = tk.Toplevel(self.master)
@@ -722,7 +709,7 @@ class editPlaylist:
 
 
 class rankSongs:
-        def __init__(self, master, name_db, sp, userClass):
+        def __init__(self, master, name_db, sp, userClass, playlistURI):
                 self.name_db = name_db
                 self.sp = sp
                 self.userClass = userClass
@@ -742,14 +729,14 @@ class rankSongs:
 
                 #creates label with message 
                 self.lm = tk.Label(self.master, 
-                text="  Here are your songs now rank them from 1-5  ", 
+                text="  Here are your songs now rank them from 1-3  \n1 = bad, 2 = average, 3 = above average", 
                 fg = "black", 
                 bg = "green", 
                 bd = 6,
                 relief = "raised",
                 font = "Helvetica 28 bold italic")
 
-                self.lm.place(x= 30, y = 50) 
+                self.lm.place(x= 30, y = 20) 
 
                 #creating a frame in main window that will hold a canvas 
                 self.myframe=Frame(self.master,relief=GROOVE,width=50,height=100,bd=1)
@@ -772,29 +759,37 @@ class rankSongs:
 
                 #binding the myfunction to the frame to allow for scrolling 
                 self.frame.bind("<Configure>",self.myfunction)
-                self.songs()
+                self.songs(playlistURI, name_db)
                 self.master.grab_set()
 
         #creating multiple scales and labels in a frame that is placed row after row using .grid
-        def songs(self):
+        def songs(self, playlistURI, name_db):
+                database = sqlite3.connect(name_db)
+                pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
+                print(pURI)
+                c = database.cursor()
+                c.execute("""SELECT COUNT(songname) FROM """ + pURI + """;""")
+                self.count = c.fetchall()
+                self.countOfSongs = str(self.count[0]).strip(',()')
+                print("num of songs: " + str(self.countOfSongs))
+                c.execute("""SELECT songname FROM """ + pURI + """;""")
+                self.song = c.fetchall()
+                print(self.song)
+                c.close()
+
                 self.j=0
                 self.k=1
-                for i in range(10):
+                self.a=0
+
+                for i in range(int(self.countOfSongs)):
                         
-                        self.sc1 = tk.Scale(self.frame, from_= 1, to = 5).grid(row=self.j, column=0)
+                        self.sc1 = tk.Scale(self.frame, from_= 1, to = 3).grid(row=self.j, column=0)
 
-                        self.s1 = tk.Label(self.frame, text ='         song 1        ', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic").grid(row=self.k,column=0)
-
-                        self.sc2 = tk.Scale(self.frame, from_= 1, to = 5).grid(row=self.j, column=1)
-
-                        self.s2 = tk.Label(self.frame, text ='         song 2        ', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic").grid(row=self.k,column=1)
-
-                        self.sc3 = tk.Scale(self.frame, from_= 1, to = 5).grid(row=self.j, column=2)
-
-                        self.s3 = tk.Label(self.frame, text ='         song 3        ', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic").grid(row=self.k,column=2)
+                        self.s1 = tk.Label(self.frame, text = str(self.song[self.a]).strip(',\'()'), fg = "black", bg = "green", bd = 5, width = 40, relief = "raised", font = "Helvetica 20 bold italic").grid(row=self.k,column=0)
 
                         self.j+=2
                         self.k+=2
+                        self.a+=1
 
         def myfunction(self, event):
                 #used to limit scrolling operations 
@@ -892,6 +887,7 @@ class addSong:
                 print(pURI)
                 c.execute("""SELECT COUNT(songname) FROM """ + pURI + """;""")
                 s = c.fetchall()
+                c.close()
 
                 numOfSongs = str(s[0]).strip(',()')
 
