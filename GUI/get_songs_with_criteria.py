@@ -97,8 +97,17 @@ def get_songs_with_criteria(mood, # User entered mood
             if genre not in genre_list:
                 genre_list.append(genre)
 
+        if len(genre_list) > 5:
+            genre_list = genre_list[:5]
+
+        print(len(genre_list))
+
+        # Change artist to list
+        artist_list = []
+        artist_list.append(result_artist_uri)
+        
         # Get info on all songs
-        recommendations_raw = sp.recommendations(seed_artists=[result_artist_uri], seed_genres=genre_list, limit=50)
+        recommendations_raw = sp.recommendations(seed_genres=genre_list, limit=50)
         all_track_info = recommendations_raw['tracks']
         recommended_uris = [] # Holds URI's found from recommendations query
         for track in all_track_info:
