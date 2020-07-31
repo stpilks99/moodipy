@@ -119,27 +119,58 @@ class Playlist:
         return self.add_songs_local(self.__user_name, song_uri_hold, sp)
         
 
-    def add_songs_sp(self, tracks, sp):
+    def add_songs_sp(self, artist, song, playlist_name, spotify_class): #**** need to change what is input when called from GUI
         '''takes a list of URI's and adds them to a playlist'''
+        sp = spotify_class
+        searchVal = ('artist:' + artist + ' track:' + song) #artist and song are pulled from user input in GUI
+        result = sp.search(searchVal)
+        song_uri_val = []
+        for values in result['tracks']['items']:
+            song_uri_val.append(values['uri'])
+        song_uri_hold = []
+        song_uri_hold = song_uri_val[0] # grabs the first result (match for artist and song)
+        resultSong = sp.track(song_uri_hold)
+        song_uri = []
+        song_name = []
+        song_name.append(resultSong['name'])
+        song_uri.append(resultSong['uri'])
+        addSongList = (song_uri, song_name)
+        username = sp.me()
+        user_id = username['id']
+        playlist_name = playlist_name.strip('spotify:playlist:')
         # for track 
-        if not isinstance(tracks, list):
+        if not isinstance(song_uri, list):
             raise Exception("Tracks are not in a list")
         # Add songs
         try:
-            sp.user_playlist_add_tracks(self.__user_name, self.__uri_playlist, tracks)
+            sp.user_playlist_add_tracks(user_id, playlist_name, song_uri)
         except:
             return False
             
         return True
         
 
-    def remove_songs_sp(self, song_uri, spotify_class):
+    def remove_songs_sp(self, artist, song, playlist_name, spotify_class): #**** need to change what is input when called from GUI
         '''Removes selected songs from playlist''' 
         sp = spotify_class
-        sp.user_playlist_remove_all_occurrences_of_tracks(self.__user_name, self.__uri_playlist, self.__temp_remove) # Remove from Spotify
-        songs = self.__temp_remove[0]
-        self.__temp_remove = [] # Reset list
-        Playlist.remove_songs_local(self.__user_name, self.__uri_playlist, songs, sp)
+        searchVal = ('artist:' + artist + ' track:' + song) #artist and song are pulled from user input in GUI
+        result = sp.search(searchVal)
+        song_uri_val = []
+        for values in result['tracks']['items']:
+            #print(values)
+            song_uri_val.append(values['uri'])
+        song_uri_hold = []
+        song_uri_hold = song_uri_val[0] # grabs the first result (match for artist and song)
+        resultSong = sp.track(song_uri_hold)
+        song_uri = []
+        song_name = []
+        song_name.append(resultSong['name'])
+        song_uri.append(resultSong['uri'])
+        username = sp.me()
+        user_id = username['id']
+        playlist_name = playlist_name.strip('spotify:playlist:')
+        sp.user_playlist_remove_all_occurrences_of_tracks(user_id, playlist_name, song_uri)
+        Playlist.remove_songs_local(self.__user_name, self.__uri_playlist, song_uri, sp)
 
 
     def create_spotify_playlist(self, spotify_class):
