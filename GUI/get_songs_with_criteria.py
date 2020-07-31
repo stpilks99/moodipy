@@ -8,9 +8,7 @@ from spotify_authorize import auth
 
 def get_songs_with_criteria(mood, # User entered mood
                             genre_list, # list of genres from user
-                            time_period, # User selected decade
                             related_artist, # optional user related artist
-                            explicit, # true or false
                             disliked_songs, # list of songs that have been previously removed from the playlist
                             songs_on_list, # The current list of songs in the playlist
                             num_songs_needed, # How many songs should this return?
