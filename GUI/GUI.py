@@ -305,8 +305,8 @@ class createPlaylist:
 
                 # Code for creating playlist and adding recommendations
                 user_uri = self.userClass.get_uri()
-                playlistClass = Playlist(user_uri, self.sp, playlist_title)
-                uri_playlist = playlistClass.create_spotify_playlist(self.sp)
+                playlistClass = Playlist(user_uri, self.sp, playlist_title) # Instantiate playlist class
+                uri_playlist = playlistClass.create_spotify_playlist(self.sp) # create playlist in Spotify
                 flag = createP(self.name_db, uri_playlist, playlist_mood, pref_artist, playlist_genres, playlist_title) # Not working right now
                 if flag != 0:
                     print('ERROR with creating database table')
