@@ -170,7 +170,7 @@ def get_track_uri(Puri,SongTitle, name_db):
     database = sqlite3.connect(name_db)
     cursor = database.cursor()
     SongTitle = SongTitle.replace("'", "") #remove '
-    qurry = "select songuri from "+ Puri +" where songname is '"+ SongTitle+"'";
+    qurry = "select songuri from "+ Puri +" where songname like '%"+ SongTitle+"%'";
     cursor.execute(qurry)
     query_result = cursor.fetchall()
     try:
