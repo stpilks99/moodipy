@@ -100,19 +100,22 @@ class Playlist:
         return removeSongList
 
 
-    def add_search_songs_sp(self, artist, song, spotify_class):
+    def add_search_songs_sp(self, artist, song, playlist_uri, spotify_class):
         '''Adds a song or list of songs to the playlist'''
         sp = spotify_class
         searchVal = ('artist:' + artist + ' track:' + song) #artist and song are pulled from user input in GUI
         result = sp.search(searchVal)
+        if len(result['tracks']['items']) == 0:
+            return [] # no songs found
         song_uri_val = []
         for values in result['tracks']['items']:
             song_uri_val.append(values['uri'])
         song_uri_hold = []
         self.__temp_add = song_uri_val[0]
         song_uri_hold = song_uri_val[0]
+        playlist_uri = playlist_uri.strip('spotify:playlist:')
         try:
-            sp.user_playlist_add_tracks(self.__user_name, self.__uri_playlist, self.__temp_add) # Add to playlist
+            sp.user_playlist_add_tracks(self.__user_name, playlist_uri, self.__temp_add) # Add to playlist
         except:
             return []
         self.__temp_add = [] 
