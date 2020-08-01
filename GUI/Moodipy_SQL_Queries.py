@@ -165,3 +165,18 @@ def get_playlist_info(Puri, name_db):
     database.close()
    #bs comment
     return query_result
+
+def get_track_uri(Puri,SongTitle, name_db):
+    database = sqlite3.connect(name_db)
+    cursor = database.cursor()
+    SongTitle = SongTitle.replace("'", "") #remove '
+    qurry = "select songuri from "+ Puri +" where songname is '"+ SongTitle+"'";
+    cursor.execute(qurry)
+    query_result = cursor.fetchall()
+    try:
+        adj_result = query_result[0][0] #get actual result
+    except:
+        print("No song:"+SongTitle+" Found in playlist table:"+Puri+" Please try again.")
+        adj_result = "No Result"
+    database.close()
+    return adj_result
