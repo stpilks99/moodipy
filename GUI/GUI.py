@@ -883,11 +883,12 @@ class addSong:
                 print(self.titleAdd)
                 print(self.artistAdd)
 
-                pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
-                print(pURI)
-                c.execute("""SELECT COUNT(songname) FROM """ + pURI + """;""")
+                playlistURI = playlistURI.strip("'")
+                playlistURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
+                print(playlistURI)
+                c.execute("""SELECT COUNT(songname) FROM """ + playlistURI + """;""")
                 s = c.fetchall()
-                c.close()
+                database.close()
 
                 numOfSongs = str(s[0]).strip(',()')
 
@@ -901,37 +902,45 @@ class addSong:
                                 #add add song function here
                                 # inputs: list of uri's and names
                                 # output: 
-                                titleAdd = self.titleAdd
+                                titleAdd = self.titleAdd # Get from GUI values
                                 artistAdd = self.artistAdd
                                 database_name = self.name_db
-                                full_uri = self.playlistURI[7:]
-                                full_uri = 'spotify:playlist:' + full_uri
+                                
+                                # Translate uri into spotify usable val
+                                full_playlist_uri = playlistURI[8:] 
+                                full_playlist_uri = 'spotify:playlist:' + full_playlist_uri
 
-                                found_flag = False
-                                user_uri = self.userClass.get_uri()
-                                playlist_uri = '' #playlistURI in GUI.py
-                                playlist1 = Playlist(user_uri, self.sp, uri=full_uri, name=uri_to_title(full_uri))
-                                songsList = playlist1.add_search_songs_sp(artistAdd, titleAdd, self.sp) # This function not working
+                                spotify_flag = False 
+                                db_flag = False
+
+                                user_uri = self.userClass.get_uri() 
+
+                                playlist1 = Playlist(user_uri, self.sp, uri=full_playlist_uri, name=uri_to_title(full_playlist_uri)) # spotify:playlist:0sZ6Vy1Q8autlvNnEeoDMN
+                                                                                                                                    # spotify:playlist:7KJJH6NPJeAvhQne3mziki
+                                                                                                                                    # spotify:playlist:3nNp0A32Zu528moCETLUZo
+                                songsList = playlist1.add_search_songs_sp(artistAdd, titleAdd, full_playlist_uri, self.sp) # This function not working
                                 if len(songsList) == 0:
-                                    found_flag = False
+                                    spotify_flag = False
+                                    # Put messagebox here saying that it failed to find a matching result in Spotify
                                 elif len(songsList) > 1:
-                                    found_flag = False
+                                    spotify_flag = False
+                                    # Put messagebox here saying that it failed to find a matching result in Spotify
                                 else:
-                                    found_flag = True
-                                    addS(playlist1.get_playlist_uri(), songsList, uri_to_title(full_uri))
+                                    spotify_flag = True
+                                    db_flag = addS(full_playlist_uri, songsList, self.name_db)#spotifypuri,
 
         
-                                if found_flag == True:
+                                if spotify_flag == True and db_flag == True:
                                     tk.messagebox.showinfo("song added!", "Your song has been added! Click cancel to go back to your playlist or add another song.") 
+                                    self.closeWindow()
                                 else:
-                                    tk.messagebox.showerror("Error", "A problem has occurred adding this song. Please try again.")               
+                                    tk.messagebox.showerror("Error", "A problem has occurred adding this song. Please check spelling of input criteria.", parent = self.master)               
                         elif self.confirmAdd == 'no':
-                                tk.messagebox.showinfo('Return','You will now return to the add song window. Here you can either enter another song to add or click cancel to go back to your playlist.')
+                                tk.messagebox.showinfo('Return','You will now return to the add song window. Here you can either enter another song to add or click cancel to go back to your playlist.', parent = self.master)
                 else:
-                        tk.messagebox.showerror('Error','The max amount of songs (60) has been reached. Please click cancel when returned to the add song window and delete a song to add more.')
+                        tk.messagebox.showerror('Error','The max amount of songs (60) has been reached. Please click cancel when returned to the add song window and delete a song to add more.', parent = self.master)
 
         def closeWindow(self):
-                database.close()
                 self.master.destroy()
 
 
@@ -1004,6 +1013,7 @@ class removeSong:
                 print(self.titleRemove)
 
                 #name of table for playlist that its on
+                playlistURI = playlistURI.strip("'")
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print("URI where song will be removed: " + pURI)
 
@@ -1013,36 +1023,29 @@ class removeSong:
                         print("yes")
                         #add remove function here
                         titleRemove = self.titleRemove
-                        artistRemove = self.artistRemove
                         database_name = self.name_db
-                        full_uri = playlistURI[8:]
-                        full_uri = 'spotify:playlist:' + full_uri
+                        full_playlist_uri = playlistURI[8:]
+                        full_playlist_uri = 'spotify:playlist:' + full_playlist_uri
 
-                        found_flag = False
-                        user_uri = self.userClass.get_uri()
-                        search = titleRemove + ' ' + artistRemove
-                        results = self.sp.search(search)
-                        remove_flag = False
-                        playlist1 = Playlist(user_uri, self.sp, uri=full_uri, name=uri_to_title(full_uri))
-                        for track in results['tracks']['items']:
-                            track_uri = track['uri']
-                            remove_flag = removeS(track_uri, full_uri, self.name_db)
-                            if remove_flag == True:
-                                playlist1 = Playlist(user_uri, self.sp, uri=full_uri, name=uri_to_title(full_uri))
-                                try:
-                                    playlist1.remove_songs_sp(track_uri, sp)
-                                except:
-                                    remove_flag = False
-                                break
-
-
-                        print(len(results))
-                        playlist1 = Playlist(user_uri, self.sp, uri=full_uri, name=uri_to_title(full_uri))
-                        
-                        if remove_flag == True:
-                            tk.messagebox.showinfo("song removed!", "Your song has been removed! Click cancel to go back to your playlist or remove another song.") 
+                        db_flag = removeS(self.titleRemove, full_playlist_uri, self.name_db)
+                        if isinstance(db_flag, bool):
+                            # Error saying that the song name was not found in the playlist
+                            tk.messagebox.showerror('Database error', 'Song was not found in local database.', parent = self.master)
                         else:
-                            tk.messagebox.showerror("Error", "A problem has occurred removing this song. Please check your playlist to ensure this song is in it by clicking cancel. If it is on your playlist, then please try again.") 
+                            # song_uri, playlist_uri, spotify_class
+                            playlist1 = Playlist(self.userClass.get_uri(), self.sp, uri=full_playlist_uri, name=uri_to_title(full_playlist_uri))
+                            sp_flag = playlist1.remove_songs_sp(db_flag, full_playlist_uri, self.sp)
+                        
+                        if sp_flag == False:
+                            print('Spotify failed to remove it.')
+                            tk.messagebox.showerror('Spotify error', 'There was a problem removing this song from the Spotify playlist, please try again.', parent = self.master)
+                        else:
+                            # Success
+                            print('success')
+                            tk.messagebox.showinfo('Success!', "Song was succesfully removed!")
+                            self.closeWindow()
+                        
+                        
                 elif self.rm == 'no':
                         tk.messagebox.showinfo('Return','You will now return to the remove song window. Here you can either enter another song to remove or click cancel to go back to your playlist.')
 
