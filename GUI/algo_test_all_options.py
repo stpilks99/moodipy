@@ -7,9 +7,11 @@ from user_functions import User
 from playlist_functions import Playlist
 from get_songs_with_criteria import get_songs_with_criteria
 import spotipy
+import datetime
 
 if __name__ == '__main__':
 
+    
     # Authorize Spotify connection
     authorize = auth('buffalobulldoggy')
     sp = authorize.authorize_util()
@@ -32,21 +34,27 @@ if __name__ == '__main__':
     successes = [] 
     fails = []
     # Loop through each combination and try
-    for i in range(len(moods)):
-        for j in range(len(genres)):
-            # The genres must be in the format of a list
-            genre_as_list = []
-            genre_as_list.append(genres[j])
-            # try:
-            uris = get_songs_with_criteria(moods[i], genre_as_list, '', [], [], song_lim, sp)
-            # except:
-            #     fails.append((moods[i], genres[j]))
-            #     continue
+    with open('algo_test_log.txt', 'w') as f: # log file setup
+        date = datetime.datetime.now()
+        time_now = date.strftime('%X')
+        f.writestr(, '\n')
+        for i in range(len(moods)):
+            for j in range(len(genres)):
+                # The genres must be in the format of a list
+                f.write(date.strftime('%X'))
+                genre_as_list = []
+                genre_as_list.append(genres[j])
+                # try:
+                uris = get_songs_with_criteria(moods[i], genre_as_list, '', [], [], song_lim, sp)
+                # except:
+                #     fails.append((moods[i], genres[j]))
+                #     continue
 
-            if len(uris) != song_lim: # Number of desired songs has not been reached
-                fails.append((moods[i], genres[j]))
-            else:
-                successes.append((moods[i], genres[j]))
+                if len(uris) != song_lim: # Number of desired songs has not been reached
+                    fails.append((moods[i], genres[j]))
+                else:
+                    successes.append((moods[i], genres[j]))
+            break
 
     print('Failed combinations:')       
     for combo in fails:

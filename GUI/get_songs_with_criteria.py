@@ -130,8 +130,10 @@ def get_songs_with_criteria(mood, # User entered mood
     length_prev_loop = 0 
     fail_loop_count = 0
     last_5 = []
+    total_loops = 0
     # Get song recommendations based on genre
-    while len(valid_tracks) <= num_songs_needed: # Loop until all songs found 
+    #while len(valid_tracks) <= num_songs_needed: # Loop until all songs found 
+    while total_loops < 10:
         combined_track_list = songs_on_list + valid_tracks
         
         # Check entered mood, set target values
@@ -205,6 +207,9 @@ def get_songs_with_criteria(mood, # User entered mood
         valid_tracks = list(dict.fromkeys(valid_tracks))
 
         length_prev_loop = len(valid_tracks)
+        total_loops += 1 
+        if total_loops > 10: # Should not take more than 10 loops to run
+            return(valid_tracks)
 
     # Remove songs that the user has said they don't want
     for unwanted_track in disliked_songs:
