@@ -118,7 +118,7 @@ class mainMenu:
                 # to iterate through the query of playlist uris
                 for self.val in self.qr:
                         j = 0
-                        self.pURIList.insert(j, self.val)
+                        self.pURIList.append(self.val)
                         j += 1
                         print(self.pURIList)
                 
