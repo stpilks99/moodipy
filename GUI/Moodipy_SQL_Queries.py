@@ -194,3 +194,30 @@ def get_playlist_info(Puri, name_db):
    #bs comment
     return query_result
 
+def get_track_rating(Puri,Suri, name_db): #puri example: playlist37i9dQZF1DWZAkrucRF6Gq
+    database = sqlite3.connect(name_db)
+    cursor = database.cursor()
+    qurry = "select songrating from "+ Puri +" where songuri is '"+ Suri+"'";
+    cursor.execute(qurry)
+    query_result = cursor.fetchall()
+    #print(query_result)
+    adj_result = query_result[0][0]  # get actual result
+    database.close()
+    return adj_result
+
+def update_track_rating(Puri,Suri,rank, name_db): #puri example: playlist37i9dQZF1DWZAkrucRF6Gq
+    database = sqlite3.connect(name_db)
+    cursor = database.cursor()
+    rank = str(rank)
+    try:
+        querry = "UPDATE "+Puri+" SET songrating = "+rank+" WHERE songuri IS '"+Suri+"';"
+        print(querry)
+        cursor.execute(querry)
+        database.commit()
+        database.close()
+        return True
+    except:
+        print("Error updating song rank")
+        database.close()
+        return False
+    return True #we don't need this but it feels weird not to have it
