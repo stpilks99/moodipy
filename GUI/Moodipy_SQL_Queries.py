@@ -20,22 +20,26 @@ def uri_to_title(uri):
 
 def addS(userPlaylist,uri_name_list, databaseName):              #add song function
     #songInfo = (sURI,sNAME)
-    userPlaylist = uri_to_title(userPlaylist)
-    database = sqlite3.connect(databaseName)
-    cursor = database.cursor()
-    for i in uri_name_list:
-        songInfo = list(i)
-        sURI = """"""
-        sNAME = """"""
-        sURI  = songInfo[0]
-        sNAME = songInfo[1]
-        sNAME = sNAME.replace("'", "") #remove the ' character
-        print(sNAME)
-        query1 = """INSERT INTO '""" + userPlaylist + """'          
-                    VALUES ('""" + sURI + """','""" + sNAME + """', 0);"""
-        cursor.execute(query1)
-
-
+    if len(uri_name_list[0]) == 0: # Check length 
+        return False
+    try:
+        userPlaylist = uri_to_title(userPlaylist)
+        database = sqlite3.connect(databaseName)
+        cursor = database.cursor()
+        for i in uri_name_list:
+            songInfo = list(i)
+            sURI = """"""
+            sNAME = """"""
+            sURI  = songInfo[0]
+            sNAME = songInfo[1]
+            sNAME = sNAME.replace("'", "") #remove the ' character
+            print(sNAME)
+            query1 = """INSERT INTO '""" + userPlaylist + """'          
+                        VALUES ('""" + sURI + """','""" + sNAME + """', 0);"""
+            cursor.execute(query1)
+    except:
+        return False
+        
     database.commit()
     database.close()
     return True
