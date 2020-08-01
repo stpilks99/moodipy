@@ -140,7 +140,7 @@ class Track():
         return self.__uri
 
 
-    def get_release_year(self):
+    def get_release_year(self): # not being used
         '''Returns the decade that this song was released in.
         
             Format: last 2 digits of decade followed by an s (10s, 70s, etc). 
