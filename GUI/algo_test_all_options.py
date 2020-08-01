@@ -35,28 +35,45 @@ if __name__ == '__main__':
     fails = []
     # Loop through each combination and try
     with open('algo_test_log.txt', 'w') as f: # log file setup
-        date = datetime.datetime.now()
-        time_now = date.strftime('%X')
-        f.writestr(, '\n')
-        for i in range(len(moods)):
+        
+        selected_mood = moods[0]
+        for selected_mood in moods:
             for j in range(len(genres)):
                 # The genres must be in the format of a list
-                f.write(date.strftime('%X'))
                 genre_as_list = []
                 genre_as_list.append(genres[j])
-                # try:
-                uris = get_songs_with_criteria(moods[i], genre_as_list, '', [], [], song_lim, sp)
-                # except:
-                #     fails.append((moods[i], genres[j]))
-                #     continue
+                
+                # Make sure function will run
+                try:
+                    uris = get_songs_with_criteria(selected_mood, genre_as_list, '', [], [], song_lim, sp)
+                    
+                except:
+                    fails.append((moods[i], genres[j]))
+                    date = datetime.datetime.now()
+                    time_now = date.strftime('%X') + '\n'
+                    write_str = time_now + '\t MOOD: ' + selected_mood + ',\t GENRE: ' + genres[j] + ',\t\t\t RESULT: FAIL. Try/except loop tripped.\n'
+                    f.write(write_str)
+
+                    continue
 
                 if len(uris) != song_lim: # Number of desired songs has not been reached
-                    fails.append((moods[i], genres[j]))
+                    fails.append((selected_mood, genres[j]))
+                    date = datetime.datetime.now()
+                    time_now = date.strftime('%X')
+                    write_str = time_now + '\t MOOD: ' + selected_mood + ',\t GENRE: ' + genres[j] + ',\t\t\t RESULT: FAIL. Not enough songs found.\n'
+                    f.write(write_str)
+                    
                 else:
-                    successes.append((moods[i], genres[j]))
+                    successes.append((selected_mood, genres[j]))
+                    date = datetime.datetime.now()
+                    time_now = date.strftime('%X')
+                    write_str = time_now + '\t MOOD: ' + selected_mood + ',\t GENRE: ' + genres[j] + ',\t\t\t RESULT: pass. \n'
+                    f.write(write_str)
             break
+        
 
-    print('Failed combinations:')       
-    for combo in fails:
-        print('Mood: ', combo[0], ', genre: ', combo[1])
+        f.write('\n\nFAILED COMBINATIONS:\n\n')       
+        for combo in fails:
+            write_str = 'Mood: ' +  combo[0] + ',\t genre: ' + combo[1] + '\n'
+            f.write(write_str)
             

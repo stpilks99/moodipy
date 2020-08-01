@@ -66,7 +66,7 @@ class Playlist:
             self.__moved_to_spotify = True
 
 
-    def add_songs_local(self, uri_list, spotify_class):
+    def add_songs_local(self, uri_list, spotify_class): # old code, not used
         sp = spotify_class
         resultSong = sp.tracks(uri_list)
         song_uri = '' # Holds temp song uri
@@ -89,7 +89,7 @@ class Playlist:
         return self.__uri_playlist
 
 
-    def remove_songs_local(self, uri_playlist, song_list, spotify_class):
+    def remove_songs_local(self, uri_playlist, song_list, spotify_class): # old code, not used
         sp = spotify_class
         song_uri = []
         song_name = []
@@ -137,7 +137,7 @@ class Playlist:
         return lst_tup
         
 
-    def add_songs_sp(self, tracks, sp):
+    def add_songs_sp(self, tracks, sp): # Not being used
         '''takes a list of URI's and adds them to a playlist'''
         # for track 
         if not isinstance(tracks, list):
