@@ -719,84 +719,109 @@ class rankSongs:
                 self.master.resizable(width = False, height = False)
                 self.master.geometry("900x680")
 
-                #need to add function to add to command so it can bring back to playlist and give back the ratings chosen
-                #add recommendations function would go here inside function when created
-                #add recommendations function would go here inside function when created
-
                 #creates done button that brings to playlist window
-                self.Done = Button(self.master, command = self.closeWindow, text = "Done", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3)
-                self.Done.place(x = 685,y = 525)
+                self.Apply = Button(self.master, command = lambda x = playlistURI, y = name_db: self.getRanks(x, y), text = "Apply", bg ="green", bd = 6, relief = "raised", font = "Helvetica 30 bold italic", width = 10, height = 2)
+                self.Apply.place(x = 630,y = 520)
+                self.Cancel = Button(self.master, text = "Cancel", 
+                        bg ="green", 
+                        command = self.closeWindow,
+                        bd = 6, 
+                        relief = "raised", 
+                        font = "Helvetica 30 bold italic", 
+                        width = 9, 
+                        height = 2)
+                self.Cancel.place(x = 42 , y = 520)
 
                 #creates label with message 
                 self.lm = tk.Label(self.master, 
-                text="  Here are your songs now rank them from 1-3  \n1 = bad, 2 = average, 3 = above average", 
+                text="   Please enter the title of the song you\nwould like to rank and its rank from 1 - 3\n1 = bad, 2 = average, 3 = above average   ", 
                 fg = "black", 
                 bg = "green", 
                 bd = 6,
-                relief = "raised",
+                height = 4,
+                width = 35,
+                relief = "sunken",
                 font = "Helvetica 28 bold italic")
 
-                self.lm.place(x= 30, y = 20) 
+                self.lm.place(x= 50, y = 25) 
 
-                #creating a frame in main window that will hold a canvas 
-                self.myframe=Frame(self.master,relief=GROOVE,width=50,height=100,bd=1)
-                self.myframe.place(x=80,y=130)
+                self.note = tk.Label(self.master, 
+                text="**Enter the song title as shown in playlist**", 
+                fg = "black", 
+                bg = "gray", 
+                bd = 6,
+                height = 1,
+                width = 35,
+                relief = "sunken",
+                font = "Helvetica 15 bold italic")
 
-                #canvas created on the myframe and then frame on the canvas where widgets will be placed
-                self.canvas=Canvas(self.myframe)
-                self.frame=Frame(self.canvas)
+                self.note.place(x= 225, y = 215) 
+                
+                #Creating label and entry to get the title of song
+                self.t = tk.Label(self.master, text ='Title:', 
+                                fg = "black", 
+                                bg = "green", 
+                                bd = 8, 
+                                relief = "sunken", 
+                                height = 1,
+                                width = 5,
+                                font = "Helvetica 32 bold italic")
+                self.t.place(x = 65, y = 280)
 
-                #adding a scrollbar
-                self.myscrollbar=Scrollbar(self.myframe,orient="vertical",command=self.canvas.yview)
-                self.canvas.configure(yscrollcommand=self.myscrollbar.set)
-                self.myscrollbar.pack(side="right",fill="y")
+                self.sName = Entry(self.master, font = "Helvetica 40 italic", width = 20) 
+                self.sName.place(x = 230, y = 280) 
 
-                #determines where canvas is 
-                self.canvas.pack(side="left")
+                #Creating label and entry to get the artist of song
+                self.a = tk.Label(self.master, text ='Rank:', 
+                                fg = "black", 
+                                bg = "green", 
+                                bd = 8, 
+                                relief = "sunken", 
+                                height = 1,
+                                width = 5,
+                                font = "Helvetica 32 bold italic")
+                self.a.place(x = 65, y = 380)
 
-                #this allows for the frame with the widgets that are buttons
-                self.canvas.create_window((0,0),window=self.frame,anchor='nw')
+                self.sRank = Entry(self.master, font = "Helvetica 40 italic", width = 20) 
+                self.sRank.place(x = 230, y = 380) 
 
-                #binding the myfunction to the frame to allow for scrolling 
-                self.frame.bind("<Configure>",self.myfunction)
-                self.songs(playlistURI, name_db)
-                self.master.grab_set()
 
-        #creating multiple scales and labels in a frame that is placed row after row using .grid
-        def songs(self, playlistURI, name_db):
+                #getting pURI for SQL
                 database = sqlite3.connect(name_db)
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print(pURI)
                 c = database.cursor()
-                c.execute("""SELECT COUNT(songname) FROM """ + pURI + """;""")
-                self.count = c.fetchall()
-                self.countOfSongs = str(self.count[0]).strip(',()')
-                print("num of songs: " + str(self.countOfSongs))
-                c.execute("""SELECT songname FROM """ + pURI + """;""")
-                self.song = c.fetchall()
-                print(self.song)
                 c.close()
-
-                self.j=0
-                self.k=1
-                self.a=0
-
-                for i in range(int(self.countOfSongs)):
-                        
-                        self.sc1 = tk.Scale(self.frame, from_= 1, to = 3).grid(row=self.j, column=0)
-
-                        self.s1 = tk.Label(self.frame, text = str(self.song[self.a]).strip(',\'()'), fg = "black", bg = "green", bd = 5, width = 40, relief = "raised", font = "Helvetica 20 bold italic").grid(row=self.k,column=0)
-
-                        self.j+=2
-                        self.k+=2
-                        self.a+=1
-
-        def myfunction(self, event):
-                #used to limit scrolling operations 
-                self.canvas.configure(scrollregion=self.canvas.bbox("all"),width=698,height=350)
-
+                self.master.grab_set()
+                
+        def getRanks(self, playlistURI, name_db):
+                database = sqlite3.connect(name_db)
+                c = database.cursor()
+                self.songTitle = self.sName.get()
+                self.songRank = self.sRank.get()
+                print(self.songTitle)
+                print(self.songRank)
+                database = sqlite3.connect(name_db)
+                c = database.cursor()
+                pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
+                print(pURI)
+                c.execute("""SELECT songname FROM """ + pURI + """ WHERE songname = '""" + self.songTitle + """';""")
+                songName = c.fetchone()
+                database.close()
+                print(songName)
+                rConfirm = messagebox.askquestion("Confirm", "Are you sure you want to apply this rank?")
+                if rConfirm == "yes":
+                        if (self.songRank == "1" or self.songRank == "2" or self.songRank =="3") and songName is not None:
+                                print("add rank")
+                                #add rank function here
+                                self.closeWindow()
+                        else:
+                                tk.messagebox.showerror("Error", "Try again! Rank must be from 1-3 and song title must match and exist in your playlist.", parent = self.master)
+                elif rConfirm == "no":
+                        tk.messagebox.showinfo('Return','You will now return to your rank window. Please click cancel if you want to return to your playlist.', parent = self.master)
+                
         def closeWindow(self):
-                self.master.destroy()
+                self.master.destroy()       
 
 class addSong:
         def __init__(self, master, playlistURI, name_db, sp, userClass):
