@@ -200,8 +200,8 @@ def remove_lowrank_tracks(Puri, name_db):
     database = sqlite3.connect(name_db)
     cursor = database.cursor()
     try:
-        qurry1 = """INSERT into deletedsongs select songuri from """+playlist+""" where songrating ==0;"""
-        qurry2 = """delete from """+playlist+""" where songrating ==0;"""
+        qurry1 = """INSERT into deletedsongs select songuri from """+Puri+""" where songrating ==0;"""
+        qurry2 = """delete from """+Puri+""" where songrating ==0;"""
         cursor.execute(qurry1)
         cursor.execute(qurry2)
     except:
@@ -213,7 +213,7 @@ def remove_lowrank_tracks(Puri, name_db):
 
 #Puri format:"playlist37i9dQZF1DWZAkrucRF6Gq"
 #returns song list if success, else returns blank list
-def get_suri_from_puri(Puri, name_db):
+def get_slist_from_puri(Puri, name_db):
     database = sqlite3.connect(name_db)
     cursor = database.cursor()
     sNAME = """select songuri from """+Puri+""";"""
@@ -227,7 +227,39 @@ def get_suri_from_puri(Puri, name_db):
             name = name[0] #tuple drill to get to uri
             songs.append(name)
     except:
-        return [""]
+        return []
         database.close()
     database.close()
     return songs
+
+def update_track_rating(Puri,Suri,rank, name_db): #puri example: playlist37i9dQZF1DWZAkrucRF6Gq	
+    database = sqlite3.connect(name_db)	    
+    cursor = database.cursor()	    
+    rank = str(rank)	    
+    try:	    
+        querry = "UPDATE "+Puri+" SET songrating = "+rank+" WHERE songuri IS '"+Suri+"';"	    
+        print(querry)	        
+        cursor.execute(querry)	        
+        database.commit()	        
+        database.close()	        
+        return True	        
+    except:
+        print("Error updating song rank")
+        database.close()
+        return False	        
+    return True  #we don't need this but it feels weird not to have it
+
+
+
+def get_playlist_info(Puri, name_db):   #puri example: playlist37i9dQZF1DWZAkrucRF6Gq	
+    #userPlaylist = uri_to_title(Puri)	  
+    database = sqlite3.connect(name_db)	    
+    cursor = database.cursor()
+    sNAME = """select * from playlistmaster where playlisturi = '"""+Puri+"""'"""	 
+    cursor.execute(sNAME)	  
+    query_result = cursor.fetchall()	
+    for i in query_result:	 
+        print(i)
+    database.close()
+    #bs comment	   
+    return query_result

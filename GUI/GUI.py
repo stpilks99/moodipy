@@ -333,7 +333,7 @@ class createPlaylist:
                                         if flag == False:
                                                 tk.messagebox.showerror("Database Error", "Error adding songs to database. Remove all songs from Spotify playlist and try again.", parent = self.master)               
                                         elif len(returned_list) != num_songs_needed:
-                                                tk.message.showwarning("Warning", "Your songs have been added both locally and to Spotify playlist. However, the it did not return as many songs as intended due to inputs.", parent = self.master)
+                                                tk.messagenox.showwarning("Warning", "Your songs have been added both locally and to Spotify playlist. However, the it did not return as many songs as intended due to inputs.", parent = self.master)
                                         else:
                                                 tk.messagebox.showinfo('Success', 'Your songs have been added both locally and to a Spotify playlist! Please click refresh to see your new playlist.', parent = self.master)   
                                                 self.closeWindow()   
@@ -659,7 +659,7 @@ class editPlaylist:
                 full_uri = 'spotify:playlist:' + full_uri
                 database = sqlite3.connect(name_db)
                 c = database.cursor()
-                playlist_info = get_playlist_info(pURI, name_db) #get info from sql database
+                playlist_info = get_playlist_info(full_uri, name_db) #get info from sql database
                 print(playlist_info)
                 for i in playlist_info:
                     info = list(i)
@@ -686,7 +686,12 @@ class editPlaylist:
                         list_genres_add = []
                         list_genres_add.append(info[5])
                         songs_needed = 50 - int(numOfSongs)
-                        returned_list = get_songs_with_criteria(info[2], list_genres_add, '', [], playlist_tracks, songs_needed, self.sp)
+                        remove_flag = remove_lowrank_tracks(pURI, self.name_db)
+                        if remove_flag == False:
+                            tk.messagebox.showwarning('Warning', 'Failed to remove disliked songs')
+                        deleted_songs = get_slist_from_puri(pURI, self.name_db)
+
+                        returned_list = get_songs_with_criteria(info[2], list_genres_add, '', deleted_songs, playlist_tracks, songs_needed, self.sp)
                         if len(returned_list) == songs_needed:
                                 tk.messagebox.showerror("Algorithm Error", "Not enough songs returned from algorithm. Please try again.", parent = self.master)
                         else:        
