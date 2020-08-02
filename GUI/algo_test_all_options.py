@@ -60,7 +60,7 @@ if __name__ == '__main__':
                     fails.append((selected_mood, genres[j]))
                     date = datetime.datetime.now()
                     time_now = date.strftime('%X')
-                    write_str = time_now + '\t MOOD: ' + selected_mood + ',\t GENRE: ' + genres[j] + ',\t\t\t RESULT: FAIL. Not enough songs found.\n'
+                    write_str = time_now + '\t MOOD: ' + selected_mood + ',\t GENRE: ' + genres[j] + ',\t\t\t RESULT: FAIL. ' + str(len(uris)) + ' songs found.\n'
                     f.write(write_str)
                     
                 else:

@@ -1,31 +1,31 @@
-15:59:34	 MOOD: Happy,	 GENRE: Acoustic,		 RESULT: pass. 
-15:59:36	 MOOD: Happy,	 GENRE: Afrobeat,		 RESULT: pass. 
-15:59:38	 MOOD: Happy,	 GENRE: Alternative,		 RESULT: pass. 
-15:59:40	 MOOD: Happy,	 GENRE: Ambient,		 RESULT: FAIL. Not enough songs found.
-15:59:42	 MOOD: Happy,	 GENRE: Brazil,		 RESULT: pass. 
-15:59:44	 MOOD: Happy,	 GENRE: Classical,		 RESULT: FAIL. Not enough songs found.
-15:59:46	 MOOD: Happy,	 GENRE: Club,		 RESULT: pass. 
-15:59:48	 MOOD: Happy,	 GENRE: Country,		 RESULT: pass. 
-15:59:50	 MOOD: Happy,	 GENRE: Disco,		 RESULT: pass. 
-15:59:52	 MOOD: Happy,	 GENRE: Dubstep,		 RESULT: pass. 
-15:59:54	 MOOD: Happy,	 GENRE: EDM,		 RESULT: FAIL. Not enough songs found.
-15:59:55	 MOOD: Happy,	 GENRE: Funk,		 RESULT: pass. 
-15:59:57	 MOOD: Happy,	 GENRE: Gospel,		 RESULT: pass. 
-15:59:59	 MOOD: Happy,	 GENRE: Hard-rock,		 RESULT: pass. 
-16:00:01	 MOOD: Happy,	 GENRE: Heavy-metal,		 RESULT: pass. 
-16:00:03	 MOOD: Happy,	 GENRE: Hip-hop,		 RESULT: pass. 
-16:00:05	 MOOD: Happy,	 GENRE: Holidays,		 RESULT: pass. 
-16:00:07	 MOOD: Happy,	 GENRE: Indie,		 RESULT: pass. 
-16:00:09	 MOOD: Happy,	 GENRE: Jazz,		 RESULT: pass. 
-16:00:11	 MOOD: Happy,	 GENRE: K-pop,		 RESULT: pass. 
-16:00:13	 MOOD: Happy,	 GENRE: Latin,		 RESULT: pass. 
-16:00:16	 MOOD: Happy,	 GENRE: Metal,		 RESULT: FAIL. Not enough songs found.
-16:00:18	 MOOD: Happy,	 GENRE: Pop,		 RESULT: pass. 
-16:00:20	 MOOD: Happy,	 GENRE: Punk,		 RESULT: pass. 
-16:00:23	 MOOD: Happy,	 GENRE: Reggae,		 RESULT: pass. 
-16:00:25	 MOOD: Happy,	 GENRE: R-n-b,		 RESULT: pass. 
-16:00:27	 MOOD: Happy,	 GENRE: Rock,		 RESULT: pass. 
-16:00:30	 MOOD: Happy,	 GENRE: Soul,		 RESULT: pass. 
+15:03:39	 MOOD: Happy,	 GENRE: Acoustic,			 RESULT: pass. 
+15:03:41	 MOOD: Happy,	 GENRE: Afrobeat,			 RESULT: pass. 
+15:03:44	 MOOD: Happy,	 GENRE: Alternative,			 RESULT: pass. 
+15:03:46	 MOOD: Happy,	 GENRE: Ambient,			 RESULT: FAIL. Not enough songs found.
+15:03:49	 MOOD: Happy,	 GENRE: Brazil,			 RESULT: pass. 
+15:03:51	 MOOD: Happy,	 GENRE: Classical,			 RESULT: FAIL. Not enough songs found.
+15:03:53	 MOOD: Happy,	 GENRE: Club,			 RESULT: pass. 
+15:03:56	 MOOD: Happy,	 GENRE: Country,			 RESULT: pass. 
+15:03:58	 MOOD: Happy,	 GENRE: Disco,			 RESULT: pass. 
+15:04:01	 MOOD: Happy,	 GENRE: Dubstep,			 RESULT: pass. 
+15:04:03	 MOOD: Happy,	 GENRE: EDM,			 RESULT: FAIL. Not enough songs found.
+15:04:05	 MOOD: Happy,	 GENRE: Funk,			 RESULT: pass. 
+15:04:07	 MOOD: Happy,	 GENRE: Gospel,			 RESULT: pass. 
+15:04:10	 MOOD: Happy,	 GENRE: Hard-rock,			 RESULT: pass. 
+15:04:12	 MOOD: Happy,	 GENRE: Heavy-metal,			 RESULT: pass. 
+15:04:15	 MOOD: Happy,	 GENRE: Hip-hop,			 RESULT: pass. 
+15:04:17	 MOOD: Happy,	 GENRE: Holidays,			 RESULT: pass. 
+15:04:19	 MOOD: Happy,	 GENRE: Indie,			 RESULT: pass. 
+15:04:21	 MOOD: Happy,	 GENRE: Jazz,			 RESULT: pass. 
+15:04:24	 MOOD: Happy,	 GENRE: K-pop,			 RESULT: pass. 
+15:04:26	 MOOD: Happy,	 GENRE: Latin,			 RESULT: pass. 
+15:04:28	 MOOD: Happy,	 GENRE: Metal,			 RESULT: FAIL. Not enough songs found.
+15:04:31	 MOOD: Happy,	 GENRE: Pop,			 RESULT: pass. 
+15:04:33	 MOOD: Happy,	 GENRE: Punk,			 RESULT: pass. 
+15:04:35	 MOOD: Happy,	 GENRE: Reggae,			 RESULT: pass. 
+15:04:38	 MOOD: Happy,	 GENRE: R-n-b,			 RESULT: pass. 
+15:04:40	 MOOD: Happy,	 GENRE: Rock,			 RESULT: pass. 
+15:04:42	 MOOD: Happy,	 GENRE: Soul,			 RESULT: pass. 
 
 
 FAILED COMBINATIONS:
