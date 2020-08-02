@@ -36,8 +36,8 @@ if __name__ == '__main__':
     # Loop through each combination and try
     with open('algo_test_log.txt', 'w') as f: # log file setup
         
-        selected_mood = moods[0]
         for selected_mood in moods:
+            sp = authorize.authorize_util()
             for j in range(len(genres)):
                 # The genres must be in the format of a list
                 genre_as_list = []
@@ -48,7 +48,7 @@ if __name__ == '__main__':
                     uris = get_songs_with_criteria(selected_mood, genre_as_list, '', [], [], song_lim, sp)
                     
                 except:
-                    fails.append((moods[i], genres[j]))
+                    fails.append((selected_mood, genres[j]))
                     date = datetime.datetime.now()
                     time_now = date.strftime('%X') + '\n'
                     write_str = time_now + '\t MOOD: ' + selected_mood + ',\t GENRE: ' + genres[j] + ',\t\t\t RESULT: FAIL. Try/except loop tripped.\n'
@@ -69,7 +69,7 @@ if __name__ == '__main__':
                     time_now = date.strftime('%X')
                     write_str = time_now + '\t MOOD: ' + selected_mood + ',\t GENRE: ' + genres[j] + ',\t\t\t RESULT: pass. \n'
                     f.write(write_str)
-            break
+            
         
 
         f.write('\n\nFAILED COMBINATIONS:\n\n')       

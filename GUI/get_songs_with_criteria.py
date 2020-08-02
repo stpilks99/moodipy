@@ -162,7 +162,7 @@ def get_songs_with_criteria(mood, # User entered mood
         elif mood == 'Gaming':
             target_speechiness = .05
             target_tempo = 120
-            recommendations_raw = sp.recommendations(seed_genres=genre_list, seed_tracks=last_5,limit=50, target_speechiness=target_speechiness)
+            recommendations_raw = sp.recommendations(seed_genres=genre_list, limit=50, target_speechiness=target_speechiness)
         else:
             raise Exception('invalid mood input')
 
