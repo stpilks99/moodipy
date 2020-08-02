@@ -158,7 +158,7 @@ def get_songs_with_criteria(mood, # User entered mood
             target_danceability = 0.8 # High danceability, energy, and popularity
             target_energy = 0.8
             target_popularity = 80
-            recommendations_raw = sp.recommendations(seed_genres=genre_list, seed_tracks=last_5,limit=50, target_energy=target_energy, target_danceability=target_danceability, target_popularity=target_popularity)
+            recommendations_raw = sp.recommendations(seed_genres=genre_list, limit=50, target_energy=target_energy, target_danceability=target_danceability, target_popularity=target_popularity)
         elif mood == 'Gaming':
             target_speechiness = .05
             target_tempo = 120
@@ -202,7 +202,7 @@ def get_songs_with_criteria(mood, # User entered mood
         if len(valid_tracks) == length_prev_loop: # If the number of tracks retu
             fail_loop_count += 1
         if fail_loop_count > 4: # If the loop has failed 5 times
-            return []
+            break
 
         valid_tracks = list(dict.fromkeys(valid_tracks))
 
