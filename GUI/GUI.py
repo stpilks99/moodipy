@@ -316,8 +316,8 @@ class createPlaylist:
                         else:
                                 # Find recommendations based on user input
                                 returned_list = get_songs_with_criteria(playlist_mood, playlist_genres, pref_artist, [], [], num_songs_needed, self.sp) 
-                                if len(returned_list) != num_songs_needed:
-                                        tk.messagebox.showerror("Error", "Error finding songs for playlist. Please try with different criteria.", parent = self.master)       
+                                if len(returned_list) == 0:
+                                        tk.messagebox.showerror("Error", "Error finding songs for playlist. Please check spelling of criteria.", parent = self.master)       
                                 else:
                                         flag = playlistClass.add_songs_sp(returned_list, self.sp)
                                         if flag == False:
@@ -328,6 +328,8 @@ class createPlaylist:
                                                 flag = addS(uri_playlist, song_uris_names, self.name_db)
                                                 if flag == False:
                                                         tk.messagebox.showerror("Database Error", "Error adding songs to database. Remove all songs from Spotify playlist and try again.", parent = self.master)               
+                                                elif len(returned_list) != num_songs_needed:
+                                                        tk.message.showwarning("Warning", "Your songs have been added both locally and to Spotify playlist. However, the it did not return as many songs as intended due to inputs.", parent = self.master)
                                                 else:
                                                         tk.messagebox.showinfo('Success', 'Your songs have been added both locally and to a Spotify playlist! Please click refresh to see your new playlist.', parent = self.master)   
                                                         self.closeWindow()     
@@ -605,8 +607,8 @@ class editPlaylist:
                         command = self.analysis_window)
                 self.analysis.place(x = 0, y =582)
 
-                # Songs
-                pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
+                # Songs 
+                pURI = playlistURIreplace('spotify:playlist:', '').strip('\'')
                 print(pURI)
                 c.execute("""SELECT songname FROM """ + pURI + """ ORDER by songname asc;""")
                 songs = c.fetchall()
