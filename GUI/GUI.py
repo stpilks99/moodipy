@@ -53,7 +53,7 @@ class mainMenu:
                 self.np.place(x = 200, y = 250)
 
                 # # Refresh button
-                self.np = Button(self.master, text = "Refresh", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 2)
+                self.np = Button(self.master, command = self.refreshMain, text = "Refresh", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 2)
                 self.np.place(x = 0, y = 0)
 
                 # Help button
@@ -140,9 +140,11 @@ class mainMenu:
                 #print(i)
                 database.close()
 
-        def restart(self):
-                self.refresh()
-
+        def refreshMain(self):
+        # queries the local database again for new playlists and refreshes mainMenu window
+                self.playlists()
+                self.master.update()
+                                
         def onButtonClick(self, buttonID, playlistURI):
                 database = sqlite3.connect(self.name_db)
                 c = database.cursor()
@@ -187,6 +189,9 @@ class mainMenu:
                 self.newEditPlaylist = tk.Toplevel(self.master)
                 self.moodipy = editPlaylist(self.newEditPlaylist, playlistURI, self.name_db, self.sp, self.userClass)
 
+        def closeWindow(self):
+                self.master.destroy()
+
 #create playlist window
 class createPlaylist:
         # SQL Create playlist function
@@ -220,14 +225,14 @@ class createPlaylist:
                 self.lm.place(x= 47, y = 50) 
 
                 #creates entry so user can enter playlist title
-                self.lt = tk.Label(self.master, text ='Playlist title:', fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
+                self.lt = tk.Label(self.master, text ='Playlist title:', fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
                 self.playlistName = Entry(self.master, font = "Helvetica 22 italic") 
-                self.lt.place(x = 47, y = 120)
-                self.playlistName.place(x = 230, y = 125) 
+                self.lt.place(x = 47, y = 140)
+                self.playlistName.place(x = 230, y = 145) 
 
                 #creates a drop down list where the user can select a mood with a label next to it
-                self.Lmd = tk.Label(self.master, text = "Select one mood:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-                self.Lmd.place(x = 47, y = 180)
+                self.Lmd = tk.Label(self.master, text = "Select one mood:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
+                self.Lmd.place(x = 47, y = 220)
 
                 #array of moods to be placed inside drop down menu
                 self.moods = ["Happy", 
@@ -239,21 +244,8 @@ class createPlaylist:
                         "Gaming"]
 
                 self.moodsSelected = ttk.Combobox(self.master, values = self.moods, font = "Helvetica 22 italic")
-                self.moodsSelected.place(x = 295, y = 185)
+                self.moodsSelected.place(x = 295, y = 225)
 
-                #creates a drop down list where the user can select a time period
-                self.Lp = tk.Label(self.master, text = "Select time period:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-                self.Lp.place(x = 47, y = 240)
-
-                self.times = ["2010's +",
-                        "2000's", 
-                        "90's", 
-                        "80's", 
-                        "70's",
-                        "None"]
-
-                self.timePeriod = ttk.Combobox(self.master, values = self.times, font = "Helvetica 22 italic")
-                self.timePeriod.place(x = 317, y = 244)
 
                 #creates a entry where user can enter prefered artist
                 self.Lp = tk.Label(self.master, text = "Enter preferred artist:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
@@ -262,36 +254,25 @@ class createPlaylist:
                 self.artistEntered.place(x = 355, y = 305) 
 
                 #creates a checkbox where the user can select preferred genres
-                self.Lg = tk.Label(self.master, text = "Enter preferred genres:", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-                self.Lg.place(x = 47, y = 420)
+                self.Lg = tk.Label(self.master, text = "Enter preferred genres:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
+                self.Lg.place(x = 47, y = 380)
 
                 self.msg = tk.Label(self.master, text = " Please select up to 5 \ngenres you want last. \nIf not highlighted blue\n then they are not selected. ", fg = "black", bg = "gray", bd = 6, relief = "sunken", font = "Helvetica 12 bold italic" )
-                self.msg.place(x = 645, y = 115)
+                self.msg.place(x = 645, y = 125)
 
                 #28 genres
                 self.genres = ["Acoustic", "Afrobeat", "Alternative", "Ambient", "Brazil", "Classical", "Club", "Country", "Disco", "Dubstep", "EDM", "Funk", "Gospel", "Hard Rock", "Heavy Metal", "Hip Hop", "Holidays", "Indie", "Jazz", "Kpop", "Latin", "Metal", "Pop", "Punk", "Reggae", "RnB", "Rock", "Soul"]
 
-                self.listbox = tk.Listbox(self.master, bg = "white", height = 4, width = 45, bd = 6, relief = "sunken", font = "Helvetica 12 bold italic", selectmode = MULTIPLE) 
+                self.listbox = tk.Listbox(self.master, bg = "white", height = 6, width = 45, bd = 6, relief = "sunken", font = "Helvetica 12 bold italic", selectmode = MULTIPLE) 
                 self.listbox.pack(side = RIGHT, fill = BOTH) 
-                self.listbox.place(x = 370, y = 420)
+                self.listbox.place(x = 370, y = 380)
                 self.scrollbar = tk.Scrollbar(self.master) 
 
                 for self.values in self.genres: 
                         self.listbox.insert(END, self.values) 
 
                 self.listbox.config(yscrollcommand = self.scrollbar.set) 
-                self.scrollbar.config(command = self.listbox.yview) 
-
-                #creates a drop down list where the user can select yes for explict or no for non explicit
-                self.Le = tk.Label(self.master, text = "Would you like explict songs:", fg = "black", bg = "green", bd = 6, relief = "sunken", font = "Helvetica 20 bold italic")
-                self.Le.place(x = 47, y = 360)
-
-                self.options = ["Yes", 
-                        "No", ]
-
-                self.explicitOrNot = ttk.Combobox(self.master, values = self.options, font = "Helvetica 22 italic")
-                self.explicitOrNot.place(x = 450, y = 365)
-                
+                self.scrollbar.config(command = self.listbox.yview)             
 
                 # forces user to click on new playlist window so they can't use 2 windows at once
                 self.master.grab_set()
@@ -301,11 +282,9 @@ class createPlaylist:
         def criteria(self):
                 self.pName = self.playlistName.get()
                 self.mSelected = self.moodsSelected.get()
-                self.tSelected = self.timePeriod.get()
                 self.artist = self.artistEntered.get()
-                self.e = self.explicitOrNot.get()
 
-                print(self.pName + "\n" + self.mSelected + "\n" + self.tSelected + "\n" + self.artist + "\n" + self.e)
+                print(self.pName + "\n" + self.mSelected + "\n"  + self.artist + "\n" )
                 self.selection = self.listbox.curselection()
                 genre_list = []
                 for i in self.selection:
@@ -319,35 +298,41 @@ class createPlaylist:
                 playlist_genres = genre_list
                 playlist_mood = self.mSelected
                 pref_artist = self.artist
-                time_period = self.tSelected
-                playlist_explicit = self.e
+                #time_period = self.tSelected
+                #playlist_explicit = self.e
                 num_songs_needed = 30
                 #name_db = self.name_db
 
                 # Code for creating playlist and adding recommendations
                 user_uri = self.userClass.get_uri()
-                playlistClass = Playlist(user_uri, self.sp, playlist_title)
-                uri_playlist = playlistClass.create_spotify_playlist(self.sp)
-                flag = createP(self.name_db, uri_playlist, playlist_mood, time_period, pref_artist, playlist_genres, playlist_explicit, playlist_title) # Not working right now
-                if flag != 0:
-                    print('ERROR with creating database table')
-                    # Popup error
-                print(flag)
-                # Find recommendations based on user input
-                returned_list = get_songs_with_criteria(playlist_mood, playlist_genres, time_period, pref_artist, False, [], [], num_songs_needed, self.sp)        
-                flag = playlistClass.add_songs_sp(returned_list, self.sp)
-                if flag == False:
-                    print('ERROR moving songs to Spotify')
-                
-                '''Add songs to playlist in SQL'''
-                song_uris_names = playlistClass.add_songs_local(returned_list, self.sp)
-                flag = addS(uri_playlist, song_uris_names, self.name_db)
-                if flag == False:
-                    print('ERROR pushing songs to database')
+                playlistClass = Playlist(user_uri, self.sp, playlist_title) # Instantiate playlist class
+                uri_playlist = playlistClass.create_spotify_playlist(self.sp) # create playlist in Spotify
+                if len(uri_playlist) == 0:
+                        tk.messagebox.showerror("Spotify Error", "Failed to initialize playlist in Spotify. Please try again.", parent = self.master)
+                else:
+                        db_flag = createP(self.name_db, uri_playlist, playlist_mood, pref_artist, playlist_genres, playlist_title) # Not working right now
+                        if db_flag == False:
+                                tk.messagebox.showerror("Database Error", "Error creating playlist table in database. Please try again.", parent = self.master)
+                        else:
+                                # Find recommendations based on user input
+                                returned_list = get_songs_with_criteria(playlist_mood, playlist_genres, pref_artist, [], [], num_songs_needed, self.sp) 
+                                if len(returned_list) != num_songs_needed:
+                                        tk.messagebox.showerror("Error", "Error finding songs for playlist. Please try with different criteria.", parent = self.master)       
+                                else:
+                                        flag = playlistClass.add_songs_sp(returned_list, self.sp)
+                                        if flag == False:
+                                                tk.messagebox.showerror("Spotify Error", "Failed to add songs to created playlist. Please try again with different criteria.", parent = self.master)
+                                        else:
+                                                '''Add songs to playlist in SQL'''
+                                                song_uris_names = playlistClass.add_songs_local(returned_list, self.sp)
+                                                flag = addS(uri_playlist, song_uris_names, self.name_db)
+                                                if flag == False:
+                                                        tk.messagebox.showerror("Database Error", "Error adding songs to database. Remove all songs from Spotify playlist and try again.", parent = self.master)               
+                                                else:
+                                                        tk.messagebox.showinfo('Success', 'Your songs have been added both locally and to a Spotify playlist! Please click refresh to see your new playlist.', parent = self.master)   
+                                                        self.closeWindow()     
                 self.closeWindow()
-                #mainMenu.refreshWindow(self)
-                #mainMenu.restart(self)
-
+                
 
         def closeWindow(self):
                 self.master.destroy()
@@ -385,7 +370,7 @@ class helpDoc:
                 
 
                 self.a2 = tk.Label(self.frame,
-                        text = "Using Moodipy, each playlist has a max of 60 songs. Moodipy only adds songs \nit thinks you'll really like (based on moods, ranking, time periods and more) so \nyou'll never find yourself skipping through a bunch of songs you hate.",
+                        text = "Using Moodipy, each playlist has a max of 50 songs. Moodipy only adds songs \nit thinks you'll really like (based on moods, ranking, time periods and more) so \nyou'll never find yourself skipping through a bunch of songs you hate.",
                         fg = "black", 
                         bg = "gray", 
                         bd = 6, 
@@ -513,7 +498,6 @@ class editPlaylist:
                 database = sqlite3.connect(name_db)
                 c = database.cursor()
                 fetchPlaylistTitle = """SELECT username FROM playlistmaster WHERE playlisturi = """ + playlistURI + """;"""
-                print("this is a string")
                 print(playlistURI)
                 c.execute(fetchPlaylistTitle)
                 playlistTitle = str(c.fetchone()).strip('(,)\'')
@@ -580,7 +564,7 @@ class editPlaylist:
 
                 self.rank = Button(self.master,
                 text = "Rank\nSong",
-                command = self.rank_songs,
+                command = lambda x = playlistURI, y = name_db: self.rank_songs(x, y),
                 bg ="green", bd = 6, 
                 relief = "raised",
                 font = "Helvetica 19 bold italic",
@@ -589,14 +573,14 @@ class editPlaylist:
                 self.rank.place(x=0, y = 331)
 
                 self.de = Button(self.master,
-                text = "Delete\nPlaylist",
+                text = "Refresh",
                 bg ="green",
                 bd = 6,
                 relief = "raised",
                 font = "Helvetica 19 bold italic",
                 width = 14,
                 height = 2,
-                command = lambda x = playlistURI: self.deleteP(x)) ###
+                command = lambda x = playlistURI, y = name_db: self.refresh(x, y)) ###
                 self.de.place(x = 0, y = 415)
 
                 self.rec = Button(self.master,
@@ -624,7 +608,7 @@ class editPlaylist:
                 # Songs
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print(pURI)
-                c.execute("""SELECT songname FROM """ + pURI + """;""")
+                c.execute("""SELECT songname FROM """ + pURI + """ ORDER by songname asc;""")
                 songs = c.fetchall()
 
                 self.fields = Label(self.master, text = 'Song Title', fg = "black", bg = "green", bd = 6, width = 39, relief = "sunken", font = "Helvetica 18 bold italic")
@@ -645,10 +629,24 @@ class editPlaylist:
                 # forces user to click on certain window
                 self.master.grab_set()
                 database.close()
+        # refreshes editPlaylist window by querying all the song names again
+        def refresh(self, playlistURI, name_db): 
+                database = sqlite3.connect(name_db)
+                c = database.cursor()
+                pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
+                print(pURI)
+                c.execute("""SELECT songname FROM """ + pURI + """ ORDER by songname asc;""")
+                songs = c.fetchall()
+                self.listbox.delete(0, END)
+                for self.values in songs: 
+                        sngs =str(self.values).strip(',()').replace('\'', '')
+                        self.listbox.insert(END, sngs) 
+                self.master.update()
+                
         def addRec(self, playlistURI,name_db):
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print(pURI)
-                full_uri = pURI[8:]
+                full_uri = pURI[8:] #removes first 8 characters of pURI
                 full_uri = 'spotify:playlist:' + full_uri
                 database = sqlite3.connect(name_db)
                 c = database.cursor()
@@ -670,30 +668,32 @@ class editPlaylist:
                 print(numOfSongs)
 
                 if int(numOfSongs) >= 60:
-                        tk.messagebox.showerror('Error!','The max amount of songs (60) has been reached.')
+                        tk.messagebox.showerror('Error!','The max amount of songs (50) has been reached.', parent = self.master)
                 else:
                         user_uri = self.userClass.get_uri()
                         playlistClass = Playlist(user_uri, self.sp, uri=full_uri)
                         # Find recommendations based on user input
-                        playlist_tracks = playlistClass.get_playlist_tracks(self.sp, full_uri)
+                        playlist_tracks = playlistClass.get_playlist_tracks(self.sp, full_uri)   
                         list_genres_add = []
                         list_genres_add.append(info[5])
-                        songs_needed = 60 - int(numOfSongs)
-                        returned_list = get_songs_with_criteria(info[2], list_genres_add, '', '', True, [], playlist_tracks, songs_needed, self.sp)        
-                        flag = playlistClass.add_songs_sp(returned_list, self.sp)
-                        if flag == False:
-                            print('ERROR moving songs to Spotify')
-                        
-                        '''Add songs to playlist in SQL'''
-                        song_uris_names = playlistClass.add_songs_local(returned_list, self.sp)
-                        flag = addS(full_uri, song_uris_names, self.name_db)
-                        
-                        if flag == False:
-                            print('ERROR pushing songs to database')
-                            self.closeWindow()
-                        else:
-                            tk.messagebox.showinfo('Recommendations added!','Recommendations have been added to your playlist reaching the max number of songs (60).')    
-                        
+                        songs_needed = 50 - int(numOfSongs)
+                        returned_list = get_songs_with_criteria(info[2], list_genres_add, '', [], playlist_tracks, songs_needed, self.sp)
+                        if len(returned_list) == songs_needed:
+                                tk.messagebox.showerror("Algorithm Error", "Not enough songs returned from algorithm. Please try again.", parent = self.master)
+                        else:        
+                                flag = playlistClass.add_songs_sp(returned_list, self.sp)
+                                if flag == False:
+                                        tk.messagebox.showerror("Spotify Error", "Failed to add songs to created playlist. Please try again with different criteria.", parent = self.master)
+                                else:  
+                                        #'''Add songs to playlist in SQL'''
+                                        song_uris_names = playlistClass.add_songs_local(returned_list, self.sp)
+                                        flag = addS(full_uri, song_uris_names, self.name_db)
+                                        if flag == False:
+                                                tk.messagebox.showerror("Database Error", "Error adding songs to database. Remove all songs from Spotify playlist and try again.", parent = self.master)               
+                                        else:
+                                                tk.messagebox.showinfo('Recommendations added!','Recommendations have been added to your playlist reaching the max number of songs (50).', parent = self.master)
+                                                self.closeWindow()                                                                             
+                                           
         def closeWindow(self):
                 self.master.destroy()
         
@@ -705,9 +705,9 @@ class editPlaylist:
                 self.newHelpDoc = tk.Toplevel(self.master)
                 self.moodipy = helpDoc(self.newHelpDoc, self.name_db, self.sp, self.userClass)
 
-        def rank_songs(self):
+        def rank_songs(self, playlistURI, name_db):
                 self.newRankSongs = tk.Toplevel(self.master)
-                self.moodipy = rankSongs(self.newRankSongs, self.name_db, self.sp, self.userClass)
+                self.moodipy = rankSongs(self.newRankSongs, self.name_db, self.sp, self.userClass, playlistURI)
 
         def add_song(self, playlistURI):
                 self.newAddSong = tk.Toplevel(self.master)
@@ -719,7 +719,7 @@ class editPlaylist:
 
 
 class rankSongs:
-        def __init__(self, master, name_db, sp, userClass):
+        def __init__(self, master, name_db, sp, userClass, playlistURI):
                 self.name_db = name_db
                 self.sp = sp
                 self.userClass = userClass
@@ -729,76 +729,108 @@ class rankSongs:
                 self.master.resizable(width = False, height = False)
                 self.master.geometry("900x680")
 
-                #need to add function to add to command so it can bring back to playlist and give back the ratings chosen
-                #add recommendations function would go here inside function when created
-                #add recommendations function would go here inside function when created
-
                 #creates done button that brings to playlist window
-                self.Done = Button(self.master, command = self.closeWindow, text = "Done", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3)
-                self.Done.place(x = 685,y = 525)
+                self.Apply = Button(self.master, command = lambda x = playlistURI, y = name_db: self.getRanks(x, y), text = "Apply", bg ="green", bd = 6, relief = "raised", font = "Helvetica 30 bold italic", width = 10, height = 2)
+                self.Apply.place(x = 630,y = 520)
+                self.Cancel = Button(self.master, text = "Cancel", 
+                        bg ="green", 
+                        command = self.closeWindow,
+                        bd = 6, 
+                        relief = "raised", 
+                        font = "Helvetica 30 bold italic", 
+                        width = 9, 
+                        height = 2)
+                self.Cancel.place(x = 42 , y = 520)
 
                 #creates label with message 
                 self.lm = tk.Label(self.master, 
-                text="  Here are your songs now rank them from 1-5  ", 
+                text="   Please enter the title of the song you\nwould like to rank and its rank from 1 - 3\n1 = bad, 2 = average, 3 = above average   ", 
                 fg = "black", 
                 bg = "green", 
                 bd = 6,
-                relief = "raised",
+                height = 4,
+                width = 35,
+                relief = "sunken",
                 font = "Helvetica 28 bold italic")
 
-                self.lm.place(x= 30, y = 50) 
+                self.lm.place(x= 50, y = 25) 
 
-                #creating a frame in main window that will hold a canvas 
-                self.myframe=Frame(self.master,relief=GROOVE,width=50,height=100,bd=1)
-                self.myframe.place(x=80,y=130)
+                self.note = tk.Label(self.master, 
+                text="**Enter the song title as shown in playlist**", 
+                fg = "black", 
+                bg = "gray", 
+                bd = 6,
+                height = 1,
+                width = 35,
+                relief = "sunken",
+                font = "Helvetica 15 bold italic")
 
-                #canvas created on the myframe and then frame on the canvas where widgets will be placed
-                self.canvas=Canvas(self.myframe)
-                self.frame=Frame(self.canvas)
+                self.note.place(x= 225, y = 215) 
+                
+                #Creating label and entry to get the title of song
+                self.t = tk.Label(self.master, text ='Title:', 
+                                fg = "black", 
+                                bg = "green", 
+                                bd = 8, 
+                                relief = "sunken", 
+                                height = 1,
+                                width = 5,
+                                font = "Helvetica 32 bold italic")
+                self.t.place(x = 65, y = 280)
 
-                #adding a scrollbar
-                self.myscrollbar=Scrollbar(self.myframe,orient="vertical",command=self.canvas.yview)
-                self.canvas.configure(yscrollcommand=self.myscrollbar.set)
-                self.myscrollbar.pack(side="right",fill="y")
+                self.sName = Entry(self.master, font = "Helvetica 40 italic", width = 20) 
+                self.sName.place(x = 230, y = 280) 
 
-                #determines where canvas is 
-                self.canvas.pack(side="left")
+                #Creating label and entry to get the artist of song
+                self.a = tk.Label(self.master, text ='Rank:', 
+                                fg = "black", 
+                                bg = "green", 
+                                bd = 8, 
+                                relief = "sunken", 
+                                height = 1,
+                                width = 5,
+                                font = "Helvetica 32 bold italic")
+                self.a.place(x = 65, y = 380)
 
-                #this allows for the frame with the widgets that are buttons
-                self.canvas.create_window((0,0),window=self.frame,anchor='nw')
+                self.sRank = Entry(self.master, font = "Helvetica 40 italic", width = 20) 
+                self.sRank.place(x = 230, y = 380) 
 
-                #binding the myfunction to the frame to allow for scrolling 
-                self.frame.bind("<Configure>",self.myfunction)
-                self.songs()
+
+                #getting pURI for SQL
+                database = sqlite3.connect(name_db)
+                pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
+                print(pURI)
+                c = database.cursor()
+                c.close()
                 self.master.grab_set()
-
-        #creating multiple scales and labels in a frame that is placed row after row using .grid
-        def songs(self):
-                self.j=0
-                self.k=1
-                for i in range(10):
-                        
-                        self.sc1 = tk.Scale(self.frame, from_= 1, to = 5).grid(row=self.j, column=0)
-
-                        self.s1 = tk.Label(self.frame, text ='         song 1        ', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic").grid(row=self.k,column=0)
-
-                        self.sc2 = tk.Scale(self.frame, from_= 1, to = 5).grid(row=self.j, column=1)
-
-                        self.s2 = tk.Label(self.frame, text ='         song 2        ', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic").grid(row=self.k,column=1)
-
-                        self.sc3 = tk.Scale(self.frame, from_= 1, to = 5).grid(row=self.j, column=2)
-
-                        self.s3 = tk.Label(self.frame, text ='         song 3        ', fg = "black", bg = "green", bd = 5, relief = "raised", font = "Helvetica 20 bold italic").grid(row=self.k,column=2)
-
-                        self.j+=2
-                        self.k+=2
-
-        def myfunction(self, event):
-                #used to limit scrolling operations 
-                self.canvas.configure(scrollregion=self.canvas.bbox("all"),width=698,height=350)
-
+                
+        def getRanks(self, playlistURI, name_db):
+                database = sqlite3.connect(name_db)
+                c = database.cursor()
+                self.songTitle = self.sName.get()
+                self.songRank = self.sRank.get()
+                print(self.songTitle)
+                print(self.songRank)
+                pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
+                print(pURI)
+                c.execute("""SELECT songname FROM """ + pURI + """ WHERE songname LIKE '%""" + self.songTitle + """%';""") 
+                songName = c.fetchone()
+                database.close()
+                print(songName)
+                rConfirm = messagebox.askquestion("Confirm", "Are you sure you want to apply this rank?", parent = self.master)
+                if rConfirm == "yes":
+                        if (self.songRank == "1" or self.songRank == "2" or self.songRank =="3") and songName is not None:
+                                print("add rank")                     
+                                update_track_rating(pURI,get_track_uri(pURI,self.songTitle,name_db),self.songRank,name_db)
+                                tk.messagebox.showinfo("Success!", "Song rank has been added successfully!", parent = self.master)
+                                self.closeWindow()
+                        else:
+                                tk.messagebox.showerror("Error", "Try again! Rank must be from 1-3 and song title must match and exist in your playlist.", parent = self.master)
+                elif rConfirm == "no":
+                        tk.messagebox.showinfo('Return','You will now return to your rank window. Please click cancel if you want to return to your playlist.', parent = self.master)
+                
         def closeWindow(self):
-                self.master.destroy()
+                self.master.destroy()       
 
 class addSong:
         def __init__(self, master, playlistURI, name_db, sp, userClass):
@@ -885,54 +917,64 @@ class addSong:
                 print(self.titleAdd)
                 print(self.artistAdd)
 
-                pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
-                print(pURI)
-                c.execute("""SELECT COUNT(songname) FROM """ + pURI + """;""")
+                playlistURI = playlistURI.strip("'")
+                playlistURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
+                print(playlistURI)
+                c.execute("""SELECT COUNT(songname) FROM """ + playlistURI + """;""")
                 s = c.fetchall()
+                database.close()
 
                 numOfSongs = str(s[0]).strip(',()')
 
                 print(numOfSongs)
 
                 if int(numOfSongs) < 60:
-                        self.confirmAdd = tk.messagebox.askquestion("confirm song to be added", "Are you sure you want to add this song?")
+                        self.confirmAdd = tk.messagebox.askquestion("confirm song to be added", "Are you sure you want to add this song?", parent = self.master)
 
                         if self.confirmAdd == 'yes':
                                 print("yes")
                                 #add add song function here
                                 # inputs: list of uri's and names
                                 # output: 
-                                titleAdd = self.titleAdd
+                                titleAdd = self.titleAdd # Get from GUI values
                                 artistAdd = self.artistAdd
                                 database_name = self.name_db
-                                full_uri = self.playlistURI[7:]
-                                full_uri = 'spotify:playlist:' + full_uri
+                                
+                                # Translate uri into spotify usable val
+                                full_playlist_uri = playlistURI[8:] 
+                                full_playlist_uri = 'spotify:playlist:' + full_playlist_uri
 
-                                found_flag = False
-                                user_uri = self.userClass.get_uri()
-                                playlist_uri = '' #playlistURI in GUI.py
-                                playlist1 = Playlist(user_uri, self.sp, uri=full_uri, name=uri_to_title(full_uri))
-                                songsList = playlist1.add_search_songs_sp(artistAdd, titleAdd, self.sp) # This function not working
+                                spotify_flag = False 
+                                db_flag = False
+
+                                user_uri = self.userClass.get_uri() 
+
+                                playlist1 = Playlist(user_uri, self.sp, uri=full_playlist_uri, name=uri_to_title(full_playlist_uri)) # spotify:playlist:0sZ6Vy1Q8autlvNnEeoDMN
+                                                                                                                                    # spotify:playlist:7KJJH6NPJeAvhQne3mziki
+                                                                                                                                    # spotify:playlist:3nNp0A32Zu528moCETLUZo
+                                songsList = playlist1.add_search_songs_sp(artistAdd, titleAdd, full_playlist_uri, self.sp) # This function not working
                                 if len(songsList) == 0:
-                                    found_flag = False
+                                    spotify_flag = False
+                                    # Put messagebox here saying that it failed to find a matching result in Spotify
                                 elif len(songsList) > 1:
-                                    found_flag = False
+                                    spotify_flag = False
+                                    # Put messagebox here saying that it failed to find a matching result in Spotify
                                 else:
-                                    found_flag = True
-                                    addS(playlist1.get_playlist_uri(), songsList, uri_to_title(full_uri))
+                                    spotify_flag = True
+                                    db_flag = addS(full_playlist_uri, songsList, self.name_db)#spotifypuri,
 
         
-                                if found_flag == True:
-                                    tk.messagebox.showinfo("song added!", "Your song has been added! Click cancel to go back to your playlist or add another song.") 
+                                if spotify_flag == True and db_flag == True:
+                                    tk.messagebox.showinfo("song added!", "Your song has been added!", parent = self.master) 
+                                    self.closeWindow()
                                 else:
-                                    tk.messagebox.showerror("Error", "A problem has occurred adding this song. Please try again.")               
+                                    tk.messagebox.showerror("Error", "A problem has occurred adding this song. Please check spelling of input criteria.", parent = self.master)               
                         elif self.confirmAdd == 'no':
-                                tk.messagebox.showinfo('Return','You will now return to the add song window. Here you can either enter another song to add or click cancel to go back to your playlist.')
+                                tk.messagebox.showinfo('Return','You will now return to the add song window. Here you can either enter another song to add or click cancel to go back to your playlist.', parent = self.master)
                 else:
-                        tk.messagebox.showerror('Error','The max amount of songs (60) has been reached. Please click cancel when returned to the add song window and delete a song to add more.')
+                        tk.messagebox.showerror('Error','The max amount of songs (60) has been reached. Please click cancel when returned to the add song window and delete a song to add more.', parent = self.master)
 
         def closeWindow(self):
-                database.close()
                 self.master.destroy()
 
 
@@ -948,7 +990,7 @@ class removeSong:
                 self.master.resizable(width = False, height = False)
                 self.master.geometry("900x680")
 
-                self.lt = tk.Label(self.master, text ='Please enter the title and artist of\n the song title you would like to remove:', 
+                self.lt = tk.Label(self.master, text ='Please enter the title\n of the song title you would like to remove:', 
                                 fg = "black", 
                                 bg = "green", 
                                 bd = 8, 
@@ -960,7 +1002,7 @@ class removeSong:
 
                 #getting entry for title of song
                 self.et1 = Entry(self.master, font = "Helvetica 40 italic", width = 21) 
-                self.et1.place(x = 230, y = 290) 
+                self.et1.place(x = 230, y = 310) 
 
                 self.t1 = tk.Label(self.master, text ='Title:', 
                                 fg = "black", 
@@ -970,21 +1012,8 @@ class removeSong:
                                 height = 1,
                                 width = 5,
                                 font = "Helvetica 32 bold italic")
-                self.t1.place(x = 65, y = 290)
+                self.t1.place(x = 65, y = 310)
 
-                #getting entry for artist of song
-                self.a1 = tk.Label(self.master, text ='Artist:', 
-                                fg = "black", 
-                                bg = "green", 
-                                bd = 8, 
-                                relief = "sunken", 
-                                height = 1,
-                                width = 5,
-                                font = "Helvetica 32 bold italic")
-                self.a1.place(x = 65, y = 400)
-
-                self.ea1 = Entry(self.master, font = "Helvetica 40 italic", width = 21) 
-                self.ea1.place(x = 230, y = 400) 
 
                 #creates Remove button that brings to playlist window
                 self.Remove = Button(self.master, text = "Remove", 
@@ -996,7 +1025,7 @@ class removeSong:
                                 height = 2,
                                 command = lambda x = playlistURI: self.remove(x))
 
-                self.Remove.place(x = 630, y = 520)
+                self.Remove.place(x = 630, y = 500)
 
                 #creates cancel button that brings back to playlist window
                 self.Cancelr = Button(self.master, text = "Close", 
@@ -1007,7 +1036,7 @@ class removeSong:
                                 width = 9, 
                                 height = 2,
                                 command = self.closeWindow)
-                self.Cancelr.place(x = 42 , y = 520)
+                self.Cancelr.place(x = 42 , y = 500)
 
                 self.master.grab_set()
 
@@ -1015,52 +1044,44 @@ class removeSong:
         #in this function need to add the function from functions group since command only accepts one function  
         def remove(self, playlistURI):
                 self.titleRemove = self.et1.get()
-                self.artistRemove = self.ea1.get()
                 print(self.titleRemove)
-                print(self.artistRemove)
 
                 #name of table for playlist that its on
+                playlistURI = playlistURI.strip("'")
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print("URI where song will be removed: " + pURI)
 
-                self.rm = tk.messagebox.askquestion("confirm song removal", "Are you sure you want to remove this song?")
+                self.rm = tk.messagebox.askquestion("confirm song removal", "Are you sure you want to remove this song?", parent = self.master)
 
                 if self.rm == 'yes':
                         print("yes")
                         #add remove function here
                         titleRemove = self.titleRemove
-                        artistRemove = self.artistRemove
                         database_name = self.name_db
-                        full_uri = playlistURI[8:]
-                        full_uri = 'spotify:playlist:' + full_uri
+                        full_playlist_uri = playlistURI[8:]
+                        full_playlist_uri = 'spotify:playlist:' + full_playlist_uri
 
-                        found_flag = False
-                        user_uri = self.userClass.get_uri()
-                        search = titleRemove + ' ' + artistRemove
-                        results = self.sp.search(search)
-                        remove_flag = False
-                        playlist1 = Playlist(user_uri, self.sp, uri=full_uri, name=uri_to_title(full_uri))
-                        for track in results['tracks']['items']:
-                            track_uri = track['uri']
-                            remove_flag = removeS(track_uri, full_uri, self.name_db)
-                            if remove_flag == True:
-                                playlist1 = Playlist(user_uri, self.sp, uri=full_uri, name=uri_to_title(full_uri))
-                                try:
-                                    playlist1.remove_songs_sp(track_uri, sp)
-                                except:
-                                    remove_flag = False
-                                break
-
-
-                        print(len(results))
-                        playlist1 = Playlist(user_uri, self.sp, uri=full_uri, name=uri_to_title(full_uri))
-                        
-                        if remove_flag == True:
-                            tk.messagebox.showinfo("song removed!", "Your song has been removed! Click cancel to go back to your playlist or remove another song.") 
+                        db_flag = removeS(self.titleRemove, full_playlist_uri, self.name_db)
+                        if isinstance(db_flag, bool):
+                            # Error saying that the song name was not found in the playlist
+                            tk.messagebox.showerror('Database error', 'Song was not found in local database.', parent = self.master)
                         else:
-                            tk.messagebox.showerror("Error", "A problem has occurred removing this song. Please check your playlist to ensure this song is in it by clicking cancel. If it is on your playlist, then please try again.") 
+                            # song_uri, playlist_uri, spotify_class
+                            playlist1 = Playlist(self.userClass.get_uri(), self.sp, uri=full_playlist_uri, name=uri_to_title(full_playlist_uri))
+                            sp_flag = playlist1.remove_songs_sp(db_flag, full_playlist_uri, self.sp)
+                        
+                        if sp_flag == False:
+                            print('Spotify failed to remove it.')
+                            tk.messagebox.showerror('Spotify error', 'There was a problem removing this song from the Spotify playlist, please try again.', parent = self.master)
+                        else:
+                            # Success
+                            print('success')
+                            tk.messagebox.showinfo('Success!', "Song was succesfully removed!", parent = self.master)
+                            self.closeWindow()
+                        
+                        
                 elif self.rm == 'no':
-                        tk.messagebox.showinfo('Return','You will now return to the remove song window. Here you can either enter another song to remove or click cancel to go back to your playlist.')
+                        tk.messagebox.showinfo('Return','You will now return to the remove song window. Here you can either enter another song to remove or click cancel to go back to your playlist.', parent = self.master)
 
         def closeWindow(self):
                 self.master.destroy()
@@ -1086,83 +1107,83 @@ class analysis:
                                 font = "Helvetica 28 bold italic")
                 self.title.place(x = 90, y = 30)
 
-                self.stuff = tk.Label(self.master, text ="Static |  Description |  Happy  |  Sad  | Motivated  |  Calm | Frantic  | Party  |  Gaming", 
+                self.stuff = tk.Label(self.master, text ="Static    |               Description                   |   Happy    |   Sad   |   Motivated   |   Calm   |   Frantic   |   Party   |  Gaming  ", 
                         fg = "black", 
                         bg = "gray", 
                         bd = 8, 
                         relief = "sunken", 
                         height = 1,
-                    width = 80,
+                    width = 100,
                     font = "Helvetica 10 bold italic")
-                self.stuff.place(x = 0, y = 150)
-                self.stuff1 = tk.Label(self.master, text ="Valence | 0-1 scale of how cheerful the track is  | > 0.5 | < 0.5 | NA | NA | NA | > 0.5 | NA", 
+                self.stuff.place(x = 50, y = 190)
+                self.stuff1 = tk.Label(self.master, text ="Valence | 0-1 scale of how cheerful the track is  |   > 0.5   |   < 0.5   |   NA   |   NA   |   NA   |   > 0.5   |   NA", 
                                         fg = "black", 
                                         bg = "gray", 
                                         bd = 8, 
                                         relief = "sunken", 
                                         height = 1,
-                                width = 80,
+                                width = 100,
                                 font = "Helvetica 10 bold italic")
-                self.stuff1.place(x = 0, y = 180)
+                self.stuff1.place(x = 50, y = 220)
 
-                self.stuff2 = tk.Label(self.master, text ="Energy   | 0-1 scale of how energetic the track is | NA | NA | >.7 |  <.7 |  >.7  | >.7  | NA", 
+                self.stuff2 = tk.Label(self.master, text ="Energy   |   0-1 scale of how energetic the track is   |   NA   |   NA   |   >.7   |   <.7   |    >.7    |   >.7    |   NA", 
                                         fg = "black", 
                                         bg = "gray", 
                                         bd = 8, 
                                         relief = "sunken", 
                                         height = 1,
-                                width = 80,
+                                width = 100,
                                 font = "Helvetica 10 bold italic")
-                self.stuff2.place(x = 0, y = 210)
+                self.stuff2.place(x = 50, y = 250)
 
-                self.stuff3 = tk.Label(self.master, text ="Acousticness | 0-1 scale of how acoustic the track is | NA | NA | NA | NA | NA | NA | NA", 
+                self.stuff3 = tk.Label(self.master, text ="Acousticness |  0-1 scale of how acoustic the track is  |   NA   |   NA   |   NA   |   NA   |   NA   |   NA   |   NA", 
                                         fg = "black", 
                                         bg = "gray", 
                                         bd = 8, 
                                         relief = "sunken", 
                                         height = 1,
-                                width = 80,
+                                width = 100,
                                 font = "Helvetica 10 bold italic")
-                self.stuff3.place(x = 0, y = 240)
-                self.stuff4 = tk.Label(self.master, text ="Danceability | 0-1 scale of how much you can dance to the track | NA | NA | NA | NA | NA | >.65 | NA", 
+                self.stuff3.place(x = 50, y = 280)
+                self.stuff4 = tk.Label(self.master, text ="Danceability | 0-1 scale of tracks danceability    |    NA         |    NA       |    NA      |    NA    |    NA    |    >.65    |    NA",  
                                         fg = "black", 
                                         bg = "gray", 
                                         bd = 8, 
                                         relief = "sunken", 
                                         height = 1,
-                                width = 80,
+                                width = 100,
                                 font = "Helvetica 10 bold italic")
-                self.stuff4.place(x = 0, y = 270)
+                self.stuff4.place(x = 50, y = 310)
                 self.stuff5 = tk.Label(self.master, text ="Speechiness | 0-1 how much speech dominates the track | NA | NA | NA | NA | NA | NA | <.085", 
                                         fg = "black", 
                                         bg = "gray", 
                                         bd = 8, 
                                         relief = "sunken", 
                                         height = 1,
-                                width = 80,
+                                width = 100,
                                 font = "Helvetica 10 bold italic")
-                self.stuff5.place(x = 0, y = 300)
-                self.stuff6 = tk.Label(self.master, text ="Tempo | Bpm measure of track | NA | NA | NA | <120 | >120 | NA | NA", 
+                self.stuff5.place(x = 50, y = 340)
+                self.stuff6 = tk.Label(self.master, text ="Tempo |                 Bpm measure of track                      |    NA    |    NA    |    NA    |    <120    |    >120    |    NA    |    NA", 
                                         fg = "black", 
                                         bg = "gray", 
                                         bd = 8, 
                                         relief = "sunken", 
                                         height = 1,
-                                width = 80,
+                                width = 100,
                                 font = "Helvetica 10 bold italic")
-                self.stuff6.place(x = 0, y = 330)
-                self.stuff7 = tk.Label(self.maste, text ="Popularity | 0-100 scale of track’s popularity | NA | NA | NA | NA | NA | >65 | NA", 
+                self.stuff6.place(x = 50, y = 370)
+                self.stuff7 = tk.Label(self.master, text ="Popularity   |         0-100 scale of track’s popularity       |    NA    |    NA    |    NA    |    NA    |    NA    |    >65    |    NA", 
                                         fg = "black", 
                                         bg = "gray", 
                                         bd = 8, 
                                         relief = "sunken", 
                                         height = 1,
-                                width = 80,
+                                width = 100,
                                 font = "Helvetica 10 bold italic")
-                self.stuff7.place(x = 0, y = 360)
+                self.stuff7.place(x = 50, y = 400)
 
                 self.Done = Button(self.master, text = "Done", bg ="green", bd = 6, relief = "raised", font = "Helvetica 20 bold italic", width = 10, height = 3, command = self.closeWindow)
-                self.Done.place(x = 685, y = 530)
+                self.Done.place(x = 680, y = 515)
                 self.master.grab_set()
 
         def closeWindow(self):
