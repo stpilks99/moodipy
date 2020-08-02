@@ -145,23 +145,10 @@ def sql_create_database(name_db):
     );"""
     c.execute(setup_master)
     setup_deleted_songs = """CREATE TABLE IF NOT EXISTS "deletedsongs" (
-    "SongURI"	TEXT);"""
+    "Songuri"	TEXT);"""
     c.execute(setup_deleted_songs)
 
     database.commit()
     database.close()
     return 0
 
-def get_playlist_info(Puri, name_db):
-   # userPlaylist = uri_to_title(Puri)
-    userPlaylist = "playlist7tcW3t5IkBtdLRN7oQQMUo"
-    database = sqlite3.connect(name_db)
-    cursor = database.cursor()
-    sNAME = """select * from playlistmaster where playlisturi = '"""+Puri+"""'"""
-    cursor.execute(sNAME)
-    query_result = cursor.fetchall()
-    for i in query_result:
-        print(i)
-    database.close()
-   #bs comment
-    return query_result
