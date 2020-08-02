@@ -296,6 +296,7 @@ class createPlaylist:
                 # Match up variables
                 playlist_title = self.pName
                 playlist_genres = genre_list
+                genre_length = len(genre_list) 
                 playlist_mood = self.mSelected
                 pref_artist = self.artist
                 #time_period = self.tSelected
@@ -305,36 +306,41 @@ class createPlaylist:
 
                 # Code for creating playlist and adding recommendations
                 user_uri = self.userClass.get_uri()
-                playlistClass = Playlist(user_uri, self.sp, playlist_title) # Instantiate playlist class
-                uri_playlist = playlistClass.create_spotify_playlist(self.sp) # create playlist in Spotify
-                if len(uri_playlist) == 0:
-                        tk.messagebox.showerror("Spotify Error", "Failed to initialize playlist in Spotify. Please try again.", parent = self.master)
-                else:
-                        db_flag = createP(self.name_db, uri_playlist, playlist_mood, pref_artist, playlist_genres, playlist_title) # Not working right now
-                        if db_flag == False:
-                                tk.messagebox.showerror("Database Error", "Error creating playlist table in database. Please try again.", parent = self.master)
-                        else:
-                                # Find recommendations based on user input
-                                returned_list = get_songs_with_criteria(playlist_mood, playlist_genres, pref_artist, [], [], num_songs_needed, self.sp) 
-                                if len(returned_list) == 0:
-                                        tk.messagebox.showerror("Error", "Error finding songs for playlist. Please check spelling of criteria.", parent = self.master)       
-                                else:
-                                        flag = playlistClass.add_songs_sp(returned_list, self.sp)
-                                        if flag == False:
-                                                tk.messagebox.showerror("Spotify Error", "Failed to add songs to created playlist. Please try again with different criteria.", parent = self.master)
-                                        else:
-                                                '''Add songs to playlist in SQL'''
-                                                song_uris_names = playlistClass.add_songs_local(returned_list, self.sp)
-                                                flag = addS(uri_playlist, song_uris_names, self.name_db)
-                                                if flag == False:
-                                                        tk.messagebox.showerror("Database Error", "Error adding songs to database. Remove all songs from Spotify playlist and try again.", parent = self.master)               
-                                                elif len(returned_list) != num_songs_needed:
-                                                        tk.message.showwarning("Warning", "Your songs have been added both locally and to Spotify playlist. However, the it did not return as many songs as intended due to inputs.", parent = self.master)
-                                                else:
-                                                        tk.messagebox.showinfo('Success', 'Your songs have been added both locally and to a Spotify playlist! Please click refresh to see your new playlist.', parent = self.master)   
-                                                        self.closeWindow()     
-                self.closeWindow()
-                
+                if self.pName != "" and genre_length != 0 and self.mSelected != '':
+                    if genre_length <= 5 and self.mSelected in self.moods:
+                            if len(uri_playlist) == 0:
+                                    tk.messagebox.showerror("Spotify Error", "Failed to initialize playlist in Spotify. Please try again.", parent = self.master)
+                            else:
+                                    playlistClass = Playlist(user_uri, self.sp, playlist_title) # Instantiate playlist class
+                                    uri_playlist = playlistClass.create_spotify_playlist(self.sp) # create playlist in Spotify
+                                    db_flag = createP(self.name_db, uri_playlist, playlist_mood, pref_artist, playlist_genres, playlist_title) # Not working right now
+                                    if db_flag == False:
+                                            tk.messagebox.showerror("Database Error", "Error creating playlist table in database. Please try again.", parent = self.master)
+                                    else:
+                                            # Find recommendations based on user input
+                                            returned_list = get_songs_with_criteria(playlist_mood, playlist_genres, pref_artist, [], [], num_songs_needed, self.sp) 
+                                            if len(returned_list) == 0:
+                                                    tk.messagebox.showerror("Error", "Error finding songs for playlist. Please check spelling of criteria.", parent = self.master)       
+                                            else:
+                                                    flag = playlistClass.add_songs_sp(returned_list, self.sp)
+                                                    if flag == False:
+                                                            tk.messagebox.showerror("Spotify Error", "Failed to add songs to created playlist. Please try again with different criteria.", parent = self.master)
+                                                    else:
+                                                            '''Add songs to playlist in SQL'''
+                                                            song_uris_names = playlistClass.add_songs_local(returned_list, self.sp)
+                                                            flag = addS(uri_playlist, song_uris_names, self.name_db)
+                                                            if flag == False:
+                                                                    tk.messagebox.showerror("Database Error", "Error adding songs to database. Remove all songs from Spotify playlist and try again.", parent = self.master)               
+                                                            elif len(returned_list) != num_songs_needed:
+                                                                    tk.message.showwarning("Warning", "Your songs have been added both locally and to Spotify playlist. However, the it did not return as many songs as intended due to inputs.", parent = self.master)
+                                                            else:
+                                                                    tk.messagebox.showinfo('Success', 'Your songs have been added both locally and to a Spotify playlist! Please click refresh to see your new playlist.', parent = self.master)   
+                                                                    self.closeWindow()   
+                    else:
+                        tk.messagebox.showerror("Input Error", "Please select from the moods available and select 5 or less genres.", parent = self.master)  
+                else: 
+                    tk.messagebox.showerror("Criteria Error", "Please enter at least one genre, a mood and a title.", parent = self.master)
+                self.closeWindow()                
 
         def closeWindow(self):
                 self.master.destroy()
