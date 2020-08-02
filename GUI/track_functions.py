@@ -73,12 +73,14 @@ class Track():
         else:
             self.__track_data = track_data  
 
-        # Add data to class from track() 
-        for artist in self.__track_data['artists']:
-            self.__artists.append(artist['uri'])
-        self.__explicit = bool(self.__track_data['explicit'])
-        self.__popularity = self.__track_data['popularity']  
-        
+        # Add data to class from track()
+        try: 
+            for artist in self.__track_data['artists']:
+                self.__artists.append(artist['uri'])
+            self.__explicit = bool(self.__track_data['explicit'])
+            self.__popularity = self.__track_data['popularity']  
+        except:
+            pass
 
     def get_dance_val(self):
         '''Gets danceability of this song'''
@@ -138,7 +140,7 @@ class Track():
         return self.__uri
 
 
-    def get_release_year(self):
+    def get_release_year(self): # not being used
         '''Returns the decade that this song was released in.
         
             Format: last 2 digits of decade followed by an s (10s, 70s, etc). 

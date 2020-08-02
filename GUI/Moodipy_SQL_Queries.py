@@ -20,38 +20,82 @@ def uri_to_title(uri):
 
 def addS(userPlaylist,uri_name_list, databaseName):              #add song function
     #songInfo = (sURI,sNAME)
-    userPlaylist = uri_to_title(userPlaylist)
-    database = sqlite3.connect(databaseName)
-    cursor = database.cursor()
-    for i in uri_name_list:
-        songInfo = list(i)
-        sURI = """"""
-        sNAME = """"""
-        sURI  = songInfo[0]
-        sNAME = songInfo[1]
-        sNAME = sNAME.replace("'", "") #remove the ' character
-        print(sNAME)
-        query1 = """INSERT INTO '""" + userPlaylist + """'          
-                    VALUES ('""" + sURI + """','""" + sNAME + """', 0);"""
-        cursor.execute(query1)
 
+    # if uri already in database table, get rid of it.
+    if len(uri_name_list[0]) == 0: # Check length
+        return False
+    try:
+        userPlaylist = uri_to_title(userPlaylist)
+        database = sqlite3.connect(databaseName)
+        cursor = database.cursor()
+        for i in uri_name_list:
+            songInfo = list(i)
+            sURI = """"""
+            sNAME = """"""
+            sURI  = songInfo[0]
+            sNAME = songInfo[1]
+            sNAME = sNAME.replace("'", "") #remove the ' character
+            print(sNAME)
+            query1 = """INSERT INTO '""" + userPlaylist + """'          
+                        VALUES ('""" + sURI + """','""" + sNAME + """', 0);"""
+            try:
+                cursor.execute(query1)
+            except:
+                database.commit()
+                sNAME = sNAME + " (1)"
+                query1 = """INSERT INTO '""" + userPlaylist + """'          
+                VALUES('""" + sURI + """', '""" + sNAME + """', 0); """
+                try:
+                    cursor.execute(query1)
+                except:
+                    sNAME = sNAME + " (2)"
+                    query1 = """INSERT INTO '""" + userPlaylist + """'          
+                    VALUES('""" + sURI + """', '""" + sNAME + """', 0); """
+                    cursor.execute(query1)
+                    continue
+                # Check all previous names in the database
+                continue
+    except:
+        return False
 
     database.commit()
     database.close()
     return True
 
-def removeS(sURI,userPlaylist, databaseName):
-    userPlaylist = uri_to_title(userPlaylist)
+def get_track_uri(Puri,SongTitle, name_db):
+    database = sqlite3.connect(name_db)
+    cursor = database.cursor()
+    SongTitle = SongTitle.replace("'", "") #remove '
+    qurry = "select songuri from "+ Puri +" where songname like '%"+ SongTitle+"%'";
+    print(qurry)
+    cursor.execute(qurry)
+    query_result = cursor.fetchall()
+    try:
+        adj_result = query_result[0][0] #get actual result
+    except:
+        print("No song:"+SongTitle+" Found in playlist table:"+Puri+" Please try again.")
+        adj_result = "No Result"
+    database.close()
+    return adj_result
+
+def removeS(song_title,playlist_uri, databaseName):
+    playlist_name = uri_to_title(playlist_uri)
+    sURI = get_track_uri(playlist_name, song_title, databaseName)
+    if sURI == "No Result":
+        return False # Song not found in database
+
     database = sqlite3.connect(databaseName)
     cursor = database.cursor()
-    query1 = """DELETE FROM """ + userPlaylist + """ WHERE songuri = '""" + sURI + """'"""
+    query1 = """DELETE FROM """ + playlist_name + """ WHERE songuri = '""" + sURI + """'"""
     try:
         cursor.execute(query1)
-        return True
+        database.commit()
+        database.close()
     except:
+        database.commit()
+        database.close()
         return False
-    database.commit()
-    database.close()
+    return sURI
 
 def printS(sNAME,username,userPlaylist, databaseName):           #print song function
     userPlaylist = uri_to_title(userPlaylist)
@@ -78,7 +122,7 @@ def getNumbT(numTrack,userPlaylist, databaseName):                         #get 
     database.close()
 
 
-def createP(databaseName, uri, mood, period, artist, genre, explicit, p_title):  # create a playlist
+def createP(databaseName, uri, mood, artist, genre, p_title):  # create a playlist
     # create entry in playlist master table
     p_title_uri = uri_to_title(uri)
     database = sqlite3.connect(databaseName)
@@ -86,24 +130,22 @@ def createP(databaseName, uri, mood, period, artist, genre, explicit, p_title): 
     first_genre = genre[0]
     if artist  == "":
         artist = "null"
-    period = period.replace("'","")
-    period = period.replace("+", "")
-    sqlcommand = "INSERT INTO playlistmaster (playlisturi, username, playlistmood,playlistperiod, preferredartist, preferredgenre, explicit) " + \
-                 "VALUES('" + p_title_uri + "','" + p_title + "','" + mood + "','" + period + "','" + artist + "','" + first_genre + "','" + str(explicit) + "')"
-    print(sqlcommand)  # debug to see SQL command
-    cursor.execute(sqlcommand)
-
-
-    #create table for playlist
-    sqlcommand = "CREATE TABLE '"+p_title_uri+"""' ("songuri"	CHAR(36) NOT NULL UNIQUE,
-           "songname"	TEXT,
-           "songrating"	NUMERIC,
-           PRIMARY KEY("songuri"));"""
-    # print(sqlcommand) #debug to see SQL command
-    cursor.execute(sqlcommand)
+    try:
+        sqlcommand = "INSERT INTO playlistmaster (playlisturi, username, playlistmood, preferredartist, preferredgenre) " + \
+                     "VALUES('" + p_title_uri + "','" + p_title + "','" + mood  + "','" + artist + "','" + first_genre + "')"
+        cursor.execute(sqlcommand)
+     #create table for playlist
+        sqlcommand = "CREATE TABLE '"+p_title_uri+"""' ("songuri"	CHAR(36) NOT NULL UNIQUE,
+               "songname"	TEXT UNIQUE,
+               "songrating"	NUMERIC,
+               PRIMARY KEY("songuri"));"""
+        cursor.execute(sqlcommand)
+    except:
+        database.close()
+        return False
     database.commit()  # actually save the database
     database.close()
-    return 0
+    return True
 
 def removeP(userPlaylist, databaseName):                       #remove a playlist
     #remove the table
