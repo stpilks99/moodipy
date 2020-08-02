@@ -38,7 +38,23 @@ def addS(userPlaylist,uri_name_list, databaseName):              #add song funct
             print(sNAME)
             query1 = """INSERT INTO '""" + userPlaylist + """'          
                         VALUES ('""" + sURI + """','""" + sNAME + """', 0);"""
-            cursor.execute(query1)
+            try:
+                cursor.execute(query1)
+            except:
+                database.commit()
+                sNAME = sNAME + " (1)"
+                query1 = """INSERT INTO '""" + userPlaylist + """'          
+                VALUES('""" + sURI + """', '""" + sNAME + """', 0); """
+                try:
+                    cursor.execute(query1)
+                except:
+                    sNAME = sNAME + " (2)"
+                    query1 = """INSERT INTO '""" + userPlaylist + """'          
+                    VALUES('""" + sURI + """', '""" + sNAME + """', 0); """
+                    cursor.execute(query1)
+                    continue
+                # Check all previous names in the database
+                continue
     except:
         return False
         
@@ -114,24 +130,22 @@ def createP(databaseName, uri, mood, artist, genre, p_title):  # create a playli
     first_genre = genre[0]
     if artist  == "":
         artist = "null"
-    # period = period.replace("'","") removed period
-    # period = period.replace("+", "")
-    sqlcommand = "INSERT INTO playlistmaster (playlisturi, username, playlistmood, preferredartist, preferredgenre) " + \
-                 "VALUES('" + p_title_uri + "','" + p_title + "','" + mood  + "','" + artist + "','" + first_genre + "')"
-    print(sqlcommand)  # debug to see SQL command
-    cursor.execute(sqlcommand)
-
-
-    #create table for playlist
-    sqlcommand = "CREATE TABLE '"+p_title_uri+"""' ("songuri"	CHAR(36) NOT NULL UNIQUE,
-           "songname"	TEXT UNIQUE,
-           "songrating"	NUMERIC,
-           PRIMARY KEY("songuri"));"""
-    # print(sqlcommand) #debug to see SQL command
-    cursor.execute(sqlcommand)
+    try:
+        sqlcommand = "INSERT INTO playlistmaster (playlisturi, username, playlistmood, preferredartist, preferredgenre) " + \
+                     "VALUES('" + p_title_uri + "','" + p_title + "','" + mood  + "','" + artist + "','" + first_genre + "')"
+        cursor.execute(sqlcommand)
+     #create table for playlist
+        sqlcommand = "CREATE TABLE '"+p_title_uri+"""' ("songuri"	CHAR(36) NOT NULL UNIQUE,
+               "songname"	TEXT UNIQUE,
+               "songrating"	NUMERIC,
+               PRIMARY KEY("songuri"));"""
+        cursor.execute(sqlcommand)
+    except:
+        database.close()
+        return False
     database.commit()  # actually save the database
     database.close()
-    return 0
+    return True
 
 def removeP(userPlaylist, databaseName):                       #remove a playlist
     #remove the table

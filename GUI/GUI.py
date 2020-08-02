@@ -307,22 +307,30 @@ class createPlaylist:
                 user_uri = self.userClass.get_uri()
                 playlistClass = Playlist(user_uri, self.sp, playlist_title) # Instantiate playlist class
                 uri_playlist = playlistClass.create_spotify_playlist(self.sp) # create playlist in Spotify
-                flag = createP(self.name_db, uri_playlist, playlist_mood, pref_artist, playlist_genres, playlist_title) # Not working right now
-                if flag != 0:
-                    print('ERROR with creating database table')
-                    # Popup error
-                print(flag)
-                # Find recommendations based on user input
-                returned_list = get_songs_with_criteria(playlist_mood, playlist_genres, pref_artist, [], [], num_songs_needed, self.sp)        
-                flag = playlistClass.add_songs_sp(returned_list, self.sp)
-                if flag == False:
-                    print('ERROR moving songs to Spotify')
-                
-                '''Add songs to playlist in SQL'''
-                song_uris_names = playlistClass.add_songs_local(returned_list, self.sp)
-                flag = addS(uri_playlist, song_uris_names, self.name_db)
-                if flag == False:
-                    print('ERROR pushing songs to database')
+                if len(uri_playlist) == 0:
+                        tk.messagebox.showerror("Spotify Error", "Failed to initialize playlist in Spotify. Please try again.", parent = self.master)
+                else:
+                        db_flag = createP(self.name_db, uri_playlist, playlist_mood, pref_artist, playlist_genres, playlist_title) # Not working right now
+                        if db_flag == False:
+                                tk.messagebox.showerror("Database Error", "Error creating playlist table in database. Please try again.", parent = self.master)
+                        else:
+                                # Find recommendations based on user input
+                                returned_list = get_songs_with_criteria(playlist_mood, playlist_genres, pref_artist, [], [], num_songs_needed, self.sp) 
+                                if len(returned_list) != num_songs_needed:
+                                        tk.messagebox.showerror("Error", "Error finding songs for playlist. Please try with different criteria.", parent = self.master)       
+                                else:
+                                        flag = playlistClass.add_songs_sp(returned_list, self.sp)
+                                        if flag == False:
+                                                tk.messagebox.showerror("Spotify Error", "Failed to add songs to created playlist. Please try again with different criteria.", parent = self.master)
+                                        else:
+                                                '''Add songs to playlist in SQL'''
+                                                song_uris_names = playlistClass.add_songs_local(returned_list, self.sp)
+                                                flag = addS(uri_playlist, song_uris_names, self.name_db)
+                                                if flag == False:
+                                                        tk.messagebox.showerror("Database Error", "Error adding songs to database. Remove all songs from Spotify playlist and try again.", parent = self.master)               
+                                                else:
+                                                        tk.messagebox.showinfo('Success', 'Your songs have been added both locally and to a Spotify playlist! Please click refresh to see your new playlist.', parent = self.master)   
+                                                        self.closeWindow()     
                 self.closeWindow()
                 
 
@@ -362,7 +370,7 @@ class helpDoc:
                 
 
                 self.a2 = tk.Label(self.frame,
-                        text = "Using Moodipy, each playlist has a max of 60 songs. Moodipy only adds songs \nit thinks you'll really like (based on moods, ranking, time periods and more) so \nyou'll never find yourself skipping through a bunch of songs you hate.",
+                        text = "Using Moodipy, each playlist has a max of 50 songs. Moodipy only adds songs \nit thinks you'll really like (based on moods, ranking, time periods and more) so \nyou'll never find yourself skipping through a bunch of songs you hate.",
                         fg = "black", 
                         bg = "gray", 
                         bd = 6, 
@@ -490,7 +498,6 @@ class editPlaylist:
                 database = sqlite3.connect(name_db)
                 c = database.cursor()
                 fetchPlaylistTitle = """SELECT username FROM playlistmaster WHERE playlisturi = """ + playlistURI + """;"""
-                print("this is a string")
                 print(playlistURI)
                 c.execute(fetchPlaylistTitle)
                 playlistTitle = str(c.fetchone()).strip('(,)\'')
@@ -601,7 +608,7 @@ class editPlaylist:
                 # Songs
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print(pURI)
-                c.execute("""SELECT songname FROM """ + pURI + """;""")
+                c.execute("""SELECT songname FROM """ + pURI + """ ORDER by songname asc;""")
                 songs = c.fetchall()
 
                 self.fields = Label(self.master, text = 'Song Title', fg = "black", bg = "green", bd = 6, width = 39, relief = "sunken", font = "Helvetica 18 bold italic")
@@ -628,8 +635,9 @@ class editPlaylist:
                 c = database.cursor()
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print(pURI)
-                c.execute("""SELECT songname FROM """ + pURI + """;""")
+                c.execute("""SELECT songname FROM """ + pURI + """ ORDER by songname asc;""")
                 songs = c.fetchall()
+                self.listbox.delete(0, END)
                 for self.values in songs: 
                         sngs =str(self.values).strip(',()').replace('\'', '')
                         self.listbox.insert(END, sngs) 
@@ -638,7 +646,7 @@ class editPlaylist:
         def addRec(self, playlistURI,name_db):
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print(pURI)
-                full_uri = pURI[8:]
+                full_uri = pURI[8:] #removes first 8 characters of pURI
                 full_uri = 'spotify:playlist:' + full_uri
                 database = sqlite3.connect(name_db)
                 c = database.cursor()
@@ -660,30 +668,32 @@ class editPlaylist:
                 print(numOfSongs)
 
                 if int(numOfSongs) >= 60:
-                        tk.messagebox.showerror('Error!','The max amount of songs (60) has been reached.')
+                        tk.messagebox.showerror('Error!','The max amount of songs (50) has been reached.', parent = self.master)
                 else:
                         user_uri = self.userClass.get_uri()
                         playlistClass = Playlist(user_uri, self.sp, uri=full_uri)
                         # Find recommendations based on user input
-                        playlist_tracks = playlistClass.get_playlist_tracks(self.sp, full_uri)
+                        playlist_tracks = playlistClass.get_playlist_tracks(self.sp, full_uri)   
                         list_genres_add = []
                         list_genres_add.append(info[5])
-                        songs_needed = 60 - int(numOfSongs)
-                        returned_list = get_songs_with_criteria(info[2], list_genres_add, '', [], playlist_tracks, songs_needed, self.sp)        
-                        flag = playlistClass.add_songs_sp(returned_list, self.sp)
-                        if flag == False:
-                            print('ERROR moving songs to Spotify')
-                        
-                        '''Add songs to playlist in SQL'''
-                        song_uris_names = playlistClass.add_songs_local(returned_list, self.sp)
-                        flag = addS(full_uri, song_uris_names, self.name_db)
-                        
-                        if flag == False:
-                            print('ERROR pushing songs to database')
-                            self.closeWindow()
-                        else:
-                            tk.messagebox.showinfo('Recommendations added!','Recommendations have been added to your playlist reaching the max number of songs (60).')    
-                        
+                        songs_needed = 50 - int(numOfSongs)
+                        returned_list = get_songs_with_criteria(info[2], list_genres_add, '', [], playlist_tracks, songs_needed, self.sp)
+                        if len(returned_list) == songs_needed:
+                                tk.messagebox.showerror("Algorithm Error", "Not enough songs returned from algorithm. Please try again.", parent = self.master)
+                        else:        
+                                flag = playlistClass.add_songs_sp(returned_list, self.sp)
+                                if flag == False:
+                                        tk.messagebox.showerror("Spotify Error", "Failed to add songs to created playlist. Please try again with different criteria.", parent = self.master)
+                                else:  
+                                        #'''Add songs to playlist in SQL'''
+                                        song_uris_names = playlistClass.add_songs_local(returned_list, self.sp)
+                                        flag = addS(full_uri, song_uris_names, self.name_db)
+                                        if flag == False:
+                                                tk.messagebox.showerror("Database Error", "Error adding songs to database. Remove all songs from Spotify playlist and try again.", parent = self.master)               
+                                        else:
+                                                tk.messagebox.showinfo('Recommendations added!','Recommendations have been added to your playlist reaching the max number of songs (50).', parent = self.master)
+                                                self.closeWindow()                                                                             
+                                           
         def closeWindow(self):
                 self.master.destroy()
         
@@ -801,19 +811,18 @@ class rankSongs:
                 self.songRank = self.sRank.get()
                 print(self.songTitle)
                 print(self.songRank)
-                database = sqlite3.connect(name_db)
-                c = database.cursor()
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print(pURI)
-                c.execute("""SELECT songname FROM """ + pURI + """ WHERE songname = '""" + self.songTitle + """';""")
+                c.execute("""SELECT songname FROM """ + pURI + """ WHERE songname LIKE '%""" + self.songTitle + """%';""") 
                 songName = c.fetchone()
                 database.close()
                 print(songName)
-                rConfirm = messagebox.askquestion("Confirm", "Are you sure you want to apply this rank?")
+                rConfirm = messagebox.askquestion("Confirm", "Are you sure you want to apply this rank?", parent = self.master)
                 if rConfirm == "yes":
                         if (self.songRank == "1" or self.songRank == "2" or self.songRank =="3") and songName is not None:
-                                print("add rank")
-                                #add rank function here
+                                print("add rank")                     
+                                update_track_rating(pURI,get_track_uri(pURI,self.songTitle,name_db),self.songRank,name_db)
+                                tk.messagebox.showinfo("Success!", "Song rank has been added successfully!", parent = self.master)
                                 self.closeWindow()
                         else:
                                 tk.messagebox.showerror("Error", "Try again! Rank must be from 1-3 and song title must match and exist in your playlist.", parent = self.master)
@@ -920,7 +929,7 @@ class addSong:
                 print(numOfSongs)
 
                 if int(numOfSongs) < 60:
-                        self.confirmAdd = tk.messagebox.askquestion("confirm song to be added", "Are you sure you want to add this song?")
+                        self.confirmAdd = tk.messagebox.askquestion("confirm song to be added", "Are you sure you want to add this song?", parent = self.master)
 
                         if self.confirmAdd == 'yes':
                                 print("yes")
@@ -956,7 +965,7 @@ class addSong:
 
         
                                 if spotify_flag == True and db_flag == True:
-                                    tk.messagebox.showinfo("song added!", "Your song has been added! Click cancel to go back to your playlist or add another song.") 
+                                    tk.messagebox.showinfo("song added!", "Your song has been added!", parent = self.master) 
                                     self.closeWindow()
                                 else:
                                     tk.messagebox.showerror("Error", "A problem has occurred adding this song. Please check spelling of input criteria.", parent = self.master)               
@@ -1042,7 +1051,7 @@ class removeSong:
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
                 print("URI where song will be removed: " + pURI)
 
-                self.rm = tk.messagebox.askquestion("confirm song removal", "Are you sure you want to remove this song?")
+                self.rm = tk.messagebox.askquestion("confirm song removal", "Are you sure you want to remove this song?", parent = self.master)
 
                 if self.rm == 'yes':
                         print("yes")
@@ -1067,12 +1076,12 @@ class removeSong:
                         else:
                             # Success
                             print('success')
-                            tk.messagebox.showinfo('Success!', "Song was succesfully removed!")
+                            tk.messagebox.showinfo('Success!', "Song was succesfully removed!", parent = self.master)
                             self.closeWindow()
                         
                         
                 elif self.rm == 'no':
-                        tk.messagebox.showinfo('Return','You will now return to the remove song window. Here you can either enter another song to remove or click cancel to go back to your playlist.')
+                        tk.messagebox.showinfo('Return','You will now return to the remove song window. Here you can either enter another song to remove or click cancel to go back to your playlist.', parent = self.master)
 
         def closeWindow(self):
                 self.master.destroy()
