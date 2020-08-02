@@ -152,3 +152,40 @@ def sql_create_database(name_db):
     database.close()
     return 0
 
+#Puri format:"playlist37i9dQZF1DWZAkrucRF6Gq"
+#returns true if success, else returns false
+def remove_lowrank_tracks(Puri, name_db):
+    database = sqlite3.connect(name_db)
+    cursor = database.cursor()
+    try:
+        qurry1 = """INSERT into deletedsongs select songuri from """+playlist+""" where songrating ==0;"""
+        qurry2 = """delete from """+playlist+""" where songrating ==0;"""
+        cursor.execute(qurry1)
+        cursor.execute(qurry2)
+    except:
+        return False
+        database.close()
+    database.commit()
+    database.close()
+    return True
+
+#Puri format:"playlist37i9dQZF1DWZAkrucRF6Gq"
+#returns song list if success, else returns blank list
+def get_suri_from_puri(Puri, name_db):
+    database = sqlite3.connect(name_db)
+    cursor = database.cursor()
+    sNAME = """select songuri from """+Puri+""";"""
+    try:
+        cursor.execute(sNAME)
+        query_result = cursor.fetchall()
+        info  = list(query_result)
+        songs = []
+        for i in range(len(query_result)):
+            name = info[i] #tuple drill to get to uri
+            name = name[0] #tuple drill to get to uri
+            songs.append(name)
+    except:
+        return [""]
+        database.close()
+    database.close()
+    return songs
