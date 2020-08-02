@@ -69,16 +69,14 @@ class Track():
         # Check optional variable (basic song info)
         if len(track_data) == 0: # Initialized with general song data
             track_data = sp.track(self.__uri)
-            self.__track_data = track_data['artists']
-        else:
-            self.__track_data = track_data  
+        # Get popularity value from track_data
+        self.__track_data = track_data 
+        self.__popularity = self.__track_data['popularity'] 
 
         # Add data to class from track()
         try: 
             for artist in self.__track_data['artists']:
-                self.__artists.append(artist['uri'])
-            self.__explicit = bool(self.__track_data['explicit'])
-            self.__popularity = self.__track_data['popularity']  
+                self.__artists.append(artist['uri'])  
         except:
             pass
 
