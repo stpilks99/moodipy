@@ -198,7 +198,7 @@ def get_songs_with_criteria(mood, # User entered mood
                 valid_tracks.remove(track)
                 
 
-        # Count number of loops that the tracks have not changed, if > 5 return a blank list
+        # Count number of loops that the tracks have not changed, if > 5 break the loop
         if len(valid_tracks) == length_prev_loop: # If the number of tracks retu
             fail_loop_count += 1
         if fail_loop_count > 4: # If the loop has failed 5 times
