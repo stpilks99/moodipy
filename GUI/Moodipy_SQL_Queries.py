@@ -200,8 +200,8 @@ def remove_lowrank_tracks(Puri, name_db):
     database = sqlite3.connect(name_db)
     cursor = database.cursor()
     try:
-        qurry1 = """INSERT into deletedsongs select songuri from """+Puri+""" where songrating ==0;"""
-        qurry2 = """delete from """+Puri+""" where songrating ==0;"""
+        qurry1 = """INSERT into deletedsongs select songuri from """+Puri+""" where songrating = 1;"""
+        qurry2 = """delete from """+Puri+""" where songrating = 1;"""
         cursor.execute(qurry1)
         cursor.execute(qurry2)
     except:
@@ -252,10 +252,10 @@ def update_track_rating(Puri,Suri,rank, name_db): #puri example: playlist37i9dQZ
 
 
 def get_playlist_info(Puri, name_db):   #puri example: playlist37i9dQZF1DWZAkrucRF6Gq	
-    #userPlaylist = uri_to_title(Puri)	  
+    userPlaylist = uri_to_title(Puri)	  
     database = sqlite3.connect(name_db)	    
     cursor = database.cursor()
-    sNAME = """select * from playlistmaster where playlisturi = '"""+Puri+"""'"""	 
+    sNAME = """select * from playlistmaster where playlisturi = '"""+userPlaylist+"""'"""	 
     cursor.execute(sNAME)	  
     query_result = cursor.fetchall()	
     for i in query_result:	 

@@ -24,13 +24,8 @@ if __name__ == '__main__':
     genres5 = ['Reggae', 'R-n-b', 'Rock', 'Soul']
 
     genres = genres1 + genres2 + genres3 + genres4 + genres5 
-    #print(genres)
-
-
     moods = ['Happy', 'Sad', 'Calm', 'Motivated', 'Frantic', 'Party', 'Gaming']
-
     song_lim = 30 # Number of songs returned from Spotify
-
     successes = [] 
     fails = []
     # Loop through each combination and try

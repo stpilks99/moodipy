@@ -616,7 +616,7 @@ class editPlaylist:
 
                 # Songs 
                 pURI = playlistURI.replace('spotify:playlist:', '').strip('\'')
-                print(pURI)
+                print("Opening playlist URI:"+ pURI)
                 c.execute("""SELECT songname FROM """ + pURI + """ ORDER by songname asc;""")
                 songs = c.fetchall()
 
@@ -692,9 +692,11 @@ class editPlaylist:
                         deleted_songs = get_slist_from_puri(pURI, self.name_db)
 
                         returned_list = get_songs_with_criteria(info[2], list_genres_add, '', deleted_songs, playlist_tracks, songs_needed, self.sp)
-                        if len(returned_list) == songs_needed:
+                        if len(returned_list) == 0:
                                 tk.messagebox.showerror("Algorithm Error", "Not enough songs returned from algorithm. Please try again.", parent = self.master)
-                        else:        
+                        else:
+                                if len(returned_list) != songs_needed:
+                                        tk.messagebox.showwarning('Algorithm warning', 'The algorithm found tracks, but not as many as desired. Matching songs have been added to the playlist')       
                                 flag = playlistClass.add_songs_sp(returned_list, self.sp)
                                 if flag == False:
                                         tk.messagebox.showerror("Spotify Error", "Failed to add songs to created playlist. Please try again with different criteria.", parent = self.master)
