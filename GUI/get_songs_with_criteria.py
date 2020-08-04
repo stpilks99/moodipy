@@ -107,7 +107,7 @@ def get_songs_with_criteria(mood, # User entered mood
         artist_list.append(result_artist_uri)
         
         # Get info on all songs
-        recommendations_raw = sp.recommendations(seed_genres=genre_list, limit=50)
+        recommendations_raw = sp.recommendations(seed_artists=artist_list, limit=50)
         all_track_info = recommendations_raw['tracks']
         recommended_uris = [] # Holds URI's found from recommendations query
         for track in all_track_info:
@@ -122,7 +122,7 @@ def get_songs_with_criteria(mood, # User entered mood
             track_obj = Track(track[0], sp, track_data=track[1], track_audio_features=track[2])
             track_moods = track_obj.get_mood()
             
-            if mood in track_moods: # Criteria matches
+            if mood.lower() in track_moods: # Criteria matches
                 valid_tracks.append(track[0]) # Add URI to valid tracks 
 
 

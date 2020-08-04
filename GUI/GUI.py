@@ -678,7 +678,7 @@ class editPlaylist:
                         list_genres_add.append(info[5])
                         songs_needed = 50 - int(numOfSongs)
                         returned_list = get_songs_with_criteria(info[2], list_genres_add, '', [], playlist_tracks, songs_needed, self.sp)
-                        if len(returned_list) == songs_needed:
+                        if len(returned_list) != songs_needed:
                                 tk.messagebox.showerror("Algorithm Error", "Not enough songs returned from algorithm. Please try again.", parent = self.master)
                         else:        
                                 flag = playlistClass.add_songs_sp(returned_list, self.sp)
