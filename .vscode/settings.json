@@ -1,3 +1,7 @@
 {
+<<<<<<< HEAD
     "python.pythonPath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\Python37_64\\python.exe"
+=======
+    "python.pythonPath": "C:\\Users\\klembczykp\\AppData\\Local\\Programs\\Python\\Python38\\python.exe"
+>>>>>>> 5aabbcc5a88962c074417857819cb82200931c09
 }
