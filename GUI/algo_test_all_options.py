@@ -48,7 +48,7 @@ if __name__ == '__main__':
                     uris = get_songs_with_criteria(selected_mood, genre_as_list, '', [], [], song_lim, sp)
                     
                 except:
-                    fails.append((moods[i], genres[j]))
+                    fails.append((selected_mood, genres[j]))
                     date = datetime.datetime.now()
                     time_now = date.strftime('%X') + '\n'
                     write_str = time_now + '\t MOOD: ' + selected_mood + ',\t GENRE: ' + genres[j] + ',\t\t\t RESULT: FAIL. Try/except loop tripped.\n'
