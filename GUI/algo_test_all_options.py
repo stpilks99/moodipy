@@ -36,7 +36,7 @@ if __name__ == '__main__':
     # Loop through each combination and try
     with open('algo_test_log.txt', 'w') as f: # log file setup
         
-        selected_mood = moods[0]
+        #selected_mood = moods[0]
         for selected_mood in moods:
             for j in range(len(genres)):
                 # The genres must be in the format of a list
@@ -69,7 +69,6 @@ if __name__ == '__main__':
                     time_now = date.strftime('%X')
                     write_str = time_now + '\t MOOD: ' + selected_mood + ',\t GENRE: ' + genres[j] + ',\t\t\t RESULT: pass. \n'
                     f.write(write_str)
-            break
         
 
         f.write('\n\nFAILED COMBINATIONS:\n\n')       
