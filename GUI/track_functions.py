@@ -205,8 +205,8 @@ class Track():
             fitting_moods.append('motivated')
 
         # Check if calm
-        if self.__energy <= energy_lim: # Low energy and tempo
-            if self.__tempo <= tempo_lim:
+        if self.__energy <= (energy_lim + 10): # Low energy and tempom, adjusted because not enough results
+            if self.__tempo <= (tempo_lim + 10):
                 fitting_moods.append('calm')
 
         # Check if frantic
