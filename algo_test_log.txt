@@ -1,31 +1,204 @@
-15:59:34	 MOOD: Happy,	 GENRE: Acoustic,		 RESULT: pass. 
-15:59:36	 MOOD: Happy,	 GENRE: Afrobeat,		 RESULT: pass. 
-15:59:38	 MOOD: Happy,	 GENRE: Alternative,		 RESULT: pass. 
-15:59:40	 MOOD: Happy,	 GENRE: Ambient,		 RESULT: FAIL. Not enough songs found.
-15:59:42	 MOOD: Happy,	 GENRE: Brazil,		 RESULT: pass. 
-15:59:44	 MOOD: Happy,	 GENRE: Classical,		 RESULT: FAIL. Not enough songs found.
-15:59:46	 MOOD: Happy,	 GENRE: Club,		 RESULT: pass. 
-15:59:48	 MOOD: Happy,	 GENRE: Country,		 RESULT: pass. 
-15:59:50	 MOOD: Happy,	 GENRE: Disco,		 RESULT: pass. 
-15:59:52	 MOOD: Happy,	 GENRE: Dubstep,		 RESULT: pass. 
-15:59:54	 MOOD: Happy,	 GENRE: EDM,		 RESULT: FAIL. Not enough songs found.
-15:59:55	 MOOD: Happy,	 GENRE: Funk,		 RESULT: pass. 
-15:59:57	 MOOD: Happy,	 GENRE: Gospel,		 RESULT: pass. 
-15:59:59	 MOOD: Happy,	 GENRE: Hard-rock,		 RESULT: pass. 
-16:00:01	 MOOD: Happy,	 GENRE: Heavy-metal,		 RESULT: pass. 
-16:00:03	 MOOD: Happy,	 GENRE: Hip-hop,		 RESULT: pass. 
-16:00:05	 MOOD: Happy,	 GENRE: Holidays,		 RESULT: pass. 
-16:00:07	 MOOD: Happy,	 GENRE: Indie,		 RESULT: pass. 
-16:00:09	 MOOD: Happy,	 GENRE: Jazz,		 RESULT: pass. 
-16:00:11	 MOOD: Happy,	 GENRE: K-pop,		 RESULT: pass. 
-16:00:13	 MOOD: Happy,	 GENRE: Latin,		 RESULT: pass. 
-16:00:16	 MOOD: Happy,	 GENRE: Metal,		 RESULT: FAIL. Not enough songs found.
-16:00:18	 MOOD: Happy,	 GENRE: Pop,		 RESULT: pass. 
-16:00:20	 MOOD: Happy,	 GENRE: Punk,		 RESULT: pass. 
-16:00:23	 MOOD: Happy,	 GENRE: Reggae,		 RESULT: pass. 
-16:00:25	 MOOD: Happy,	 GENRE: R-n-b,		 RESULT: pass. 
-16:00:27	 MOOD: Happy,	 GENRE: Rock,		 RESULT: pass. 
-16:00:30	 MOOD: Happy,	 GENRE: Soul,		 RESULT: pass. 
+11:25:20	 MOOD: Happy,	 GENRE: Acoustic,			 RESULT: pass. 
+11:25:22	 MOOD: Happy,	 GENRE: Afrobeat,			 RESULT: pass. 
+11:25:25	 MOOD: Happy,	 GENRE: Alternative,			 RESULT: pass. 
+11:25:27	 MOOD: Happy,	 GENRE: Ambient,			 RESULT: FAIL. 20 ssongs found.
+11:25:29	 MOOD: Happy,	 GENRE: Brazil,			 RESULT: pass. 
+11:25:31	 MOOD: Happy,	 GENRE: Classical,			 RESULT: FAIL. 11 ssongs found.
+11:25:34	 MOOD: Happy,	 GENRE: Club,			 RESULT: pass. 
+11:25:37	 MOOD: Happy,	 GENRE: Country,			 RESULT: pass. 
+11:25:39	 MOOD: Happy,	 GENRE: Disco,			 RESULT: pass. 
+11:25:42	 MOOD: Happy,	 GENRE: Dubstep,			 RESULT: pass. 
+11:25:43	 MOOD: Happy,	 GENRE: EDM,			 RESULT: FAIL. 29 ssongs found.
+11:25:45	 MOOD: Happy,	 GENRE: Funk,			 RESULT: pass. 
+11:25:48	 MOOD: Happy,	 GENRE: Gospel,			 RESULT: pass. 
+11:25:50	 MOOD: Happy,	 GENRE: Hard-rock,			 RESULT: pass. 
+11:25:52	 MOOD: Happy,	 GENRE: Heavy-metal,			 RESULT: pass. 
+11:25:54	 MOOD: Happy,	 GENRE: Hip-hop,			 RESULT: pass. 
+11:25:56	 MOOD: Happy,	 GENRE: Holidays,			 RESULT: pass. 
+11:25:59	 MOOD: Happy,	 GENRE: Indie,			 RESULT: pass. 
+11:26:01	 MOOD: Happy,	 GENRE: Jazz,			 RESULT: pass. 
+11:26:03	 MOOD: Happy,	 GENRE: K-pop,			 RESULT: pass. 
+11:26:05	 MOOD: Happy,	 GENRE: Latin,			 RESULT: pass. 
+11:26:07	 MOOD: Happy,	 GENRE: Metal,			 RESULT: FAIL. 28 ssongs found.
+11:26:10	 MOOD: Happy,	 GENRE: Pop,			 RESULT: pass. 
+11:26:12	 MOOD: Happy,	 GENRE: Punk,			 RESULT: pass. 
+11:26:14	 MOOD: Happy,	 GENRE: Reggae,			 RESULT: pass. 
+11:26:16	 MOOD: Happy,	 GENRE: R-n-b,			 RESULT: pass. 
+11:26:19	 MOOD: Happy,	 GENRE: Rock,			 RESULT: pass. 
+11:26:21	 MOOD: Happy,	 GENRE: Soul,			 RESULT: pass. 
+11:26:25	 MOOD: Sad,	 GENRE: Acoustic,			 RESULT: pass. 
+11:26:29	 MOOD: Sad,	 GENRE: Afrobeat,			 RESULT: pass. 
+11:26:31	 MOOD: Sad,	 GENRE: Alternative,			 RESULT: pass. 
+11:26:35	 MOOD: Sad,	 GENRE: Ambient,			 RESULT: pass. 
+11:26:38	 MOOD: Sad,	 GENRE: Brazil,			 RESULT: pass. 
+11:26:40	 MOOD: Sad,	 GENRE: Classical,			 RESULT: pass. 
+11:26:42	 MOOD: Sad,	 GENRE: Club,			 RESULT: pass. 
+11:26:46	 MOOD: Sad,	 GENRE: Country,			 RESULT: pass. 
+11:26:48	 MOOD: Sad,	 GENRE: Disco,			 RESULT: pass. 
+11:26:50	 MOOD: Sad,	 GENRE: Dubstep,			 RESULT: pass. 
+11:26:53	 MOOD: Sad,	 GENRE: EDM,			 RESULT: pass. 
+11:26:54	 MOOD: Sad,	 GENRE: Funk,			 RESULT: FAIL. 2 ssongs found.
+11:26:58	 MOOD: Sad,	 GENRE: Gospel,			 RESULT: pass. 
+11:27:00	 MOOD: Sad,	 GENRE: Hard-rock,			 RESULT: pass. 
+11:27:02	 MOOD: Sad,	 GENRE: Heavy-metal,			 RESULT: pass. 
+11:27:05	 MOOD: Sad,	 GENRE: Hip-hop,			 RESULT: pass. 
+11:27:07	 MOOD: Sad,	 GENRE: Holidays,			 RESULT: pass. 
+11:27:10	 MOOD: Sad,	 GENRE: Indie,			 RESULT: pass. 
+11:27:12	 MOOD: Sad,	 GENRE: Jazz,			 RESULT: pass. 
+11:27:14	 MOOD: Sad,	 GENRE: K-pop,			 RESULT: pass. 
+11:27:17	 MOOD: Sad,	 GENRE: Latin,			 RESULT: pass. 
+11:27:19	 MOOD: Sad,	 GENRE: Metal,			 RESULT: pass. 
+11:27:21	 MOOD: Sad,	 GENRE: Pop,			 RESULT: pass. 
+11:27:24	 MOOD: Sad,	 GENRE: Punk,			 RESULT: pass. 
+11:27:26	 MOOD: Sad,	 GENRE: Reggae,			 RESULT: pass. 
+11:27:28	 MOOD: Sad,	 GENRE: R-n-b,			 RESULT: pass. 
+11:27:31	 MOOD: Sad,	 GENRE: Rock,			 RESULT: pass. 
+11:27:33	 MOOD: Sad,	 GENRE: Soul,			 RESULT: pass. 
+11:27:36	 MOOD: Calm,	 GENRE: Acoustic,			 RESULT: pass. 
+11:27:38	 MOOD: Calm,	 GENRE: Afrobeat,			 RESULT: pass. 
+11:27:41	 MOOD: Calm,	 GENRE: Alternative,			 RESULT: pass. 
+11:27:45	 MOOD: Calm,	 GENRE: Ambient,			 RESULT: pass. 
+11:27:47	 MOOD: Calm,	 GENRE: Brazil,			 RESULT: FAIL. 29 ssongs found.
+11:27:49	 MOOD: Calm,	 GENRE: Classical,			 RESULT: pass. 
+11:27:51	 MOOD: Calm,	 GENRE: Club,			 RESULT: pass. 
+11:27:53	 MOOD: Calm,	 GENRE: Country,			 RESULT: pass. 
+11:27:56	 MOOD: Calm,	 GENRE: Disco,			 RESULT: pass. 
+11:27:58	 MOOD: Calm,	 GENRE: Dubstep,			 RESULT: FAIL. 25 ssongs found.
+11:28:00	 MOOD: Calm,	 GENRE: EDM,			 RESULT: pass. 
+11:28:02	 MOOD: Calm,	 GENRE: Funk,			 RESULT: pass. 
+11:28:04	 MOOD: Calm,	 GENRE: Gospel,			 RESULT: pass. 
+11:28:06	 MOOD: Calm,	 GENRE: Hard-rock,			 RESULT: pass. 
+11:28:09	 MOOD: Calm,	 GENRE: Heavy-metal,			 RESULT: pass. 
+11:28:12	 MOOD: Calm,	 GENRE: Hip-hop,			 RESULT: pass. 
+11:28:14	 MOOD: Calm,	 GENRE: Holidays,			 RESULT: pass. 
+11:28:16	 MOOD: Calm,	 GENRE: Indie,			 RESULT: pass. 
+11:28:18	 MOOD: Calm,	 GENRE: Jazz,			 RESULT: pass. 
+11:28:21	 MOOD: Calm,	 GENRE: K-pop,			 RESULT: pass. 
+11:28:24	 MOOD: Calm,	 GENRE: Latin,			 RESULT: pass. 
+11:28:26	 MOOD: Calm,	 GENRE: Metal,			 RESULT: FAIL. 29 ssongs found.
+11:28:28	 MOOD: Calm,	 GENRE: Pop,			 RESULT: pass. 
+11:28:30	 MOOD: Calm,	 GENRE: Punk,			 RESULT: pass. 
+11:28:33	 MOOD: Calm,	 GENRE: Reggae,			 RESULT: pass. 
+11:28:37	 MOOD: Calm,	 GENRE: R-n-b,			 RESULT: pass. 
+11:28:39	 MOOD: Calm,	 GENRE: Rock,			 RESULT: pass. 
+11:28:41	 MOOD: Calm,	 GENRE: Soul,			 RESULT: pass. 
+11:28:44	 MOOD: Motivated,	 GENRE: Acoustic,			 RESULT: pass. 
+11:28:46	 MOOD: Motivated,	 GENRE: Afrobeat,			 RESULT: pass. 
+11:28:50	 MOOD: Motivated,	 GENRE: Alternative,			 RESULT: pass. 
+11:28:52	 MOOD: Motivated,	 GENRE: Ambient,			 RESULT: pass. 
+11:28:54	 MOOD: Motivated,	 GENRE: Brazil,			 RESULT: pass. 
+11:28:56	 MOOD: Motivated,	 GENRE: Classical,			 RESULT: FAIL. 3 ssongs found.
+11:28:58	 MOOD: Motivated,	 GENRE: Club,			 RESULT: pass. 
+11:29:01	 MOOD: Motivated,	 GENRE: Country,			 RESULT: pass. 
+11:29:04	 MOOD: Motivated,	 GENRE: Disco,			 RESULT: pass. 
+11:29:07	 MOOD: Motivated,	 GENRE: Dubstep,			 RESULT: pass. 
+11:29:09	 MOOD: Motivated,	 GENRE: EDM,			 RESULT: pass. 
+11:29:11	 MOOD: Motivated,	 GENRE: Funk,			 RESULT: pass. 
+11:29:13	 MOOD: Motivated,	 GENRE: Gospel,			 RESULT: pass. 
+11:29:15	 MOOD: Motivated,	 GENRE: Hard-rock,			 RESULT: pass. 
+11:29:19	 MOOD: Motivated,	 GENRE: Heavy-metal,			 RESULT: pass. 
+11:29:22	 MOOD: Motivated,	 GENRE: Hip-hop,			 RESULT: pass. 
+11:29:24	 MOOD: Motivated,	 GENRE: Holidays,			 RESULT: FAIL. 4 ssongs found.
+11:29:27	 MOOD: Motivated,	 GENRE: Indie,			 RESULT: pass. 
+11:29:29	 MOOD: Motivated,	 GENRE: Jazz,			 RESULT: pass. 
+11:29:31	 MOOD: Motivated,	 GENRE: K-pop,			 RESULT: pass. 
+11:29:33	 MOOD: Motivated,	 GENRE: Latin,			 RESULT: pass. 
+11:29:35	 MOOD: Motivated,	 GENRE: Metal,			 RESULT: pass. 
+11:29:37	 MOOD: Motivated,	 GENRE: Pop,			 RESULT: pass. 
+11:29:40	 MOOD: Motivated,	 GENRE: Punk,			 RESULT: pass. 
+11:29:42	 MOOD: Motivated,	 GENRE: Reggae,			 RESULT: pass. 
+11:29:44	 MOOD: Motivated,	 GENRE: R-n-b,			 RESULT: pass. 
+11:29:47	 MOOD: Motivated,	 GENRE: Rock,			 RESULT: pass. 
+11:29:49	 MOOD: Motivated,	 GENRE: Soul,			 RESULT: pass. 
+11:29:52	 MOOD: Frantic,	 GENRE: Acoustic,			 RESULT: pass. 
+11:29:55	 MOOD: Frantic,	 GENRE: Afrobeat,			 RESULT: pass. 
+11:29:57	 MOOD: Frantic,	 GENRE: Alternative,			 RESULT: pass. 
+11:30:00	 MOOD: Frantic,	 GENRE: Ambient,			 RESULT: pass. 
+11:30:02	 MOOD: Frantic,	 GENRE: Brazil,			 RESULT: FAIL. 26 ssongs found.
+11:30:06	 MOOD: Frantic,	 GENRE: Classical,			 RESULT: FAIL. 1 ssongs found.
+11:30:08	 MOOD: Frantic,	 GENRE: Club,			 RESULT: pass. 
+11:30:10	 MOOD: Frantic,	 GENRE: Country,			 RESULT: pass. 
+11:30:12	 MOOD: Frantic,	 GENRE: Disco,			 RESULT: pass. 
+11:30:15	 MOOD: Frantic,	 GENRE: Dubstep,			 RESULT: pass. 
+11:30:16	 MOOD: Frantic,	 GENRE: EDM,			 RESULT: pass. 
+11:30:18	 MOOD: Frantic,	 GENRE: Funk,			 RESULT: FAIL. 12 ssongs found.
+11:30:21	 MOOD: Frantic,	 GENRE: Gospel,			 RESULT: pass. 
+11:30:22	 MOOD: Frantic,	 GENRE: Hard-rock,			 RESULT: pass. 
+11:30:25	 MOOD: Frantic,	 GENRE: Heavy-metal,			 RESULT: pass. 
+11:30:28	 MOOD: Frantic,	 GENRE: Hip-hop,			 RESULT: pass. 
+11:30:30	 MOOD: Frantic,	 GENRE: Holidays,			 RESULT: FAIL. 2 ssongs found.
+11:30:32	 MOOD: Frantic,	 GENRE: Indie,			 RESULT: pass. 
+11:30:35	 MOOD: Frantic,	 GENRE: Jazz,			 RESULT: FAIL. 19 ssongs found.
+11:30:37	 MOOD: Frantic,	 GENRE: K-pop,			 RESULT: pass. 
+11:30:39	 MOOD: Frantic,	 GENRE: Latin,			 RESULT: pass. 
+11:30:41	 MOOD: Frantic,	 GENRE: Metal,			 RESULT: pass. 
+11:30:44	 MOOD: Frantic,	 GENRE: Pop,			 RESULT: pass. 
+11:30:47	 MOOD: Frantic,	 GENRE: Punk,			 RESULT: pass. 
+11:30:49	 MOOD: Frantic,	 GENRE: Reggae,			 RESULT: pass. 
+11:30:52	 MOOD: Frantic,	 GENRE: R-n-b,			 RESULT: pass. 
+11:30:54	 MOOD: Frantic,	 GENRE: Rock,			 RESULT: pass. 
+11:30:58	 MOOD: Frantic,	 GENRE: Soul,			 RESULT: pass. 
+11:31:00	 MOOD: Party,	 GENRE: Acoustic,			 RESULT: pass. 
+11:31:02	 MOOD: Party,	 GENRE: Afrobeat,			 RESULT: pass. 
+11:31:05	 MOOD: Party,	 GENRE: Alternative,			 RESULT: pass. 
+11:31:07	 MOOD: Party,	 GENRE: Ambient,			 RESULT: FAIL. 24 ssongs found.
+11:31:09	 MOOD: Party,	 GENRE: Brazil,			 RESULT: FAIL. 25 ssongs found.
+11:31:12	 MOOD: Party,	 GENRE: Classical,			 RESULT: FAIL. 0 ssongs found.
+11:31:14	 MOOD: Party,	 GENRE: Club,			 RESULT: FAIL. 25 ssongs found.
+11:31:16	 MOOD: Party,	 GENRE: Country,			 RESULT: pass. 
+11:31:18	 MOOD: Party,	 GENRE: Disco,			 RESULT: pass. 
+11:31:22	 MOOD: Party,	 GENRE: Dubstep,			 RESULT: FAIL. 24 ssongs found.
+11:31:24	 MOOD: Party,	 GENRE: EDM,			 RESULT: FAIL. 20 ssongs found.
+11:31:26	 MOOD: Party,	 GENRE: Funk,			 RESULT: pass. 
+11:31:28	 MOOD: Party,	 GENRE: Gospel,			 RESULT: pass. 
+11:31:30	 MOOD: Party,	 GENRE: Hard-rock,			 RESULT: FAIL. 4 ssongs found.
+11:31:33	 MOOD: Party,	 GENRE: Heavy-metal,			 RESULT: FAIL. 2 ssongs found.
+11:31:35	 MOOD: Party,	 GENRE: Hip-hop,			 RESULT: pass. 
+11:31:37	 MOOD: Party,	 GENRE: Holidays,			 RESULT: FAIL. 5 ssongs found.
+11:31:40	 MOOD: Party,	 GENRE: Indie,			 RESULT: pass. 
+11:31:44	 MOOD: Party,	 GENRE: Jazz,			 RESULT: FAIL. 25 ssongs found.
+11:31:46	 MOOD: Party,	 GENRE: K-pop,			 RESULT: pass. 
+11:31:49	 MOOD: Party,	 GENRE: Latin,			 RESULT: pass. 
+11:31:50	 MOOD: Party,	 GENRE: Metal,			 RESULT: FAIL. 0 ssongs found.
+11:31:54	 MOOD: Party,	 GENRE: Pop,			 RESULT: pass. 
+11:31:56	 MOOD: Party,	 GENRE: Punk,			 RESULT: FAIL. 10 ssongs found.
+11:31:58	 MOOD: Party,	 GENRE: Reggae,			 RESULT: pass. 
+11:32:02	 MOOD: Party,	 GENRE: R-n-b,			 RESULT: pass. 
+11:32:04	 MOOD: Party,	 GENRE: Rock,			 RESULT: pass. 
+11:32:06	 MOOD: Party,	 GENRE: Soul,			 RESULT: pass. 
+11:32:10	 MOOD: Gaming,	 GENRE: Acoustic,			 RESULT: pass. 
+11:32:12	 MOOD: Gaming,	 GENRE: Afrobeat,			 RESULT: pass. 
+11:32:16	 MOOD: Gaming,	 GENRE: Alternative,			 RESULT: pass. 
+11:32:18	 MOOD: Gaming,	 GENRE: Ambient,			 RESULT: pass. 
+11:32:21	 MOOD: Gaming,	 GENRE: Brazil,			 RESULT: pass. 
+11:32:23	 MOOD: Gaming,	 GENRE: Classical,			 RESULT: pass. 
+11:32:26	 MOOD: Gaming,	 GENRE: Club,			 RESULT: pass. 
+11:32:28	 MOOD: Gaming,	 GENRE: Country,			 RESULT: pass. 
+11:32:35
+	 MOOD: Gaming,	 GENRE: Disco,			 RESULT: FAIL. Try/except loop tripped.
+11:32:41
+	 MOOD: Gaming,	 GENRE: Dubstep,			 RESULT: FAIL. Try/except loop tripped.
+11:32:43	 MOOD: Gaming,	 GENRE: EDM,			 RESULT: pass. 
+11:32:45	 MOOD: Gaming,	 GENRE: Funk,			 RESULT: pass. 
+11:32:47	 MOOD: Gaming,	 GENRE: Gospel,			 RESULT: pass. 
+11:32:49	 MOOD: Gaming,	 GENRE: Hard-rock,			 RESULT: pass. 
+11:32:52	 MOOD: Gaming,	 GENRE: Heavy-metal,			 RESULT: pass. 
+11:32:55	 MOOD: Gaming,	 GENRE: Hip-hop,			 RESULT: pass. 
+11:32:57	 MOOD: Gaming,	 GENRE: Holidays,			 RESULT: pass. 
+11:33:00	 MOOD: Gaming,	 GENRE: Indie,			 RESULT: pass. 
+11:33:06
+	 MOOD: Gaming,	 GENRE: Jazz,			 RESULT: FAIL. Try/except loop tripped.
+11:33:08	 MOOD: Gaming,	 GENRE: K-pop,			 RESULT: pass. 
+11:33:14
+	 MOOD: Gaming,	 GENRE: Latin,			 RESULT: FAIL. Try/except loop tripped.
+11:33:17	 MOOD: Gaming,	 GENRE: Metal,			 RESULT: pass. 
+11:33:22
+	 MOOD: Gaming,	 GENRE: Pop,			 RESULT: FAIL. Try/except loop tripped.
+11:33:25	 MOOD: Gaming,	 GENRE: Punk,			 RESULT: pass. 
+11:33:27	 MOOD: Gaming,	 GENRE: Reggae,			 RESULT: pass. 
+11:33:30	 MOOD: Gaming,	 GENRE: R-n-b,			 RESULT: pass. 
+11:33:32	 MOOD: Gaming,	 GENRE: Rock,			 RESULT: pass. 
+11:33:34	 MOOD: Gaming,	 GENRE: Soul,			 RESULT: pass. 
 
 
 FAILED COMBINATIONS:
@@ -34,3 +207,31 @@ Mood: Happy,	 genre: Ambient
 Mood: Happy,	 genre: Classical
 Mood: Happy,	 genre: EDM
 Mood: Happy,	 genre: Metal
+Mood: Sad,	 genre: Funk
+Mood: Calm,	 genre: Brazil
+Mood: Calm,	 genre: Dubstep
+Mood: Calm,	 genre: Metal
+Mood: Motivated,	 genre: Classical
+Mood: Motivated,	 genre: Holidays
+Mood: Frantic,	 genre: Brazil
+Mood: Frantic,	 genre: Classical
+Mood: Frantic,	 genre: Funk
+Mood: Frantic,	 genre: Holidays
+Mood: Frantic,	 genre: Jazz
+Mood: Party,	 genre: Ambient
+Mood: Party,	 genre: Brazil
+Mood: Party,	 genre: Classical
+Mood: Party,	 genre: Club
+Mood: Party,	 genre: Dubstep
+Mood: Party,	 genre: EDM
+Mood: Party,	 genre: Hard-rock
+Mood: Party,	 genre: Heavy-metal
+Mood: Party,	 genre: Holidays
+Mood: Party,	 genre: Jazz
+Mood: Party,	 genre: Metal
+Mood: Party,	 genre: Punk
+Mood: Gaming,	 genre: Disco
+Mood: Gaming,	 genre: Dubstep
+Mood: Gaming,	 genre: Jazz
+Mood: Gaming,	 genre: Latin
+Mood: Gaming,	 genre: Pop
