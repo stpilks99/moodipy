@@ -66,7 +66,7 @@ class Playlist:
             self.__moved_to_spotify = True
 
 
-    def add_songs_local(self, uri_list, spotify_class):
+    def add_songs_local(self, uri_list, spotify_class): # old code, not used
         sp = spotify_class
         resultSong = sp.tracks(uri_list)
         song_uri = '' # Holds temp song uri
@@ -89,7 +89,7 @@ class Playlist:
         return self.__uri_playlist
 
 
-    def remove_songs_local(self, uri_playlist, song_list, spotify_class):
+    def remove_songs_local(self, uri_playlist, song_list, spotify_class): # old code, not used
         sp = spotify_class
         song_uri = []
         song_name = []
@@ -100,26 +100,44 @@ class Playlist:
         return removeSongList
 
 
-    def add_search_songs_sp(self, artist, song, spotify_class):
+    def add_search_songs_sp(self, artist, song, playlist_uri, spotify_class):
         '''Adds a song or list of songs to the playlist'''
         sp = spotify_class
         searchVal = ('artist:' + artist + ' track:' + song) #artist and song are pulled from user input in GUI
         result = sp.search(searchVal)
+        if len(result['tracks']['items']) == 0:
+            return [] # no songs found
         song_uri_val = []
         for values in result['tracks']['items']:
             song_uri_val.append(values['uri'])
         song_uri_hold = []
-        self.__temp_add = song_uri_val[0]
-        song_uri_hold = song_uri_val[0]
+        song_uri_hold = song_uri_val[0] # grabs the first result (match for artist and song)
+        resultSong = sp.track(song_uri_hold)
+        song_uri = []
+        song_name = []
+        song_name.append(resultSong['name'])
+        song_uri.append(resultSong['uri'])
+        addSongList = (song_uri, song_name)
+        username = sp.me()
+        user_id = username['id']
+        #playlist_uri = playlist_uri.strip('spotify:playlist:')
+        print(playlist_uri)
         try:
-            sp.user_playlist_add_tracks(self.__user_name, self.__uri_playlist, self.__temp_add) # Add to playlist
+            sp.user_playlist_add_tracks(user_id, playlist_uri, song_uri) # Add to playlist
         except:
             return []
         self.__temp_add = [] 
-        return self.add_songs_local(self.__user_name, song_uri_hold, sp)
+
+        # Get into tuple with name
+        tup_uri = resultSong['uri']
+        tup_name = resultSong['name']
+        tup = (tup_uri, tup_name)
+        lst_tup = []
+        lst_tup.append(tup)
+        return lst_tup
         
 
-    def add_songs_sp(self, tracks, sp):
+    def add_songs_sp(self, tracks, sp): # Not being used
         '''takes a list of URI's and adds them to a playlist'''
         # for track 
         if not isinstance(tracks, list):
@@ -133,13 +151,20 @@ class Playlist:
         return True
         
 
-    def remove_songs_sp(self, song_uri, spotify_class):
+    def remove_songs_sp(self, song_uri, playlist_name, spotify_class):
         '''Removes selected songs from playlist''' 
         sp = spotify_class
-        sp.user_playlist_remove_all_occurrences_of_tracks(self.__user_name, self.__uri_playlist, self.__temp_remove) # Remove from Spotify
-        songs = self.__temp_remove[0]
+        username = sp.me()
+        user_id = username['id']
+        song_uri_list = []
+        song_uri_list.append(song_uri)
+        #playlist_name = playlist_name.strip('spotify:playlist:')
+        try:
+            sp.user_playlist_remove_all_occurrences_of_tracks(user_id, playlist_name, song_uri_list) # Remove from Spotify
+        except:
+            return False
         self.__temp_remove = [] # Reset list
-        Playlist.remove_songs_local(self.__user_name, self.__uri_playlist, songs, sp)
+        return True
 
 
     def create_spotify_playlist(self, spotify_class):
@@ -164,11 +189,11 @@ class Playlist:
 
     def get_playlist_tracks(self, spotify_class, playlist_uri):
         '''Get all track URI's in a playlist'''
-        if self.__moved_to_spotify == False:
-            raise Exception("The playlist has not been created in Spotify.")
-
-        sp = spotify_class
-        raw_data = sp.playlist(playlist_uri)
+        try:
+            sp = spotify_class
+            raw_data = sp.playlist(playlist_uri)
+        except:
+            return []
         #print(raw_data['tracks']['items'][0]['track'])
         uri_list = []
         for i in raw_data['tracks']['items']:

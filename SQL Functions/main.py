@@ -17,10 +17,8 @@ def create_database():
         "playlisturi"	CHAR(39) NOT NULL UNIQUE,
         "username"	TEXT,
         "playlistmood"	TEXT,
-        "playlistperiod"	TEXT,
         "preferredartist"	TEXT,
         "preferredgenre"	TEXT,
-        "explicit"	BOOL,
         PRIMARY KEY("playlisturi")
     );"""
     # playlisturi is 39 characters long
@@ -28,10 +26,10 @@ def create_database():
     cursor.execute(setup_master)
     return 0
 
-def create_playlist(uri,mood,period,artist,genre,explicit):
+def create_playlist(uri,mood,artist,genre):
     # create entry in playlist master table
-    sqlcommand = "INSERT INTO playlistmaster (playlisturi, playlistmood,playlistperiod, preferredartist, preferredgenre, explicit) " + \
-                 "VALUES('" + uri + "','" + mood + "','" + period + "','" + artist + "','" + genre + "','" + explicit + "')"
+    sqlcommand = "INSERT INTO playlistmaster (playlisturi, playlistmood, preferredartist, preferredgenre) " + \
+                 "VALUES('" + uri + "','" + mood + "','"  + artist + "','" + genre + "')"
     cursor.execute(sqlcommand)
     # print(sqlcommand) #debug to see SQL command
 

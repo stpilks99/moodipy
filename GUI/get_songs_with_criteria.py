@@ -8,9 +8,7 @@ from spotify_authorize import auth
 
 def get_songs_with_criteria(mood, # User entered mood
                             genre_list, # list of genres from user
-                            time_period, # User selected decade
                             related_artist, # optional user related artist
-                            explicit, # true or false
                             disliked_songs, # list of songs that have been previously removed from the playlist
                             songs_on_list, # The current list of songs in the playlist
                             num_songs_needed, # How many songs should this return?
@@ -99,8 +97,17 @@ def get_songs_with_criteria(mood, # User entered mood
             if genre not in genre_list:
                 genre_list.append(genre)
 
+        if len(genre_list) > 5:
+            genre_list = genre_list[:5]
+
+        print(len(genre_list))
+
+        # Change artist to list
+        artist_list = []
+        artist_list.append(result_artist_uri)
+        
         # Get info on all songs
-        recommendations_raw = sp.recommendations(seed_artists=[result_artist_uri], seed_genres=genre_list, limit=50)
+        recommendations_raw = sp.recommendations(seed_artists=artist_list, limit=50)
         all_track_info = recommendations_raw['tracks']
         recommended_uris = [] # Holds URI's found from recommendations query
         for track in all_track_info:
@@ -115,7 +122,7 @@ def get_songs_with_criteria(mood, # User entered mood
             track_obj = Track(track[0], sp, track_data=track[1], track_audio_features=track[2])
             track_moods = track_obj.get_mood()
             
-            if mood in track_moods: # Criteria matches
+            if mood.lower() in track_moods: # Criteria matches
                 valid_tracks.append(track[0]) # Add URI to valid tracks 
 
 
@@ -123,39 +130,45 @@ def get_songs_with_criteria(mood, # User entered mood
     length_prev_loop = 0 
     fail_loop_count = 0
     last_5 = []
+    total_loops = 0
     # Get song recommendations based on genre
-    while len(valid_tracks) <= num_songs_needed: # Loop until all songs found 
+    #while len(valid_tracks) <= num_songs_needed: # Loop until all songs found 
+    while total_loops < 10:
         combined_track_list = songs_on_list + valid_tracks
         
         # Check entered mood, set target values
         if mood == 'Happy':
             # High valence
-            target_valence = 0.5 # Higher valence means more cheerful
+            target_valence = 0.99 # Higher valence means more cheerful
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50)
         elif mood == 'Sad':
             target_valence = 0.3 # Low valence
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50, target_valence=target_valence)
         elif mood == 'Motivated':
-            target_energy = 0.85 # High energy
+            target_energy = 0.9 # High energy
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50, target_energy=target_energy)
         elif mood == 'Calm':
-            target_energy = 0.4 # Low energy
+            target_energy = 0.2 # Low energy
             recommendations_raw = sp.recommendations(seed_genres=genre_list, limit=50, target_energy=target_energy)
         elif mood == 'Frantic':
             target_tempo = 150  # Fast tempo and high energy
-            target_energy = 0.85
+            target_energy = 0.9
             recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50, target_energy=target_energy, target_tempo=target_tempo)
         elif mood == 'Party':
             target_danceability = 0.8 # High danceability, energy, and popularity
             target_energy = 0.8
             target_popularity = 80
-            recommendations_raw = sp.recommendations(seed_genres=genre_list, seed_tracks=last_5,limit=50, target_energy=target_energy, target_danceability=target_danceability, target_popularity=target_popularity)
+            recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50, target_energy=target_energy, target_danceability=target_danceability, target_popularity=target_popularity)
         elif mood == 'Gaming':
             target_speechiness = .05
             target_tempo = 120
-            recommendations_raw = sp.recommendations(seed_genres=genre_list, seed_tracks=last_5,limit=50, target_speechiness=target_speechiness)
+            recommendations_raw = sp.recommendations(seed_genres=genre_list,limit=50, target_speechiness=target_speechiness)
         else:
             raise Exception('invalid mood input')
+
+        # Check for returned results
+        if len(recommendations_raw) == 0:
+            print('No matches found for this criteria')
         
         all_track_info = recommendations_raw['tracks']
         recommended_uris = [] # Holds URI's found from recommendations query
@@ -177,7 +190,13 @@ def get_songs_with_criteria(mood, # User entered mood
         # Use last 5 songs added to the playlist as the recommendations for the next round
         if len(valid_tracks) > 5:
             last_5 = valid_tracks[-5:]
-            print(last_5)
+            #print(last_5)
+
+        # Check to see if any of the songs are already on the playlist
+        for track in songs_on_list:
+            if track in valid_tracks:
+                valid_tracks.remove(track)
+                
 
         # Count number of loops that the tracks have not changed, if > 5 return a blank list
         if len(valid_tracks) == length_prev_loop: # If the number of tracks retu
@@ -188,6 +207,9 @@ def get_songs_with_criteria(mood, # User entered mood
         valid_tracks = list(dict.fromkeys(valid_tracks))
 
         length_prev_loop = len(valid_tracks)
+        total_loops += 1 
+        if total_loops > 10: # Should not take more than 10 loops to run
+            return(valid_tracks)
 
     # Remove songs that the user has said they don't want
     for unwanted_track in disliked_songs:

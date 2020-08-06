@@ -5,7 +5,7 @@ from artist_functions import Artist
 from user_functions import User
 
 
-authorize = auth()
+authorize = auth('danielj1128')
 sp = authorize.authorize_util()
 #print(sp)
 spot = spotipy.Spotify()
@@ -15,7 +15,8 @@ artist = 'Halsey'
 song = 'Castle'
 #test = User.get_playlists('danielj1128', sp)
 #name uri
-test2 = User.testFunction('danielj1128', artist, song, sp)
+#test2 = User.get_playlists('danielj1128', sp)
+test2 = User.testFunction2('danielj1128', artist, song, 'spotify:playlist:3447vTvwjrT6IR0XsnvRuD', sp)
 #print(test)
 print(test2)
 print('BREAK')
